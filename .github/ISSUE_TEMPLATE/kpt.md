@@ -1,7 +1,7 @@
 ---
 name: KPT
 about: KPT 회고
-title: "[KPT] 2021.00.00."
+title: "[KPT] n주차 n요일 - 29plus"
 labels: ''
 assignees: ''
 
@@ -17,5 +17,5 @@ assignees: ''
 -
 ## Try (Action Items)
 - [x] Todo 형식으로 작성해주세요.
-- [ ]Todo 형식으로 작성해주세요.
+- [ ] Todo 형식으로 작성해주세요.
 - [ ] Todo 형식으로 작성해주세요.
