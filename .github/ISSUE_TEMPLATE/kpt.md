@@ -1,6 +1,6 @@
 ---
 name: KPT
-about: KPT 회고
+about: KPT
 title: "[KPT] n주차 n요일 - 29plus"
 labels: ''
 assignees: ''
