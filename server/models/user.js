@@ -46,11 +46,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      provider: {
-        // 깃헙이면 이메일만검사, 독학이면 이메일, 네임 검사
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
       info: {
         type: DataTypes.TEXT,
         allowNull: false,
