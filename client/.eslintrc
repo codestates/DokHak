@@ -29,6 +29,7 @@
     "spaced-comment": "off",
     "consistent-return": "off",
     "import/prefer-default-export": "off",
-    "import/named": "off"
+    "import/named": "off",
+    "react/prop-types": "off"
   }
 }

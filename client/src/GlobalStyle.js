@@ -16,7 +16,7 @@ export const GlobalStyle = createGlobalStyle`
 
   body {
     font-family: 'Noto Sans Kr';
-    color: ${color.header};
+    color: ${color.primary};
   }
 
   h1 {

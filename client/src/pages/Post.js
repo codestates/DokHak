@@ -1,14 +1,13 @@
 import React from 'react';
 
-import Header from '../components/Header';
+import { Main } from './styles';
 
 const Post = () => {
   return (
-    <>
-      <Header />
+    <Main>
       {/* map으로 Card */}
       {/* Card onClick -> PostDetail */}
-    </>
+    </Main>
   );
 };
 
