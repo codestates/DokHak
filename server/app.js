@@ -1,4 +1,5 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const morgan = require('morgan');
 const helmet = require('helmet');
@@ -12,6 +13,7 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors());
 app.use(morgan('tiny'));
 app.use(helmet());
@@ -20,7 +22,7 @@ app.use('/users', usersRouter);
 app.use('/posts', postsRouter);
 app.use('/comments', commentsRouter);
 
-models.sequelize.sync({ force: true }).then(() => {
+models.sequelize.sync({ force: false }).then(() => {
   app.listen(process.env.HOST_PORT);
   console.log('success');
 });
