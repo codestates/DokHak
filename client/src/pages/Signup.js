@@ -90,7 +90,7 @@ const Signup = () => {
       <Main>
         <Form>
           <h4>
-            MYPAGE <span>DOKHAK</span>
+            SIGNUP <span>DOKHAK</span>
           </h4>
         </Form>
 
