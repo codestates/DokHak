@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  withRouter,
+} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import './App.css';
-
-import PageTemplate from './PageTemplate';
 
 import User from './pages/User';
 import Signup from './pages/Signup';
@@ -15,12 +18,23 @@ import PostCreate from './pages/PostCreate';
 import PostDetail from './pages/PostDetail';
 import MyPage from './pages/MyPage';
 
+import Navbar from './components/Navbar';
+
 // import { login } from './actions/user';
 // import { images } from './data';
 
 // const Container = styled.div`
 //   ${({ theme }) => theme.align.positionCenter}
 // `;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  min-width: 512px;
+  width: 80%;
+`;
 
 function App() {
   // const images = useSelector((state) => state.images);
@@ -41,34 +55,37 @@ function App() {
       <div>USER ID : {user.data?.id}</div>
       <div>USER IMAGE ID : {user.data?.image}</div>
       {imgObj.length !== 0 && <img src={imgObj.img} alt={imgObj.name} />} */}
-      <PageTemplate>
-        <Switch>
-          <Route exact path="/">
-            <User />
-          </Route>
-          <Route path="/user">
-            <User />
-          </Route>
-          <Route path="/signup">
-            <Signup />
-          </Route>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/post">
-            <Post />
-          </Route>
-          <Route path="/postcreate">
-            <PostCreate />
-          </Route>
-          <Route path="/postdetail">
-            <PostDetail />
-          </Route>
-          <Route path="/mypage">
-            <MyPage />
-          </Route>
-        </Switch>
-      </PageTemplate>
+      <Router>
+        <Container>
+          <Navbar />
+          <Switch>
+            <Route exact path="/">
+              <User />
+            </Route>
+            <Route path="/user">
+              <User />
+            </Route>
+            <Route path="/post">
+              <Post />
+            </Route>
+            <Route path="/postcreate">
+              <PostCreate />
+            </Route>
+            <Route path="/postdetail">
+              <PostDetail />
+            </Route>
+            <Route path="/mypage">
+              <MyPage />
+            </Route>
+            <Route path="/signup">
+              <Signup />
+            </Route>
+            <Route path="/login">
+              <Login />
+            </Route>
+          </Switch>
+        </Container>
+      </Router>
     </>
   );
 }

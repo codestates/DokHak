@@ -1,8 +1,12 @@
-import React from 'react';
-import { Main } from './styles';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
+
+import { images } from '../data';
+import { Main } from './styles';
+import { FlexBoxSpaceBetween } from './PostCreate';
 import Checkbox from '../components/Checkbox';
 import Button from '../components/Button';
+import Thumbnail from '../components/Thumbnail';
 
 const Form = styled.form`
   margin-top: 20px;
@@ -85,6 +89,12 @@ const Check = styled.div`
 `;
 
 const Signup = () => {
+  const [selectedThumbnail, setSelectedThumbnail] = useState(0);
+
+  const onClickThumbnail = useCallback((idx) => {
+    setSelectedThumbnail(idx);
+  }, []);
+
   return (
     <>
       <Main>
@@ -93,7 +103,17 @@ const Signup = () => {
             SIGNUP <span>DOKHAK</span>
           </h4>
         </Form>
-
+        <FlexBoxSpaceBetween style={{ columnGap: '1rem' }}>
+          {images.map((src, idx) => (
+            <Thumbnail
+              key={src}
+              idx={idx}
+              src={src}
+              selectedThumbnail={selectedThumbnail}
+              setSelectedThumbnail={onClickThumbnail}
+            />
+          ))}
+        </FlexBoxSpaceBetween>
         <Label>
           <Input
             placeholder="Email"

@@ -73,7 +73,7 @@ const Menu = styled.div`
   }
 `;
 
-const Logo = styled(Link)`
+const Logo = styled(MenuLink)`
   padding: 1rem 0;
   color: ${color.primary};
   text-decoration: none;
