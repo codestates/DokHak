@@ -5,7 +5,6 @@
 
 .control {
   display: inline-flex;
-  flex: 1 1 25%;
   position: relative;
   padding-left: 30px;
   padding-right: 1.25rem;
@@ -42,7 +41,7 @@
 
 /* v자 체크 되는 것 */
 .control__indicator:after {
-  content: "";
+  content: '';
   position: absolute;
   display: none;
 }
