@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { Main, CardFlexBox } from './styles.js';
 import Card from '../components/Card';
+import Dropdown from '../components/Dropdown.js';
 
 // 임시 유저 데이터
 const users = [
@@ -50,13 +51,18 @@ const users = [
 
 const User = () => {
   return (
-    <Main className="card-page">
-      <CardFlexBox>
-        {users.map((user) => (
-          <Card key={user.name} data={user} />
-        ))}
-      </CardFlexBox>
-    </Main>
+    <>
+      <Dropdown name="user">
+        <span style={{ borderBottom: '1px solid #ddd' }}>기술스택</span>
+      </Dropdown>
+      <Main className="card-page" style={{ marginTop: '46px' }}>
+        <CardFlexBox>
+          {users.map((user) => (
+            <Card key={user.name} data={user} />
+          ))}
+        </CardFlexBox>
+      </Main>
+    </>
   );
 };
 

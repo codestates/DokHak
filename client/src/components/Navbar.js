@@ -9,7 +9,6 @@ const Nav = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  margin-bottom: 70px;
 
   &:after {
     content: '';
@@ -36,7 +35,7 @@ const Hamburger = styled.div`
   }
 `;
 
-const MenuLink = styled(Link)`
+export const MenuLink = styled(Link)`
   padding: 1rem 2rem;
   cursor: pointer;
   text-align: center;
@@ -46,7 +45,7 @@ const MenuLink = styled(Link)`
   font-size: 1rem;
 
   &:hover {
-    color: ${color.white};
+    color: ${color.colorHover};
   }
 
   &:last-child {
@@ -86,10 +85,6 @@ const Logo = styled(Link)`
     font-weight: 300;
     font-size: 1.3rem;
   }
-
-  &:hover {
-    color: ${color.white};
-  }
 `;
 
 function Navbar() {
@@ -111,7 +106,6 @@ function Navbar() {
       </Hamburger>
       {/* 만약 링크들이 하나라도 클릭이되면 모달이 닫혀야한다.  */}
       <Menu isOpen={isOpen}>
-        <MenuLink onClick={toggle}>기술스택</MenuLink>
         <MenuLink to="/user" onClick={toggle}>
           유저
         </MenuLink>
