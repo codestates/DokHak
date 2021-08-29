@@ -44,8 +44,8 @@ const CardImgHover = styled.div`
 `;
 
 const CardSection = styled.article`
-  transition: all .4s cubic-bezier(0.175, 0.885, 0, 1);
-  -webkit-transition: all .4s cubic-bezier(0.175, 0.885, 0, 1);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0, 1);
+  -webkit-transition: all 0.4s cubic-bezier(0.175, 0.885, 0, 1);
   background-color: #fff;
   position: relative;
   border-radius: 20px;
@@ -53,18 +53,17 @@ const CardSection = styled.article`
   overflow: hidden;
   display: flex;
   flex-direction: column;
-}
 
-&:hover {
-  z-index: 3;
-  box-shadow: 0px 4px 20px 4px rgba(0, 0, 0, 0.12);
-  transform: scale(1.05, 1.05);
+  &:hover {
+    z-index: 3;
+    box-shadow: 0px 4px 20px 4px rgba(0, 0, 0, 0.12);
+    transform: scale(1.05, 1.05);
 
-  ${CardImgHover} {
-    height: 100%;
-    opacity: 0.3;
+    ${CardImgHover} {
+      height: 100%;
+      opacity: 0.3;
+    }
   }
-}
 `;
 
 const CardInfo = styled.div`
