@@ -8,7 +8,7 @@ import Thumbnail from '../components/Thumbnail';
 import Checkbox from '../components/Checkbox';
 import Button from '../components/Button';
 
-const FlexBoxSpaceBetween = styled.div`
+export const FlexBoxSpaceBetween = styled.div`
   display: flex;
   justify-content: space-between;
 
@@ -52,7 +52,7 @@ const PostButton = styled(PostButtonWrapper)`
 `;
 
 const PostCreate = () => {
-  const [selectedThumbnail, setSelectedThumbnail] = useState(1);
+  const [selectedThumbnail, setSelectedThumbnail] = useState(0);
   const [value, setValue] = useState('Type here...');
 
   const onClickThumbnail = useCallback((idx) => {

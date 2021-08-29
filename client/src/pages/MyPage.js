@@ -1,9 +1,12 @@
-import React from 'react';
-import { Main } from './styles';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
+
+import { images } from '../data';
+import { Main } from './styles';
+import { FlexBoxSpaceBetween } from './PostCreate';
 import Checkbox from '../components/Checkbox';
 import Button from '../components/Button';
-import { useState } from 'react';
+import Thumbnail from '../components/Thumbnail';
 
 const Form = styled.form`
   margin-top: 20px;
@@ -145,7 +148,7 @@ const Contents = styled.div`
   transform: translate(-50%, -50%);
   line-height: 1.4;
   background: #ffffff;
-  padding: 90px 60px;
+  padding: 70px 130px 60px;
   border-radius: 5px;
   max-width: 600px;
   min-width: 300px;
@@ -155,10 +158,15 @@ const Contents = styled.div`
 
 const MyPage = () => {
   const [modal, setModal] = useState(false);
+  const [selectedThumbnail, setSelectedThumbnail] = useState(0);
 
   const toggleModal = () => {
     setModal(!modal);
   };
+
+  const onClickThumbnail = useCallback((idx) => {
+    setSelectedThumbnail(idx);
+  }, []);
 
   return (
     <>
@@ -168,7 +176,18 @@ const MyPage = () => {
             MYPAGE <span>DOKHAK</span>
           </h4>
         </Form>
-
+        <h3>Profile Image</h3>
+        <FlexBoxSpaceBetween style={{ columnGap: '1rem' }}>
+          {images.map((src, idx) => (
+            <Thumbnail
+              key={src}
+              idx={idx}
+              src={src}
+              selectedThumbnail={selectedThumbnail}
+              setSelectedThumbnail={onClickThumbnail}
+            />
+          ))}
+        </FlexBoxSpaceBetween>
         <Label>
           <Input
             placeholder="Email"
