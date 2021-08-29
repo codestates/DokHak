@@ -73,22 +73,22 @@ const CardInfo = styled.div`
   margin: 20px;
   height: 40%;
   display: -webkit-box;
-  -webkit-line-clamp: 4;
+  -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
 const CardAuthor = styled.h3`
-  margin: 15px 0;
-  font-size: 1.25rem;
+  margin: 10px 0;
+  font-size: 1rem;
   font-weight: 700;
 `;
 
 const CardContent = styled.p`
-  font-size: 1rem;
+  font-size: 0.75rem;
   font-weight: 400;
-  line-height: 1.5em;
+  line-height: 1.25rem;
 `;
 
 const Card = ({ user }) => {

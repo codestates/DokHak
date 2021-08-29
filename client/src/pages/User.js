@@ -49,22 +49,18 @@ const users = [
 ];
 
 const CardFlexBox = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  column-gap: 1rem;
+  display: grid; /* 1 */
+  grid-template-columns: repeat(auto-fill, 230px); /* 2 */
+  grid-gap: 1rem; /* 3 */
+  justify-content: space-around; /* 4 */
+  width: 100%;
+
+  @media (min-width: 769px) and (max-width: 1200px) {
+    justify-content: space-around;
+  }
 
   @media (max-width: 768px) {
     justify-content: center;
-  }
-
-  @media (min-width: 769px) and (max-width: 1200px) {
-    justify-content: space-between;
-  }
-
-  & > * {
-    /* flex: 1 1 25%; */
   }
 `;
 
