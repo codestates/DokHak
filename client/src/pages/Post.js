@@ -1,5 +1,6 @@
 import React from 'react';
 import Card from '../components/Card';
+import Dropdown from '../components/Dropdown';
 
 import { Main, CardFlexBox } from './styles';
 
@@ -49,13 +50,18 @@ const posts = [
 
 const Post = () => {
   return (
-    <Main className="card-page">
-      <CardFlexBox>
-        {posts.map((post) => (
-          <Card key={post.name} data={post} post />
-        ))}
-      </CardFlexBox>
-    </Main>
+    <>
+      <Dropdown name="post">
+        <span style={{ borderBottom: '1px solid #ddd' }}>기술스택</span>
+      </Dropdown>
+      <Main className="card-page" style={{ marginTop: '46px' }}>
+        <CardFlexBox>
+          {posts.map((post) => (
+            <Card key={post.name} data={post} />
+          ))}
+        </CardFlexBox>
+      </Main>
+    </>
   );
 };
 

@@ -8,6 +8,8 @@ export const color = {
   point: '#FFC700',
   delete: '#939393',
   register: '#01369C',
+  colorHover: 'rgba(0,0,0,0.5)',
+  bgcHover: 'rgba(0,0,0,0.1)',
 };
 
 export const align = {
