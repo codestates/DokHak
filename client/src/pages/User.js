@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 
 import { Main, CardFlexBox } from './styles.js';
 import Card from '../components/Card';
 import Dropdown from '../components/Dropdown.js';
+import UserModal from '../components/UserModal.js';
 
 // 임시 유저 데이터
 const users = [
@@ -49,7 +50,50 @@ const users = [
   },
 ];
 
+const ModalButton = styled.button`
+  width: 100px;
+  height: 35px;
+  background-color: #37373e;
+  color: white;
+
+  padding: 3px;
+  font-weight: 400;
+  transition: all 0.2s ease;
+  margin: 80px 15px 0 15px;
+  border: none;
+  border-radius: 5px;
+
+  &:hover {
+    opacity: 0.5;
+  }
+`;
+
+const Container = styled.div`
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+`;
+
+const Overlay = styled.div`
+  background-color: rgba(0, 0, 0, 0.4);
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+`;
+
 const User = () => {
+  const [modal, setModal] = useState(false);
+
+  const toggleModal = useCallback(() => setModal(!modal), [modal]);
+
   return (
     <>
       <Dropdown name="user">
@@ -58,9 +102,15 @@ const User = () => {
       <Main className="card-page" style={{ marginTop: '46px' }}>
         <CardFlexBox>
           {users.map((user) => (
-            <Card key={user.name} data={user} />
+            <Card key={user.name} data={user} onClick={toggleModal} />
           ))}
         </CardFlexBox>
+        {modal && (
+          <Container style={{ zIndex: '999' }}>
+            <Overlay onClick={toggleModal} />
+            <UserModal />
+          </Container>
+        )}
       </Main>
     </>
   );

@@ -24,41 +24,41 @@ const TagWrapper = styled.div`
 
 const UserModal = () => {
   return (
-    // <div className="card-wrapper">
-    <div className="card">
-      <header>
-        <div className="header-top"></div>
-        <div className="avatar-holder">
-          <img
-            src="https://images.unsplash.com/photo-1463436755683-3f805a9d1192?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1053&q=80"
-            alt="Albert Einstein"
-          />
-        </div>
-        <div className="name">김코딩</div>
-        <TagWrapper>
-          {stacks.map((stack, idx) => (
-            <Tag key={idx}>{stack}</Tag>
-          ))}
-        </TagWrapper>
-      </header>
-      <section className="detail">
-        <div className="detail-items">
-          <h6 className="label">
-            <i className="fas fa-mobile"></i> Mobile{' '}
-          </h6>
-          <p>010-3323-2110</p>
-        </div>
-        <div className="detail-items">
-          <h6 className="label">
-            <i className="fas fa-envelope"></i> Email{' '}
-          </h6>
-          <p>kimcoding@github.com</p>
-        </div>
-        <div className="detail-items">
-          <h6 className="label">
-            <i className="fas fa-info-circle"></i> Information{' '}
-          </h6>
-          <p className="info">{`Lorem ipsum dolor sit amet consectetur, adipisicing elit. Distinctio illo quasi provident
+    <div className="card-wrapper">
+      <div className="card">
+        <header>
+          <div className="header-top"></div>
+          <div className="avatar-holder">
+            <img
+              src="https://images.unsplash.com/photo-1463436755683-3f805a9d1192?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1053&q=80"
+              alt="Albert Einstein"
+            />
+          </div>
+          <div className="name">김코딩</div>
+          <TagWrapper>
+            {stacks.map((stack, idx) => (
+              <Tag key={idx}>{stack}</Tag>
+            ))}
+          </TagWrapper>
+        </header>
+        <section className="detail">
+          <div className="detail-items">
+            <h6 className="label">
+              <i className="fas fa-mobile"></i> Mobile{' '}
+            </h6>
+            <p>010-3323-2110</p>
+          </div>
+          <div className="detail-items">
+            <h6 className="label">
+              <i className="fas fa-envelope"></i> Email{' '}
+            </h6>
+            <p>kimcoding@github.com</p>
+          </div>
+          <div className="detail-items">
+            <h6 className="label">
+              <i className="fas fa-info-circle"></i> Information{' '}
+            </h6>
+            <p className="info">{`Lorem ipsum dolor sit amet consectetur, adipisicing elit. Distinctio illo quasi provident
           eligendi consequuntur esse fugiat possimus corrupti! Dicta voluptatum illum neque. Inventore voluptatibus
           consequatur maiores libero dicta atque dignissimos omnis saepe sint, nemo voluptas autem earum incidunt
           quisquam quia, iste sunt adipisci quo veniam reprehenderit magni assumenda molestias perspiciatis totam. Nemo
@@ -80,10 +80,10 @@ const UserModal = () => {
           tempore! Fugit et molestiae iste veritatis odit delectus porro pariatur doloremque corporis exercitationem
           alias dolorem voluptatem magni voluptatibus non fuga corrupti maiores officiis, a excepturi, laudantium
           repellendus quos? Impedit debitis deserunt enim fugiat. Itaque necessitatibus illo nisi.`}</p>
-        </div>
-      </section>
+          </div>
+        </section>
+      </div>
     </div>
-    // </div>
   );
 };
 

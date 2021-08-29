@@ -56,7 +56,7 @@ const CardSection = styled.article`
   flex-direction: column;
 
   &:hover {
-    z-index: 3;
+    z-index: 2;
     box-shadow: 0px 4px 20px 4px rgba(0, 0, 0, 0.12);
     transform: scale(1.05, 1.05);
 
@@ -91,9 +91,9 @@ const CardContent = styled.p`
   line-height: 1.25rem;
 `;
 
-const Card = ({ data, post }) => {
+const Card = ({ data, post, onClick }) => {
   return (
-    <CardContainer key={data.name}>
+    <CardContainer key={data.name} onClick={onClick}>
       <CardSection>
         <CardImgArea />
         <CardImgHover image={data.image} post={post} />
