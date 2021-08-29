@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledButton = styled.button`
-  width: 100px;
+  ${({ big }) => (big ? 'width: 100%;' : 'width: 100px;')}
   height: 35px;
   background-color: #37373e;
   border-radius: 5px;
@@ -13,7 +13,6 @@ const StyledButton = styled.button`
   letter-spacing: 2.5px;
   font-size: 1rem;
   color: #fff;
-  margin: 5px;
 
   &:hover {
     background-color: #ffc700;
@@ -30,10 +29,10 @@ const StyledButton = styled.button`
   }
 `;
 
-const Button = ({ children }) => {
+const Button = ({ children, big }) => {
   return (
     <>
-      <StyledButton>{children}</StyledButton>
+      <StyledButton big={big}>{children}</StyledButton>
     </>
   );
 };
