@@ -5,6 +5,17 @@ import Tag from '../components/Tag';
 
 import { Main } from './styles';
 
+const stacks = [
+  'React',
+  'Vue.js',
+  'Angular',
+  'Node.js',
+  'Django',
+  'Spring',
+  'Flutter',
+  'React Native',
+];
+
 const Title = styled.h1`
   width: 100%;
   border: none;
@@ -75,14 +86,9 @@ export default function App() {
       <Title>별 헤는 밤</Title>
       <TagAuthorWrapper>
         <TagWrapper>
-          <Tag>React</Tag>
-          <Tag>Vue.js</Tag>
-          <Tag>Angular</Tag>
-          <Tag>Node.js</Tag>
-          <Tag>Django</Tag>
-          <Tag>Spring</Tag>
-          <Tag>Flutter</Tag>
-          <Tag>React Native</Tag>
+          {stacks.map((stack, idx) => (
+            <Tag key={idx}>{stack}</Tag>
+          ))}
         </TagWrapper>
         <h3>김코딩</h3>
       </TagAuthorWrapper>
