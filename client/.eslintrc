@@ -30,6 +30,7 @@
     "consistent-return": "off",
     "import/prefer-default-export": "off",
     "import/named": "off",
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "react/display-name": "off"
   }
 }

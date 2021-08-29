@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import MDEditor from '@uiw/react-md-editor';
 
@@ -14,14 +14,6 @@ const FlexBoxSpaceBetween = styled.div`
 
   @media (max-width: 768px) {
     flex-wrap: wrap;
-  }
-
-  & .button {
-    @media (max-width: 768px) {
-      width: 100%;
-      margin: 0;
-      margin-bottom: 30px;
-    }
   }
 `;
 
@@ -40,9 +32,32 @@ const TitleInput = styled.input`
   }
 `;
 
+const PostButtonWrapper = ({ className, children }) => (
+  <div className={className}>
+    <Button>{children}</Button>
+  </div>
+);
+
+const PostButton = styled(PostButtonWrapper)`
+  @media (max-width: 768px) {
+    width: 100%;
+    margin: 0;
+    margin-bottom: 30px;
+
+    * {
+      width: 100%;
+      margin: 0;
+    }
+  }
+`;
+
 const PostCreate = () => {
   const [selectedThumbnail, setSelectedThumbnail] = useState(1);
   const [value, setValue] = useState('Type here...');
+
+  const onClickThumbnail = useCallback((idx) => {
+    setSelectedThumbnail(idx);
+  }, []);
 
   return (
     <Main>
@@ -50,22 +65,22 @@ const PostCreate = () => {
       {/* Checkbox Component */}
       {/* SmallButton Component */}
       {/* Editor Component */}
-      <label>Thumbnail</label>
-      <FlexBoxSpaceBetween styled={{ columnGap: '1rem' }}>
+      <h3>Thumbnail</h3>
+      <FlexBoxSpaceBetween style={{ columnGap: '1rem' }}>
         {thumbnails.map((src, idx) => (
           <Thumbnail
             key={src}
             idx={idx}
             src={src}
             selectedThumbnail={selectedThumbnail}
-            setSelectedThumbnail={setSelectedThumbnail}
+            setSelectedThumbnail={onClickThumbnail}
           />
         ))}
       </FlexBoxSpaceBetween>
 
       <FlexBoxSpaceBetween>
         <TitleInput placeholder="Title" />
-        <Button>확인</Button>
+        <PostButton>확인</PostButton>
       </FlexBoxSpaceBetween>
 
       <Checkbox />
