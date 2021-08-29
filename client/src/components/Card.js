@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { images } from '../data';
+import { images, thumbnails } from '../data';
 
 const CardContainer = styled.section`
   max-width: 320px;
@@ -30,7 +30,8 @@ const CardImgArea = styled.div`
 `;
 
 const CardImgHover = styled.div`
-  background-image: ${({ image }) => `url(${images[image]})`};
+  background-image: ${({ image, post }) =>
+    post ? `url(${thumbnails[image]})` : `url(${images[image]})`};
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -90,15 +91,15 @@ const CardContent = styled.p`
   line-height: 1.25rem;
 `;
 
-const Card = ({ user }) => {
+const Card = ({ data, post }) => {
   return (
-    <CardContainer key={user.name}>
+    <CardContainer key={data.name}>
       <CardSection>
         <CardImgArea />
-        <CardImgHover image={user.image} />
+        <CardImgHover image={data.image} post={post} />
         <CardInfo>
-          <CardAuthor>{user.name}</CardAuthor>
-          <CardContent>{user.info}</CardContent>
+          <CardAuthor>{data.name}</CardAuthor>
+          <CardContent>{data.info}</CardContent>
         </CardInfo>
       </CardSection>
     </CardContainer>
