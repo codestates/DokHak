@@ -1,14 +1,13 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 
 const FigureWrapper = styled.div`
   margin-bottom: 10px;
+  flex: 1;
 
   @media (max-width: 768px) {
     display: flex;
     justify-content: center;
-
-    flex: 1 1 40%;
   }
 `;
 
@@ -37,7 +36,7 @@ const Figure = styled.figure`
 const ThumbnailImage = styled.img`
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  // object-fit: contain;
 
   transform: scale(1);
   transition: 0.3s ease-in-out;
@@ -50,19 +49,21 @@ const ThumbnailImage = styled.img`
   }
 `;
 
-const Thumbnail = ({ idx, src, selectedThumbnail, setSelectedThumbnail }) => {
-  return (
-    <>
-      <FigureWrapper>
-        <Figure
-          onClick={() => setSelectedThumbnail(idx)}
-          selected={idx === selectedThumbnail}
-        >
-          <ThumbnailImage src={src} alt={src} />
-        </Figure>
-      </FigureWrapper>
-    </>
-  );
-};
+const Thumbnail = memo(
+  ({ idx, src, selectedThumbnail, setSelectedThumbnail }) => {
+    return (
+      <>
+        <FigureWrapper>
+          <Figure
+            onClick={() => setSelectedThumbnail(idx)}
+            selected={idx === selectedThumbnail}
+          >
+            <ThumbnailImage src={src} alt={src} />
+          </Figure>
+        </FigureWrapper>
+      </>
+    );
+  }
+);
 
 export default Thumbnail;
