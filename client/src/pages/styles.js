@@ -6,7 +6,7 @@ export const Main = styled.main`
   align-items: center;
   width: 60%;
 
-  &.cardPage {
+  &.card-page {
     width: 80%;
   }
 `;
