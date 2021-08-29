@@ -8,7 +8,7 @@ import './App.css';
 import PageTemplate from './PageTemplate';
 
 import User from './pages/User';
-import Signup from './pages/Login';
+import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Post from './pages/Post';
 import PostCreate from './pages/PostCreate';
