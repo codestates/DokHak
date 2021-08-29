@@ -11,6 +11,7 @@ const StyledTag = styled.label`
   background: #37373e;
   color: #fff;
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
 `;
 
 const Tag = ({ children }) => {
