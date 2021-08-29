@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Main } from './styles.js';
+import { Main, CardFlexBox } from './styles.js';
 import Card from '../components/Card';
 
 // 임시 유저 데이터
@@ -48,28 +48,12 @@ const users = [
   },
 ];
 
-const CardFlexBox = styled.div`
-  display: grid; /* 1 */
-  grid-template-columns: repeat(auto-fill, 230px); /* 2 */
-  grid-gap: 1rem; /* 3 */
-  justify-content: space-around; /* 4 */
-  width: 100%;
-
-  @media (min-width: 769px) and (max-width: 1200px) {
-    justify-content: space-around;
-  }
-
-  @media (max-width: 768px) {
-    justify-content: center;
-  }
-`;
-
 const User = () => {
   return (
     <Main className="card-page">
       <CardFlexBox>
         {users.map((user) => (
-          <Card key={user.name} user={user} />
+          <Card key={user.name} data={user} />
         ))}
       </CardFlexBox>
     </Main>

@@ -12,7 +12,7 @@ const FigureWrapper = styled.div`
 `;
 
 const Figure = styled.figure`
-  height: 100px;
+  height: 120px;
   margin: 1rem 0;
 
   border-radius: 5px;
@@ -36,7 +36,7 @@ const Figure = styled.figure`
 const ThumbnailImage = styled.img`
   width: 100%;
   height: 100%;
-  // object-fit: contain;
+  object-fit: cover;
 
   transform: scale(1);
   transition: 0.3s ease-in-out;
