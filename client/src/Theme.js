@@ -1,6 +1,6 @@
 export const color = {
   black: '#000',
-  header: '#37373E',
+  primary: '#37373E',
   placeholder: '#DFDFDF',
   disabled: '#E9E9E9',
   background: '#F2F2F2',

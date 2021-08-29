@@ -1,14 +1,13 @@
 import React from 'react';
 
-import Header from '../components/Header';
+import { Main } from './styles';
 
 const PostDetail = () => {
   return (
-    <>
-      <Header />
+    <Main>
       {/* 게시글 본문 */}
       {/* Comment Component */}
-    </>
+    </Main>
   );
 };
 

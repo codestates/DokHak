@@ -5,6 +5,8 @@ import styled from 'styled-components';
 
 import './App.css';
 
+import PageTemplate from './PageTemplate';
+
 import User from './pages/User';
 import Signup from './pages/Login';
 import Login from './pages/Login';
@@ -13,13 +15,12 @@ import PostCreate from './pages/PostCreate';
 import PostDetail from './pages/PostDetail';
 import MyPage from './pages/MyPage';
 
-import { login } from './actions/user';
+// import { login } from './actions/user';
+// import { images } from './data';
 
-import { images } from './data';
-
-const Container = styled.div`
-  ${({ theme }) => theme.align.positionCenter}
-`;
+// const Container = styled.div`
+//   ${({ theme }) => theme.align.positionCenter}
+// `;
 
 function App() {
   // const images = useSelector((state) => state.images);
@@ -35,35 +36,39 @@ function App() {
 
   return (
     <>
-      <Container>되나요?</Container>
+      {/* <Container>되나요?</Container>
       <button onClick={() => handleLogin(5, 3)}>LOGIN ACTION 발생!</button>
       <div>USER ID : {user.data?.id}</div>
       <div>USER IMAGE ID : {user.data?.image}</div>
-      {imgObj.length !== 0 && <img src={imgObj.img} alt={imgObj.name} />}
-
-      <Switch>
-        <Route exact path="/">
-          <User />
-        </Route>
-        <Route path="/signup">
-          <Signup />
-        </Route>
-        <Route path="/login">
-          <Login />
-        </Route>
-        <Route path="/post">
-          <Post />
-        </Route>
-        <Route path="/postcreate">
-          <PostCreate />
-        </Route>
-        <Route path="/postdetail">
-          <PostDetail />
-        </Route>
-        <Route path="/mypage">
-          <MyPage />
-        </Route>
-      </Switch>
+      {imgObj.length !== 0 && <img src={imgObj.img} alt={imgObj.name} />} */}
+      <PageTemplate>
+        <Switch>
+          <Route exact path="/">
+            <User />
+          </Route>
+          <Route path="/user">
+            <User />
+          </Route>
+          <Route path="/signup">
+            <Signup />
+          </Route>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/post">
+            <Post />
+          </Route>
+          <Route path="/postcreate">
+            <PostCreate />
+          </Route>
+          <Route path="/postdetail">
+            <PostDetail />
+          </Route>
+          <Route path="/mypage">
+            <MyPage />
+          </Route>
+        </Switch>
+      </PageTemplate>
     </>
   );
 }

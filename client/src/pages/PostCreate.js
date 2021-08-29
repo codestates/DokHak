@@ -1,16 +1,15 @@
 import React from 'react';
 
-import Header from '../components/Header';
+import { Main } from './styles';
 
 const PostCreate = () => {
   return (
-    <>
-      <Header />
+    <Main>
       {/* map으로 Thumbnail */}
       {/* Checkbox Component */}
       {/* SmallButton Component */}
       {/* Editor Component */}
-    </>
+    </Main>
   );
 };
 

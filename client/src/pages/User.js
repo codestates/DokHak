@@ -1,14 +1,14 @@
 import React from 'react';
 
-import Header from '../components/Header';
+import { Main } from './styles';
 
 const User = () => {
   return (
-    <>
-      <Header />
+    <Main>
+      여긴 User이자 홈이지롱
       {/* map으로 Card */}
       {/* onClick -> User Modal */}
-    </>
+    </Main>
   );
 };
 

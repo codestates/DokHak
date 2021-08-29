@@ -1,14 +1,14 @@
 import React from 'react';
 
-import Header from '../components/Header';
+import { Main } from './styles';
 
 const MyPage = () => {
   return (
-    <>
-      <Header />
+    <Main>
+      여긴 MyPage지롱
       {/* Form Component */}
       {/* 회원탈퇴 onClick -> DeleteModal */}
-    </>
+    </Main>
   );
 };
 

@@ -1,14 +1,9 @@
 import React from 'react';
 
-import Header from '../components/Header';
+import { Main } from './styles';
 
 const Signup = () => {
-  return (
-    <>
-      <Header />
-      {/* Form Component */}
-    </>
-  );
+  return <Main>{/* Form Component */}</Main>;
 };
 
 export default Signup;
