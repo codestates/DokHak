@@ -78,10 +78,7 @@ module.exports = {
       const token = generateAccessToken({ id: userInfo.dataValues.id });
       return res
         .status(200)
-        .cookie('jwt', token, {
-          sameSite: 'none',
-          secure: true,
-        })
+        .cookie('jwt', token)
         .json({ data: usersWithStacks, message: 'OK' });
     } catch (error) {
       console.log(error);
