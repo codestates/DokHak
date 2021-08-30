@@ -36,4 +36,4 @@ app.get('/', (req, res) => {
   res.status(201).send('Hello World');
   });
 
-app.listen(process.env.HOST_PORT);
+app.listen(80);
