@@ -23,6 +23,6 @@ app.use('/posts', postsRouter);
 app.use('/comments', commentsRouter);
 
 models.sequelize.sync({ force: false }).then(() => {
-  app.listen(process.env.HOST_PORT);
+  app.listen(80);
   console.log('success');
 });
