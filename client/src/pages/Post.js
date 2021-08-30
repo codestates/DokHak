@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Card from '../components/Card';
 import Dropdown from '../components/Dropdown';
 
 import { Main, CardFlexBox } from './styles';
 
 // 임시 포스트 데이터
-const posts = [
+const postsD = [
   {
     name: '랄랄라',
     image: 0,
@@ -48,7 +49,13 @@ const posts = [
   },
 ];
 
-const Post = () => {
+const Post = ({ match }) => {
+  const [posts, setPosts] = useState([]);
+  useEffect(() => {
+    // 여기서 API 요청 쏴서 우리 state 변경
+    setPosts(postsD);
+  }, []);
+
   return (
     <>
       <Dropdown name="post">
@@ -56,8 +63,10 @@ const Post = () => {
       </Dropdown>
       <Main className="card-page" style={{ marginTop: '46px' }}>
         <CardFlexBox>
-          {posts.map((post) => (
-            <Card key={post.name} data={post} />
+          {posts.map((post, idx) => (
+            <Link key={post.name} to={`${match.path}/${idx}`}>
+              <Card data={post} post />
+            </Link>
           ))}
         </CardFlexBox>
       </Main>
