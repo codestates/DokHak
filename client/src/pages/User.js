@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { Main, CardFlexBox } from './styles.js';
@@ -7,7 +7,7 @@ import Dropdown from '../components/Dropdown.js';
 import UserModal from '../components/UserModal.js';
 
 // 임시 유저 데이터
-const users = [
+const usersD = [
   {
     name: '김민성',
     image: 0,
@@ -91,6 +91,10 @@ const Overlay = styled.div`
 
 const User = () => {
   const [modal, setModal] = useState(false);
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    setUsers(usersD);
+  }, []);
 
   const toggleModal = useCallback(() => setModal(!modal), [modal]);
 

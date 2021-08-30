@@ -18,7 +18,6 @@ const Figure = styled.figure`
   border-radius: 5px;
   overflow: hidden;
   opacity: 0.5;
-  border-radius: 5px;
 
   &:hover {
     opacity: 1;

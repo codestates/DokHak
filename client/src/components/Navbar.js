@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { color } from '../Theme';
+import { useDispatch, useSelector } from 'react-redux';
+import LoginImage from './LoginImage';
+import LoginDropdown from './LoginDropDown';
 
 const Nav = styled.div`
   width: 100%;
@@ -10,9 +13,14 @@ const Nav = styled.div`
   align-items: center;
   flex-wrap: wrap;
 
+  /* & > * {
+    margin-bottom: 20px;
+  } */
+
   &:after {
     content: '';
     border-bottom: 1px solid ${color.black};
+
     width: 100%;
   }
 `;
@@ -41,7 +49,7 @@ export const MenuLink = styled(Link)`
   text-align: center;
   text-decoration: none;
   color: ${color.primary};
-  transition: all 0.3s ease-in;
+  transition: hover 0.3s ease-in;
   font-size: 1rem;
 
   &:hover {
@@ -88,6 +96,8 @@ const Logo = styled(MenuLink)`
 `;
 
 function Navbar() {
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => {
@@ -112,9 +122,24 @@ function Navbar() {
         <MenuLink to="/post" onClick={toggle}>
           포스트
         </MenuLink>
-        <MenuLink to="/login" onClick={toggle}>
-          로그인
-        </MenuLink>
+        {user.isLogin ? (
+          <MenuLink
+            to="/login"
+            onClick={toggle}
+            style={{
+              paddingTop: '0',
+              paddingBottom: '0',
+            }}
+          >
+            <LoginDropdown name="user">
+              <LoginImage imageId={user.data.image} />
+            </LoginDropdown>
+          </MenuLink>
+        ) : (
+          <MenuLink to="/mypage" onClick={toggle}>
+            로그인
+          </MenuLink>
+        )}
       </Menu>
     </Nav>
   );

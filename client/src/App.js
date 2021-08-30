@@ -20,7 +20,7 @@ import MyPage from './pages/MyPage';
 
 import Navbar from './components/Navbar';
 
-// import { login } from './actions/user';
+import { login } from './actions/user';
 // import { images } from './data';
 
 // const Container = styled.div`
@@ -41,48 +41,26 @@ function App() {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  const [imgObj, setImgObj] = useState({});
-
-  const handleLogin = (id, image) => {
-    dispatch(login(id, image));
-    setImgObj(...images.filter((img) => img.id === image));
+  const handleLogin = () => {
+    dispatch(login());
+    // setImgObj(...images.filter((img) => img.id === image));
   };
 
   return (
     <>
-      {/* <Container>되나요?</Container>
-      <button onClick={() => handleLogin(5, 3)}>LOGIN ACTION 발생!</button>
-      <div>USER ID : {user.data?.id}</div>
-      <div>USER IMAGE ID : {user.data?.image}</div>
-      {imgObj.length !== 0 && <img src={imgObj.img} alt={imgObj.name} />} */}
+      <button onClick={() => handleLogin()}>LOGIN ACTION 발생!</button>
       <Router>
         <Container>
           <Navbar />
           <Switch>
-            <Route exact path="/">
-              <User />
-            </Route>
-            <Route path="/user">
-              <User />
-            </Route>
-            <Route path="/post">
-              <Post />
-            </Route>
-            <Route path="/postcreate">
-              <PostCreate />
-            </Route>
-            <Route path="/postdetail">
-              <PostDetail />
-            </Route>
-            <Route path="/mypage">
-              <MyPage />
-            </Route>
-            <Route path="/signup">
-              <Signup />
-            </Route>
-            <Route path="/login">
-              <Login />
-            </Route>
+            <Route exact path="/" component={User} />
+            <Route exact path="/user" component={User} />
+            <Route exact path="/post" component={Post} />
+            <Route exact path="/postcreate" component={PostCreate} />
+            <Route exact path="/postdetail" component={PostCreate} />
+            <Route exact path="/mypage" component={MyPage} />
+            <Route exact path="/signup" component={Signup} />
+            <Route exact path="/login" component={Login} />
           </Switch>
         </Container>
       </Router>
