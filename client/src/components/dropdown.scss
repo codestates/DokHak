@@ -1,0 +1,59 @@
+.dropdown {
+  position: relative;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  align-self: flex-start;
+  margin-top: 24px;
+}
+
+.logindropdown {
+  margin-top: 0;
+}
+
+.dropdown-content {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 10px #e1e5ee;
+  background-color: white;
+  border-radius: 0.2rem;
+  width: 9rem;
+  padding: 1rem;
+  max-height: 0;
+  overflow: hidden;
+  margin-top: 20px;
+
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  transition: all 0.5s;
+  padding: 0;
+
+  list-style: none;
+  position: absolute;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  display: block;
+  color: black;
+  padding: 1.3rem;
+  text-decoration: none;
+  border-radius: 0.2rem;
+  transition: background-color 200ms ease-in-out;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  max-height: 1000px;
+  /*   display: block; */
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+  color: rgba(0, 0, 0, 0.5);
+}
