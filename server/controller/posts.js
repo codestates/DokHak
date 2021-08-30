@@ -1,6 +1,7 @@
 const { Post, User, Stack } = require('../models');
 const post = require('../models/post');
 const db = require('../models');
+const jwt = require('jsonwebtoken');
 
 module.exports = {
   createPost: async (req, res) => {
@@ -39,7 +40,7 @@ module.exports = {
   getAllPosts: async (req, res) => {  
 
     const post = await Post.findAll({
-      attributes: [ 'id', 'image', 'content', 'username' ],
+      attributes: [ 'id', 'image', 'title','content', 'username' ],
       raw: true,
     });
 
@@ -66,44 +67,48 @@ module.exports = {
     }
   },
   getPostsById: async (req, res) => {
-    try {
-      const getPostId = req.params.id;  
+    // try {
+      const token = req.cookies['jwt'];
+      const getPostId = req.params.id; 
       const postId = await Post.findOne({  // post.id를 찾는데
+        attributes: [ "id", "image", "title", "content", "username" ], 
         where: {
-          id: getPostId,
-          userId: req.userId
-        }
+          id: getPostId
+        },
+        raw: true
       })
 
-      let author = {};
-      postId ? author["author"] = true : author["author"] = false;  // 유저인지 아닌지 true, false로 확인.
+      let author = { "author": false };
+      // console.log(postId.userId)
       
-      let post = await Post.findOne({   // post를 찾고
-        attributes: [ 'id', 'image', 'content', 'username' ],
-        where: {
-          id: getPostId,
-        },
-        raw: true,
-      });
-      
-      let stack = await db.sequelize.models.post_stack.findAll({  // SteackId 가져와서
-        attributes: [ 'StackId' ],
-        where: {
-          PostId: getPostId,
-        }, 
-        raw:true,
-      });
+      console.log(post)
+      if (!token) {
+        let post = Object.assign(postId, author)
+        return res.status(200).json({ data: post, message: 'OK' });
+      }
+      try {
+        jwt.verify(token, process.env.JWT_SECRETKEY, async (err, encoded) => {
+          if (err) {
+            return res.status(401).json({ message: 'Unauthorized Request' });
+          }
 
-      let stackObj = {};
-      stack = stack.map((el) => el.StackId);  
-      stackObj['stackId'] = stack;
-      let newObj = Object.assign(post, stackObj, author);  // 하나로 묶는다.
-      
-      return res.status(200).json({ data: newObj, messgae: "OK" });
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json({ message : "Server Error" });
-    };
+          const postUserId = await Post.findOne({  // post.id를 찾는데
+            attributes: [ "userId" ], 
+            where: {
+              id: getPostId
+            },
+            raw: true
+          });
+
+          const userInfo = await User.findOne({ where: { id: postUserId.userId } });
+          author["author"] = true
+          let post = Object.assign(postId, author)
+          return res.status(200).json({ data: post, message: 'OK' });
+        });
+      } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Server Error" });
+      }
   },
   getPostsByStackId: async (req, res) => {
     try {
@@ -124,7 +129,7 @@ module.exports = {
 
       for (let i = 0; i < postid.length; i++) {
         const post = await Post.findAll({  // 해당하는 post를 찾아
-          attributes: [ 'id', 'image', 'content', 'username' ],
+          attributes: [ 'id', 'image', 'title', 'content', 'username' ],
           where: {
             id: postid[i],
           },
@@ -180,7 +185,7 @@ module.exports = {
       })
       
       const post = await Post.findOne({  // update한 post를 찾아
-        attributes: [ 'id', 'image', 'content', 'username' ],
+        attributes: [ 'id', 'image', 'title' ,'content', 'username' ],
         where: {
           id: param,
           userId: req.userId,
