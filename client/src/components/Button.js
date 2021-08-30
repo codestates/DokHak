@@ -29,10 +29,12 @@ const StyledButton = styled.button`
   }
 `;
 
-const Button = ({ children, big }) => {
+const Button = ({ children, big, onClick }) => {
   return (
     <>
-      <StyledButton big={big}>{children}</StyledButton>
+      <StyledButton big={big} onClick={onClick}>
+        {children}
+      </StyledButton>
     </>
   );
 };
