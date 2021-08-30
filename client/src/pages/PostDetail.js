@@ -1,7 +1,12 @@
-import MDEditor from '@uiw/react-md-editor';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+axios.defaults.withCredentials = true;
 import styled from 'styled-components';
+import MDEditor from '@uiw/react-md-editor';
+
+import Button from '../components/Button';
 import Tag from '../components/Tag';
+import { FlexBoxSpaceBetween } from './PostCreate';
 
 import { Main } from './styles';
 
@@ -54,8 +59,10 @@ const TagWrapper = styled.div`
   column-gap: 1rem;
 `;
 
-const PostDetail = () => {
-  const [value, setValue] = useState(`# Hello World
+const PostDetail = ({ postId }) => {
+  // const [image, setImage] = useState(0);
+  const [title, setTitle] = useState('방가방가');
+  const [content, setContent] = useState(`# Hello World
 
 **Hello world!!!**
 
@@ -79,20 +86,50 @@ export default function App() {
   );
 }
 \`\`\``);
+  const [username, setUsername] = useState('김코딩');
+  const [stacks, setStacks] = useState([]);
+  const [author, setAuthor] = useState(false);
+
+  useEffect(async () => {
+    try {
+      const post = await axios.get(
+        `http://ec2-3-34-123-164.ap-northeast-2.compute.amazonaws.com/posts/1`
+      );
+      // const stacks = await axios.get(`https://dokhak.tk/stacks`);
+      const stackList = ['React', 'Vue.js', 'Angular', 'Node.js', 'Django'];
+
+      const { title, content, username, stacks } = post;
+      setTitle(title);
+      setContent(content);
+      setUsername(username);
+      setStacks(stacks.map((stack) => stackList[stack - 1]));
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
 
   return (
     <Main>
       {/* 게시글 본문 */}
-      <Title>별 헤는 밤</Title>
+      <FlexBoxSpaceBetween>
+        <Title>{title}</Title>
+        {author && (
+          <div style={{ display: 'flex' }}>
+            <Button>수정</Button>
+            <span style={{ width: '20px' }}></span>
+            <Button>삭제</Button>
+          </div>
+        )}
+      </FlexBoxSpaceBetween>
       <TagAuthorWrapper>
         <TagWrapper>
           {stacks.map((stack, idx) => (
             <Tag key={idx}>{stack}</Tag>
           ))}
         </TagWrapper>
-        <h3>김코딩</h3>
+        <h3>{username}</h3>
       </TagAuthorWrapper>
-      <MDEditor.Markdown source={value} />
+      <MDEditor.Markdown source={content} />
       {/* Comment Component */}
     </Main>
   );
