@@ -81,7 +81,6 @@ module.exports = {
         .cookie('jwt', token, {
           sameSite: 'none', 
           secure: true,
-          signed: true,
         })
         .json({ data: usersWithStacks, message: 'OK' });
     } catch (error) {
