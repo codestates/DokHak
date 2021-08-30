@@ -14,7 +14,11 @@ module.exports = {
     // TODO: JWT 토큰을 쿠키로 전달합니다.
     return res
       .status(200)
-      .cookie('jwt', accessToken)
+      .cookie('jwt', accessToken, {
+        sameSite: 'none', 
+        secure: true,
+        signed: true,
+      })
       .json({ data: { accessToken }, message: 'OK' });
   },
 };
