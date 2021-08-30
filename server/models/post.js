@@ -1,6 +1,5 @@
 'use strict';
 const { Model } = require('sequelize');
-const posts = require('../controller/posts');
 module.exports = (sequelize, DataTypes) => {
   class Post extends Model {
     /**

@@ -27,7 +27,6 @@ const router = express.Router();
 //   validate,
 // ];
 
-router.post('/goodbsw', isAuth, usersController.goodbsw);
 router.post('/signup', usersController.signup);
 router.post('/login', usersController.login);
 router.post('/github', usersController.githubLogin);

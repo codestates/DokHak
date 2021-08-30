@@ -15,6 +15,6 @@ module.exports = {
     return res
       .status(200)
       .cookie('jwt', accessToken)
-      .json({ data: { accessToken }, message: 'ok' });
+      .json({ data: { accessToken }, message: 'OK' });
   },
 };

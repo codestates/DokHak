@@ -10,11 +10,11 @@ const isAuth = (req, res, next) => {
   try {
     jwt.verify(token, process.env.JWT_SECRETKEY, async (err, encoded) => {
       if (err) {
-        res.sendStatus(401);
+        return res.status(401).json({ message: 'Unauthorized Request' });
       }
       const userInfo = await User.findOne({ where: { id: encoded.id } });
       if (!userInfo) {
-        res.sendStatus(401);
+        return res.status(401).json({ message: 'Unauthorized Request' });
       }
       req.userId = encoded.id;
       return next();
