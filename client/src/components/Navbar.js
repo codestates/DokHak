@@ -124,7 +124,7 @@ function Navbar() {
         </MenuLink>
         {user.isLogin ? (
           <MenuLink
-            to="/login"
+            to="/mypage"
             onClick={toggle}
             style={{
               paddingTop: '0',
@@ -136,7 +136,7 @@ function Navbar() {
             </LoginDropdown>
           </MenuLink>
         ) : (
-          <MenuLink to="/mypage" onClick={toggle}>
+          <MenuLink to="/login" onClick={toggle}>
             로그인
           </MenuLink>
         )}

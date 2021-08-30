@@ -1,7 +1,7 @@
 export const LOG_IN = 'LOG_IN';
 export const LOG_OUT = 'LOG_OUT';
 
-export const login = (id, image) => {
+export const login = (data) => {
   return {
     type: LOG_IN,
     // payload: {
@@ -9,7 +9,7 @@ export const login = (id, image) => {
     //   image,
     // },
     payload: {
-      email: 'kimcoding@github.com',
+      email: data.email,
       name: '김코딩',
       phone: '010-0000-000',
       image: 1,

@@ -3,6 +3,8 @@ import { Main } from './styles';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../components/Button';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../actions/user';
 
 // const LoginButtonWrapper = ({ className, children }) => (
 //   <div className={className}>
@@ -126,6 +128,13 @@ const GithubLogin = styled.button`
 `;
 
 const Login = () => {
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const handleLogin = (data) => {
+    dispatch(login(data));
+    // setImgObj(...images.filter((img) => img.id === image));
+  };
   return (
     <>
       <Main>
@@ -156,9 +165,18 @@ const Login = () => {
           <label htmlFor="password">Password:</label>
         </Label>
         <div style={{ marginTop: '80px' }}></div>
-        <Button type="submit" big>
+        {/*  */}
+        <button onClick={() => handleLogin({ email: 'kimcoding@github.com' })}>
+          로그인!
+        </button>
+        <Button
+          type="submit"
+          big
+          onClick={() => handleLogin({ email: 'kimcoding@github.com' })}
+        >
           Login
         </Button>
+        {/* 깃허브 로그인은 온클릭 시 깃허브 OAuth로 API 요청보내서 Code 받아오고,우리 서버 API(/users/github)로 code를 보낸다 */}
         <GithubLogin type="submit" className="github">
           Github Login
           <img
