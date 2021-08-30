@@ -16,6 +16,7 @@ app.use(express.json());
 app.use(cookieParser({
   sameSite: 'none', 
   secure: true,
+  signed: true,
 }));
 app.use(
   cors({
