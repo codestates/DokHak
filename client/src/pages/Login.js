@@ -144,13 +144,13 @@ const Login = (props) => {
     } else {
       setErrorMessage('');
       axios
-        .post(`${process.env.REACT_APP_API_URL}/users/login`, loginInfo, {
+        .post(`${process.env.REACT_APP_API_URL}users/login`, loginInfo, {
           headers: {
             'Content-Type': 'application/json',
           },
         })
         .then((res) => {
-          console.log(res);
+          console.log(res.headers);
           dispatch(login(res.data.data[0]));
         })
         .then(() => {

@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
+require('dotenv').config();
 import styled from 'styled-components';
 import MDEditor from '@uiw/react-md-editor';
 
@@ -81,9 +82,7 @@ const PostCreate = () => {
   useEffect(async () => {
     console.log('useEffect');
     try {
-      const post = await axios.get(
-        `http://ec2-3-34-123-164.ap-northeast-2.compute.amazonaws.com/posts`
-      );
+      const post = await axios.get(`${process.env.REACT_APP_API_URL}posts`);
       console.log(post);
       // const stacks = await axios.get(`https://dokhak.tk/stacks`);
       // const stacks = ['React', 'Vue.js', 'Angular', 'Node.js', 'Django'];

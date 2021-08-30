@@ -92,9 +92,7 @@ export default function App() {
 
   useEffect(async () => {
     try {
-      const post = await axios.get(
-        `http://ec2-3-34-123-164.ap-northeast-2.compute.amazonaws.com/posts/1`
-      );
+      const post = await axios.get(`${process.env.REACT_APP_API_URL}posts/1`);
       // const stacks = await axios.get(`https://dokhak.tk/stacks`);
       const stackList = ['React', 'Vue.js', 'Angular', 'Node.js', 'Django'];
 
