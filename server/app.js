@@ -22,7 +22,12 @@ app.use('/users', usersRouter);
 app.use('/posts', postsRouter);
 app.use('/comments', commentsRouter);
 
-models.sequelize.sync({ force: false }).then(() => {
-  app.listen(80);
-  console.log('success');
-});
+// models.sequelize.sync({ force: false }).then(() => {
+//   console.log('success');
+// });
+
+app.get('/', (req, res) => {
+  res.status(201).send('Hello World');
+  });
+
+app.listen(80);
