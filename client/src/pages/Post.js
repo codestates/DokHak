@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+axios.defaults.withCredentials = true;
+require('dotenv').config();
+import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import Card from '../components/Card';
-import Dropdown from '../components/Dropdown';
+import { GoTriangleDown } from 'react-icons/go';
 
-import { Main, CardFlexBox } from './styles';
+import Card from '../components/Card';
+import Dropdown from '../components/Dropdown.js';
+import { Main, CardFlexBox } from './styles.js';
 
 // 임시 포스트 데이터
 const postsD = [
@@ -51,15 +56,25 @@ const postsD = [
 
 const Post = ({ match }) => {
   const [posts, setPosts] = useState([]);
-  useEffect(() => {
-    // 여기서 API 요청 쏴서 우리 state 변경
-    setPosts(postsD);
+
+  useEffect(async () => {
+    try {
+      const postList = await axios.get(
+        `${process.env.REACT_APP_API_URL}/posts`
+      );
+      // const stacks = await axios.get(`https://dokhak.tk/stacks`);
+      // const stacks = ['React', 'Vue.js', 'Angular', 'Node.js', 'Django'];
+      setPosts(postList.data.data);
+    } catch (err) {
+      console.log(err);
+    }
   }, []);
 
   return (
     <>
       <Dropdown name="post">
-        <span style={{ borderBottom: '1px solid #ddd' }}>기술스택</span>
+        <span>기술스택</span>
+        <GoTriangleDown />
       </Dropdown>
       <Main className="card-page" style={{ marginTop: '46px' }}>
         <CardFlexBox>

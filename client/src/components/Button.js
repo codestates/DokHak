@@ -27,6 +27,12 @@ const StyledButton = styled.button`
     box-shadow: none;
     outline: 0;
   }
+
+  @media (max-width: 768px) {
+    justify-content: center;
+    flex: 1 1 100%;
+    margin-bottom: 20px;
+  }
 `;
 
 const Button = ({ children, big, onClick }) => {

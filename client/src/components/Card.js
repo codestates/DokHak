@@ -5,6 +5,7 @@ import { images, thumbnails } from '../data';
 
 const CardContainer = styled.section`
   max-width: 320px;
+
   height: 380px;
   display: flex;
   justify-content: center;
@@ -45,6 +46,7 @@ const CardImgHover = styled.div`
 `;
 
 const CardSection = styled.article`
+  min-width: 230px;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0, 1);
   -webkit-transition: all 0.4s cubic-bezier(0.175, 0.885, 0, 1);
   background-color: #fff;
@@ -99,7 +101,7 @@ const Card = ({ data, post, onClick }) => {
         <CardImgHover image={data.image} post={post} />
         <CardInfo>
           <CardAuthor>{data.name}</CardAuthor>
-          <CardContent>{data.info}</CardContent>
+          <CardContent>{post ? data.content : data.info}</CardContent>
         </CardInfo>
       </CardSection>
     </CardContainer>
