@@ -4,23 +4,36 @@ export const LOG_OUT = 'LOG_OUT';
 export const login = (data) => {
   return {
     type: LOG_IN,
-    // payload: {
-    //   id,
-    //   image,
-    // },
     payload: {
       email: data.email,
-      name: '김코딩',
-      phone: '010-0000-000',
-      image: 1,
-      info: 'djskdfjsdlfksldkfaslkdjfalksdjflkasjdflksjdflksjflkjsdf',
-      stacks: [1, 3, 5],
+      name: data.name,
+      phone: data.phone,
+      image: data.image,
+      info: data.info,
+      stacks: data.stack,
     },
+    isLogin: true,
+  };
+};
+
+export const signup = (data) => {
+  return {
+    type: SIGN_UP,
+    payload: {
+      email: data.email,
+      name: data.name,
+      phone: data.phone,
+      image: data.image,
+      info: data.info,
+      stacks: data.stack,
+    },
+    isLogin: true,
   };
 };
 
 export const logout = () => {
   return {
     type: LOG_OUT,
+    isLogin: false,
   };
 };
