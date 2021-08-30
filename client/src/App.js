@@ -57,7 +57,7 @@ function App() {
             <Route exact path="/user" component={User} />
             <Route exact path="/post" component={Post} />
             <Route exact path="/postcreate" component={PostCreate} />
-            <Route exact path="/postdetail" component={PostCreate} />
+            <Route exact path="/postdetail" component={PostDetail} />
             <Route exact path="/mypage" component={MyPage} />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/login" component={Login} />
