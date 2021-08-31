@@ -48,26 +48,21 @@ const TitleInput = styled.input`
 
 const PostCreate = (props) => {
   // useEffect로 allStack 받아오거나 그냥 클라이언트에서 변수로 가지고 한다.
-  const {
-    image: prevImage,
-    title: prevTitle,
-    content: prevContent,
-    stacks: prevStacks,
-  } = props.location.state.prevData;
-
-  console.log(prevImage, prevTitle, prevContent, prevStacks);
-
-  const [image, setImage] = useState(prevImage ?? 0);
-  const [title, setTitle] = useState(prevTitle ?? '');
-  const [content, setContent] = useState(prevContent ?? '');
+  const [image, setImage] = useState(props.location.state?.prevData.image ?? 0);
+  const [title, setTitle] = useState(
+    props.location.state?.prevData.title ?? ''
+  );
+  const [content, setContent] = useState(
+    props.location.state?.prevData.content ?? ''
+  );
   const [checkedStacks, setCheckedStacks] = useState(
     Array(stacksD.length).fill(false)
   );
 
   useEffect(() => {
-    if (prevStacks) {
+    if (props.location.state?.prevData.stacks) {
       const tmp = [...checkedStacks];
-      prevStacks.forEach((idx) => {
+      props.location.state.prevData.stacks.forEach((idx) => {
         tmp[idx - 1] = true;
       });
       setCheckedStacks(tmp);
