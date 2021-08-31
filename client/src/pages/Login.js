@@ -13,7 +13,6 @@ import { Form, GithubLogin, Input, Label, SignupText } from './loginStyle';
 
 const Login = (props) => {
   const dispatch = useDispatch();
-
   const [errorMessage, setErrorMessage] = useState('');
 
   const [loginInfo, setLoginInfo] = useState({
@@ -43,7 +42,8 @@ const Login = (props) => {
         })
         .then((res) => {
           console.log(res.headers);
-          dispatch(login(res.data.data[0]));
+          console.log('뭐야!!', res.data.data.usersWithStacks);
+          dispatch(login(res.data.data.usersWithStacks[0]));
         })
         .then(() => {
           props.history.push('/');

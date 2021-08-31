@@ -24,7 +24,7 @@ import {
   ModalButton,
 } from './mypageStyle';
 
-import { images } from '../data';
+import { images, stacks, stacksArray } from '../data';
 
 const MyPage = () => {
   const [modal, setModal] = useState(false);
@@ -96,7 +96,7 @@ const MyPage = () => {
         <SmallTitle className="lab" htmlFor="stacks">
           기술스택:
         </SmallTitle>
-        <Checkbox />
+        <Checkbox stacks={stacksArray} />
 
         <SmallTitle className="lab" htmlFor="introduction">
           나의 소개:
