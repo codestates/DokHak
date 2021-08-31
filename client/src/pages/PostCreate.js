@@ -60,7 +60,7 @@ const PostCreate = (props) => {
   );
 
   useEffect(() => {
-    if (props.location.state?.prevData.stacks) {
+    if (props.location.state) {
       const tmp = [...checkedStacks];
       props.location.state.prevData.stacks.forEach((idx) => {
         tmp[idx - 1] = true;

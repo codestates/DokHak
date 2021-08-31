@@ -12,7 +12,7 @@ export default function Checkbox({ stacks, onChange, checkedStacks }) {
               {stack}
               <input
                 type="checkbox"
-                checked={checkedStacks?.[idx - 1]}
+                checked={checkedStacks?.[idx]}
                 onChange={() => onChange(idx)}
               />
               <div className="control__indicator"></div>
