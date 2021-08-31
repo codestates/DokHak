@@ -24,11 +24,9 @@ import {
   ModalButton,
 } from './mypageStyle';
 
-//마이페이지는 로그인을 해야만 보이는 페이지다.
-//리덕스에서 로그인된 유저의 정보를 가져온다.
-//리덕스에서 이메일을 조회한다. 다 보여준다.
-//리덕스에서 칸들을 수정한다.
-//수정하면
+
+import { images, stacks, stacksArray } from '../data';
+
 
 const MyPage = (props) => {
   const dispatch = useDispatch();
@@ -203,11 +201,11 @@ const MyPage = (props) => {
         <SmallTitle className="lab" htmlFor="stacks">
           기술스택:
         </SmallTitle>
-        <Checkbox
-          stacks={stacksArray}
-          // checkedStacks={checkedStacks}
-          // onChange={onChangeStackCheckbox}
-        />
+
+
+
+        <Checkbox stacks={stacksArray} />
+
 
         <SmallTitle className="lab" htmlFor="introduction">
           나의 소개:
