@@ -16,8 +16,7 @@ module.exports = {
       .status(200)
       .cookie('jwt', accessToken, {
         sameSite: 'none',
-        secure: true,
-        httpOnly: true,
+        secure: true
       })
       .json({ data: { accessToken }, message: 'OK' });
   },

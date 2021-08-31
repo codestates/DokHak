@@ -15,7 +15,13 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+    methods: ["GET", "POST", "DELETE", "PATCH", "OPTIONS"],
+  })
+);
 app.use(morgan('tiny'));
 app.use(helmet());
 
@@ -25,6 +31,11 @@ app.use('/comments', commentsRouter);
 app.use('/stacks', stacksRouter);
 
 models.sequelize.sync({ force: false }).then(() => {
-  app.listen(process.env.HOST_PORT);
   console.log('success');
 });
+
+app.get('/', (req, res) => {
+  res.status(201).send('Hello World');
+  });
+
+app.listen(80);
