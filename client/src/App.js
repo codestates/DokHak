@@ -49,13 +49,14 @@ function App() {
   return (
     <>
       {/* <button onClick={() => handleLogin()}>LOGIN ACTION 발생!</button> */}
+      <div>ㄴㅇㄹㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㄴㅇㄹㄴㅇㄹ</div>
       <Router>
         <Container>
           <Navbar />
           <Switch>
             <Route exact path="/" component={User} />
-            <Route exact path="/user" component={User} />
-            <Route exact path="/post" component={Post} />
+            <Route exact path="/users" component={User} />
+            <Route exact path="/posts" component={Post} />
             <Route exact path="/postcreate" component={PostCreate} />
             <Route exact path="/postdetail" component={PostDetail} />
             <Route exact path="/mypage" component={MyPage} />
