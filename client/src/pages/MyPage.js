@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 require('dotenv').config();
@@ -25,6 +25,7 @@ import {
 } from './mypageStyle';
 
 
+
 import { images, stacks, stacksArray } from '../data';
 
 
@@ -32,6 +33,7 @@ const MyPage = (props) => {
   const dispatch = useDispatch();
   //에러메세지
   const [errorMessage, setErrorMessage] = useState('');
+
 
   //모달
   const [modal, setModal] = useState(false);
@@ -66,6 +68,27 @@ const MyPage = (props) => {
 
   //체크박스
 
+  const [checkedStacks, setCheckedStacks] = useState(
+    Array(stacksArray.length).fill(false)
+  );
+  //[1, 3, 5]
+  useEffect(() => {
+    console.log(`stacks출력`, stacks);
+    const tmp = [...checkedStacks];
+    stacks.forEach((idx) => {
+      tmp[idx - 1] = true;
+    });
+    setCheckedStacks(tmp);
+  }, []);
+
+  const onChangeStackCheckbox = (position) => {
+    const updatedCheckedStacks = checkedStacks.map((item, index) =>
+      index === position ? !item : item
+    );
+    setCheckedStacks(updatedCheckedStacks);
+  };
+
+
   //회원 탈퇴
   const deleteHandler = () => {
     //토큰을 보내줘서 회원 탈퇴를 해야한다.
@@ -86,6 +109,13 @@ const MyPage = (props) => {
   };
 
   const patchHandler = () => {
+
+    //true false를 [1, 3, 5]로 바꾸기
+    const stacks = checkedStacks
+      .map((checkedStack, idx) => (checkedStack ? idx + 1 : null))
+      .filter((x) => x);
+    console.log(stacks);
+
     //확인 버튼을 누르면 수정한 것이라고 간주되서 axios patch를 날린다.
     //날려서 돌아오는 respond로 리덕스 스토어를 업데이트 한다.
     let body = {
@@ -203,8 +233,12 @@ const MyPage = (props) => {
         </SmallTitle>
 
 
+        <Checkbox
+          stacks={stacksArray}
+          checkedStacks={checkedStacks}
+          onChange={onChangeStackCheckbox}
+        />
 
-        <Checkbox stacks={stacksArray} />
 
 
         <SmallTitle className="lab" htmlFor="introduction">
