@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
+require('dotenv').config();
+
 import { logout } from '../actions/user';
 import './dropdown.scss';
 import { stacksArray } from '../data';
@@ -13,15 +15,11 @@ const LoginDropdown = ({ children, name }, props) => {
 
   const logoutHandler = () => {
     axios
-      .post(
-        'http://ec2-3-34-123-164.ap-northeast-2.compute.amazonaws.com/users/logout',
-        null,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      )
+      .post(`${process.env.REACT_APP_API_URL}/users/logout`, null, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
       .then(() => {
         dispatch(logout());
       })

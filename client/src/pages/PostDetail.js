@@ -58,8 +58,6 @@ const PostDetail = (props, { postId }) => {
 
 **Hello world!!!**
 
-![](https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:705/https://www.filepicker.io/api/file/fGWjtyQtG4JE7UXgaPAN)
-
 \`\`\`javascript
 import React from "react";
 import ReactDOM from "react-dom";
