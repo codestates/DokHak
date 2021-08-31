@@ -4,7 +4,7 @@ import axios from 'axios';
 axios.defaults.withCredentials = true;
 require('dotenv').config();
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { login } from '../actions/user';
 
 import { Main } from './styles';
@@ -42,14 +42,15 @@ const Login = (props) => {
           },
         })
         .then((res) => {
-          console.log(res.headers);
-          dispatch(login(res.data.data[0]));
+          console.log(res.data.data);
+          dispatch(login(res.data.data.usersWithStacks[0]));
         })
         .then(() => {
           props.history.push('/');
         })
         .catch(() => setErrorMessage('회원정보가 일치하지 않습니다'));
     }
+    console.log('axiossss');
   };
 
   return (

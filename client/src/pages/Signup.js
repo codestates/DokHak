@@ -16,6 +16,8 @@ import { Form, Label, Input, SmallTitle, Textarea } from './signupStyle';
 import { images, stacksArray } from '../data';
 
 const Signup = ({ props }) => {
+  const dispatch = useDispatch();
+
   //에러 메세지
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -67,6 +69,7 @@ const Signup = ({ props }) => {
       image: selectedThumbnail,
       info: info,
       stacks: stacks,
+      password: password,
     };
     console.log(`여기가 body`, body);
 
@@ -92,7 +95,7 @@ const Signup = ({ props }) => {
         })
         .then((res) => {
           console.log(res);
-          dispatch(signup(res.data.data[0]));
+          dispatch(signup(res.data.data.usersWithStacks[0]));
         })
         .then(() => {
           props.history.push('/login');
