@@ -35,7 +35,7 @@ const Figure = styled.figure`
 const ThumbnailImage = styled.img`
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  /* object-fit: cover; */
 
   transform: scale(1);
   transition: 0.3s ease-in-out;
@@ -48,21 +48,16 @@ const ThumbnailImage = styled.img`
   }
 `;
 
-const Thumbnail = memo(
-  ({ idx, src, selectedThumbnail, setSelectedThumbnail }) => {
-    return (
-      <>
-        <FigureWrapper>
-          <Figure
-            onClick={() => setSelectedThumbnail(idx)}
-            selected={idx === selectedThumbnail}
-          >
-            <ThumbnailImage src={src} alt={src} />
-          </Figure>
-        </FigureWrapper>
-      </>
-    );
-  }
-);
+const Thumbnail = memo(({ idx, src, image, onClickImage }) => {
+  return (
+    <>
+      <FigureWrapper>
+        <Figure onClick={() => onClickImage(idx)} selected={idx === image}>
+          <ThumbnailImage src={src} alt={src} />
+        </Figure>
+      </FigureWrapper>
+    </>
+  );
+});
 
 export default Thumbnail;

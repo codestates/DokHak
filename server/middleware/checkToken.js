@@ -3,7 +3,11 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const isAuth = (req, res, next) => {
-  const token = req.cookies['jwt'];
+  const authHeader = req.get('Authorization');
+  if (!(authHeader && authHeader.startsWith('Bearer'))) {
+    return res.status(401).json({ message: 'Unauthorized Request' });
+  }
+  const token = authHeader.split(' ')[1];
   if (!token) {
     return res.status(401).json({ message: 'Unauthorized Request' });
   }
@@ -21,7 +25,7 @@ const isAuth = (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
-    return res.sendStatus(500);
+    return res.status(500).json({ message: 'Server Error' });
   }
 };
 

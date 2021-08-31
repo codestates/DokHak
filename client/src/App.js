@@ -38,20 +38,21 @@ const Container = styled.div`
 
 function App() {
   // const images = useSelector((state) => state.images);
-  const user = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+  // const user = useSelector((state) => state.user);
+  // const dispatch = useDispatch();
 
-  const handleLogin = () => {
-    dispatch(login());
-    // setImgObj(...images.filter((img) => img.id === image));
-  };
+  // const handleLogin = () => {
+  //   dispatch(login());
+  // setImgObj(...images.filter((img) => img.id === image));
+  // };
 
   return (
     <>
-      <button onClick={() => handleLogin()}>LOGIN ACTION 발생!</button>
+      {/* <button onClick={() => handleLogin()}>LOGIN ACTION 발생!</button> */}
       <Router>
         <Container>
           <Navbar />
+          됐으면 좋겠다
           <Switch>
             <Route exact path="/" component={User} />
             <Route exact path="/user" component={User} />

@@ -1,20 +1,17 @@
-import MDEditor from '@uiw/react-md-editor';
-import React, { useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import axios from 'axios';
+axios.defaults.withCredentials = true;
+require('dotenv').config();
 import styled from 'styled-components';
+import MDEditor from '@uiw/react-md-editor';
+
+import Button from '../components/Button';
 import Tag from '../components/Tag';
+import { FlexBoxSpaceBetween } from './PostCreate';
 
 import { Main } from './styles';
 
-const stacks = [
-  'React',
-  'Vue.js',
-  'Angular',
-  'Node.js',
-  'Django',
-  'Spring',
-  'Flutter',
-  'React Native',
-];
+const stacksD = ['React', 'Vue.js', 'Angular', 'Node.js', 'Django'];
 
 const Title = styled.h1`
   width: 100%;
@@ -54,8 +51,10 @@ const TagWrapper = styled.div`
   column-gap: 1rem;
 `;
 
-const PostDetail = () => {
-  const [value, setValue] = useState(`# Hello World
+const PostDetail = (props, { postId }) => {
+  // const [image, setImage] = useState(0);
+  const [title, setTitle] = useState('방가방가');
+  const [content, setContent] = useState(`# Hello World
 
 **Hello world!!!**
 
@@ -79,20 +78,81 @@ export default function App() {
   );
 }
 \`\`\``);
+  const [username, setUsername] = useState('김코딩');
+  // const [stacks, setStacks] = useState([]);
+  const [stacks, setStacks] = useState([1, 2, 5]);
+  const [author, setAuthor] = useState(true);
+  const [image, setImage] = useState(0);
+
+  // useEffect(async () => {
+  //   try {
+  //     const post = await axios.get(
+  //       `${process.env.REACT_APP_API_URL}posts/${postId}`
+  //     );
+  //     // const stacks = await axios.get(`https://dokhak.tk/stacks`);
+
+  //     setTitle(post.title);
+  //     setContent(post.content);
+  //     setUsername(post.username);
+  //     setStacks(post.stacks.map((stack) => stackD[stack - 1]));
+  //     setAuthor(post.author);
+  //     setImage(post.image);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }, []);
+
+  const onClickUpdateBtn = useCallback(async () => {
+    // 게시글 수정 axios
+    console.log(`수정버튼`);
+    try {
+      // await axios.patch(`${process.env.REACT_APP_API_URL}posts/${postId}`);
+
+      // postCreate 페이지로 props.history.push()
+      props.history.push({
+        pathname: '/postcreate',
+        state: { prevData: { title, content, stacks, image } },
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
+  const onClickDeleteBtn = useCallback(async () => {
+    // 게시글 삭제 axios
+    try {
+      await axios.delete(`${process.env.REACT_APP_API_URL}posts/${postId}`);
+
+      // postCreate 페이지로 props.history.push()
+      props.history.push({
+        pathname: '/',
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
 
   return (
     <Main>
       {/* 게시글 본문 */}
-      <Title>별 헤는 밤</Title>
+      <FlexBoxSpaceBetween>
+        <Title>{title}</Title>
+        {author && (
+          <div style={{ display: 'flex' }}>
+            <Button onClick={onClickUpdateBtn}>수정</Button>
+            <span style={{ width: '20px' }}></span>
+            <Button onClick={onClickDeleteBtn}>삭제</Button>
+          </div>
+        )}
+      </FlexBoxSpaceBetween>
       <TagAuthorWrapper>
         <TagWrapper>
           {stacks.map((stack, idx) => (
             <Tag key={idx}>{stack}</Tag>
           ))}
         </TagWrapper>
-        <h3>김코딩</h3>
+        <h3>{username}</h3>
       </TagAuthorWrapper>
-      <MDEditor.Markdown source={value} />
+      <MDEditor.Markdown source={content} />
       {/* Comment Component */}
     </Main>
   );

@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const usersRouter = require('./router/users');
 const postsRouter = require('./router/posts');
 const commentsRouter = require('./router/comments');
+const stacksRouter = require('./router/stacks');
 const dotenv = require('dotenv');
 const models = require('./models');
 dotenv.config();
@@ -27,6 +28,7 @@ app.use(helmet());
 app.use('/users', usersRouter);
 app.use('/posts', postsRouter);
 app.use('/comments', commentsRouter);
+app.use('/stacks', stacksRouter);
 
 models.sequelize.sync({ force: false }).then(() => {
   console.log('success');

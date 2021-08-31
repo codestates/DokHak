@@ -1,21 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Main } from './styles';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../components/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../actions/user';
-
-// const LoginButtonWrapper = ({ className, children }) => (
-//   <div className={className}>
-//     <Button>{children}</Button>
-//   </div>
-// );
-
-// const LoginButton = styled(LoginButtonWrapper)`
-//   margin-top: 60px;
-//   /* width: 100%; */
-// `;
+import axios from 'axios';
+axios.defaults.withCredentials = true;
+require('dotenv').config();
 
 const Form = styled.form`
   margin-top: 20px;
@@ -127,14 +119,47 @@ const GithubLogin = styled.button`
   }
 `;
 
-const Login = () => {
-  const user = useSelector((state) => state.user);
+const Login = (props) => {
   const dispatch = useDispatch();
 
-  const handleLogin = (data) => {
-    dispatch(login(data));
-    // setImgObj(...images.filter((img) => img.id === image));
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const [loginInfo, setLoginInfo] = useState({
+    email: '',
+    password: '',
+  });
+
+  const inputHandler = (event) => {
+    const { name, value } = event.target;
+    setLoginInfo({ ...loginInfo, [name]: value });
   };
+  console.log(loginInfo);
+
+  const loginHandler = () => {
+    const { email, password } = loginInfo;
+    const isOk = email !== '' && password !== '';
+
+    if (!isOk) {
+      setErrorMessage('이메일과 비밀번호를 모두 입력하세요');
+    } else {
+      setErrorMessage('');
+      axios
+        .post(`${process.env.REACT_APP_API_URL}users/login`, loginInfo, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .then((res) => {
+          console.log(res.headers);
+          dispatch(login(res.data.data[0]));
+        })
+        .then(() => {
+          props.history.push('/');
+        })
+        .catch(() => setErrorMessage('회원정보가 일치하지 않습니다'));
+    }
+  };
+
   return (
     <>
       <Main>
@@ -147,6 +172,8 @@ const Login = () => {
 
         <Label>
           <Input
+            value={loginInfo.email}
+            onChange={inputHandler}
             placeholder="Email"
             type="text"
             name="email"
@@ -157,6 +184,8 @@ const Login = () => {
 
         <Label>
           <Input
+            value={loginInfo.password}
+            onChange={inputHandler}
             placeholder="Password"
             type="password"
             name="password"
@@ -164,20 +193,17 @@ const Login = () => {
           ></Input>
           <label htmlFor="password">Password:</label>
         </Label>
+
+        <div role="alert" style={{ color: 'orangered', textAlign: 'center' }}>
+          {errorMessage}
+        </div>
         <div style={{ marginTop: '80px' }}></div>
-        {/*  */}
-        <button onClick={() => handleLogin({ email: 'kimcoding@github.com' })}>
-          로그인!
-        </button>
-        <Button
-          type="submit"
-          big
-          onClick={() => handleLogin({ email: 'kimcoding@github.com' })}
-        >
+
+        <Button type="button" big onClick={loginHandler}>
           Login
         </Button>
         {/* 깃허브 로그인은 온클릭 시 깃허브 OAuth로 API 요청보내서 Code 받아오고,우리 서버 API(/users/github)로 code를 보낸다 */}
-        <GithubLogin type="submit" className="github">
+        <GithubLogin type="button" className="github">
           Github Login
           <img
             alt="github"

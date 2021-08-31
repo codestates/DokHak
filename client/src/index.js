@@ -14,9 +14,11 @@ ReactDOM.render(
   <React.StrictMode>
     <GlobalStyle />
     <ThemeProvider theme={Theme}>
-      <Provider store={store}>
-        <App />
-      </Provider>
+      <Router>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </Router>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')

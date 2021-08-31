@@ -1,5 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
+import { signup } from '../actions/user';
+import { useDispatch } from 'react-redux';
 
 import { images } from '../data';
 import { Main } from './styles';
@@ -7,6 +10,9 @@ import { FlexBoxSpaceBetween } from './PostCreate';
 import Checkbox from '../components/Checkbox';
 import Button from '../components/Button';
 import Thumbnail from '../components/Thumbnail';
+import ProfileImage from '../components/ProfileImage';
+
+axios.defaults.withCredentials = true;
 
 const Form = styled.form`
   margin-top: 20px;
@@ -88,12 +94,101 @@ const Check = styled.div`
   justify-content: space-between;
 `;
 
-const Signup = () => {
-  const [selectedThumbnail, setSelectedThumbnail] = useState(0);
+const stacksD = [
+  'React',
+  'Vue.js',
+  'Angular',
+  'Node.js',
+  'Django',
+  'Spring',
+  'Flutter',
+  'React Native',
+];
 
+const Signup = ({ props }) => {
+  //에러 메세지
+  const [errorMessage, setErrorMessage] = useState('');
+
+  //스택 업데이트
+  const [checkedStacks, setCheckedStacks] = useState(
+    Array(stacksD.length).fill(false)
+  );
+  const onChangeStackCheckbox = (position) => {
+    const updatedCheckedStacks = checkedStacks.map((item, index) =>
+      index === position ? !item : item
+    );
+    setCheckedStacks(updatedCheckedStacks);
+    console.log(`여기는 스택 선택`, checkedStacks);
+  };
+
+  //썸네일
+  const [selectedThumbnail, setSelectedThumbnail] = useState(0);
   const onClickThumbnail = useCallback((idx) => {
     setSelectedThumbnail(idx);
+    console.log(`여기는 썸네일 선택`, selectedThumbnail);
   }, []);
+
+  //인풋 인포
+  const [signupInfo, setSignupInfo] = useState({
+    email: '',
+    password: '',
+    name: '',
+    phone: '',
+    info: '',
+  });
+  const inputHandler = (event) => {
+    const { name, value } = event.target;
+    setSignupInfo({ ...signupInfo, [name]: value });
+    console.log(`여기는 signupInfo`, signupInfo);
+  };
+
+  //회원가입 버튼 핸들러
+  const signupHandler = () => {
+    const { email, password, name, phone, info } = signupInfo;
+
+    let body = {
+      email: email,
+      name: name,
+      phone: phone,
+      image: selectedThumbnail,
+      info: info,
+      stacks: checkedStacks,
+    };
+    console.log(`여기가 body`, body);
+
+    const isOk =
+      email !== '' &&
+      password !== '' &&
+      name !== '' &&
+      phone !== '' &&
+      selectedThumbnail !== '' &&
+      info !== '' &&
+      checkedStacks !== [];
+
+    if (!isOk) {
+      setErrorMessage('입력칸들을 모두 입력하세요');
+    } else {
+      setErrorMessage('');
+      axios
+        .post(
+          'http://ec2-3-34-123-164.ap-northeast-2.compute.amazonaws.com/users/signup',
+          body,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res);
+          dispatch(signup(res.data.data[0]));
+        })
+        .then(() => {
+          props.history.push('/login');
+        })
+        .catch(() => setErrorMessage('회원가입에 실패하였습니다'));
+    }
+  };
 
   return (
     <>
@@ -103,9 +198,10 @@ const Signup = () => {
             SIGNUP <span>DOKHAK</span>
           </h4>
         </Form>
+        <h3>Profile Image</h3>
         <FlexBoxSpaceBetween style={{ columnGap: '1rem' }}>
           {images.map((src, idx) => (
-            <Thumbnail
+            <ProfileImage
               key={src}
               idx={idx}
               src={src}
@@ -120,12 +216,21 @@ const Signup = () => {
             type="text"
             name="email"
             id="email"
+            value={signupInfo.email}
+            onChange={inputHandler}
           ></Input>
           <label htmlFor="email">Email:</label>
         </Label>
 
         <Label className="floating-label">
-          <Input placeholder="Name" type="text" name="name" id="name"></Input>
+          <Input
+            placeholder="Name"
+            type="text"
+            name="name"
+            id="name"
+            value={signupInfo.name}
+            onChange={inputHandler}
+          ></Input>
           <label htmlFor="name">Name:</label>
         </Label>
 
@@ -133,8 +238,10 @@ const Signup = () => {
           <Input
             placeholder="Mobile"
             type="tel"
-            name="mobile"
-            id="mobile"
+            name="phone"
+            id="phone"
+            value={signupInfo.phone}
+            onChange={inputHandler}
           ></Input>
           <label htmlFor="mobile">Mobile:</label>
         </Label>
@@ -145,6 +252,8 @@ const Signup = () => {
             type="password"
             name="password"
             id="password"
+            value={signupInfo.password}
+            onChange={inputHandler}
           ></Input>
           <label htmlFor="password">Password:</label>
         </Label>
@@ -152,15 +261,24 @@ const Signup = () => {
         <SmallTitle className="lab" htmlFor="stacks">
           기술스택:
         </SmallTitle>
-        <Checkbox as={Check} />
+        <Checkbox stacks={stacksD} onChange={onChangeStackCheckbox} />
 
         <SmallTitle className="lab" htmlFor="introduction">
           나의 소개:
         </SmallTitle>
 
-        <Textarea name="introduction" id="" cols="48" rows="10"></Textarea>
-
-        <Button type="submit" big>
+        <Textarea
+          name="info"
+          id="info"
+          cols="48"
+          rows="10"
+          value={signupInfo.info}
+          onChange={inputHandler}
+        ></Textarea>
+        <div role="alert" style={{ color: 'orangered', textAlign: 'center' }}>
+          {errorMessage}
+        </div>
+        <Button type="submit" big onClick={signupHandler}>
           확인
         </Button>
       </Main>

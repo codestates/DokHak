@@ -1,10 +1,14 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import axios from 'axios';
+axios.defaults.withCredentials = true;
+require('dotenv').config();
 import styled from 'styled-components';
+import { GoTriangleDown } from 'react-icons/go';
 
-import { Main, CardFlexBox } from './styles.js';
 import Card from '../components/Card';
 import Dropdown from '../components/Dropdown.js';
 import UserModal from '../components/UserModal.js';
+import { Main, CardFlexBox } from './styles.js';
 
 // 임시 유저 데이터
 const usersD = [
@@ -90,29 +94,50 @@ const Overlay = styled.div`
 `;
 
 const User = () => {
-  const [modal, setModal] = useState(false);
   const [users, setUsers] = useState([]);
-  useEffect(() => {
-    setUsers(usersD);
+  const [modal, setModal] = useState(false);
+  const [currentUserIdx, setCurrentUserIdx] = useState(-1);
+
+  useEffect(async () => {
+    try {
+      const userList = await axios.get(`${process.env.REACT_APP_API_URL}users`);
+      // const stacks = await axios.get(`https://dokhak.tk/stacks`);
+      // const stacks = ['React', 'Vue.js', 'Angular', 'Node.js', 'Django'];
+      setUsers(userList.data.data);
+    } catch (err) {
+      console.log(err);
+    }
   }, []);
 
-  const toggleModal = useCallback(() => setModal(!modal), [modal]);
+  const toggleModal = useCallback(() => {
+    setModal((modal) => !modal);
+  }, []);
+
+  const onClickUserCard = useCallback(
+    (idx) => () => {
+      setCurrentUserIdx(idx);
+      setModal((modal) => !modal);
+    },
+    []
+  );
 
   return (
     <>
-      <Dropdown name="user">
-        <span style={{ borderBottom: '1px solid #ddd' }}>기술스택</span>
+      <Dropdown name="post">
+        <span>기술스택</span>
+        <GoTriangleDown />
       </Dropdown>
       <Main className="card-page" style={{ marginTop: '46px' }}>
         <CardFlexBox>
-          {users.map((user) => (
-            <Card key={user.name} data={user} onClick={toggleModal} />
+          {users.map((user, idx) => (
+            <Card key={user.name} data={user} onClick={onClickUserCard(idx)} />
           ))}
         </CardFlexBox>
+
         {modal && (
           <Container style={{ zIndex: '999' }}>
             <Overlay onClick={toggleModal} />
-            <UserModal />
+            <UserModal user={currentUserIdx !== -1 && users[currentUserIdx]} />
           </Container>
         )}
       </Main>

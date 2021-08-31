@@ -1,54 +1,23 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useCallback, useEffect } from 'react';
 
 import './checkbox.scss';
 
-export default function Checkbox() {
+export default function Checkbox({ stacks, onChange, checkedStacks }) {
   return (
     <>
       <form>
         <div className="control-group">
-          <label className="control control--checkbox">
-            React
-            <input type="checkbox" />
-            <div className="control__indicator"></div>
-          </label>
-          <label className="control control--checkbox">
-            Vue
-            <input type="checkbox" />
-            <div className="control__indicator"></div>
-          </label>
-          <label className="control control--checkbox">
-            Angular
-            <input type="checkbox" />
-            <div className="control__indicator"></div>
-          </label>
-          <label className="control control--checkbox">
-            Node.js
-            <input type="checkbox" />
-            <div className="control__indicator"></div>
-          </label>
-
-          <label className="control control--checkbox">
-            Django
-            <input type="checkbox" />
-            <div className="control__indicator"></div>
-          </label>
-          <label className="control control--checkbox">
-            Spring
-            <input type="checkbox" />
-            <div className="control__indicator"></div>
-          </label>
-          <label className="control control--checkbox">
-            Flutter
-            <input type="checkbox" />
-            <div className="control__indicator"></div>
-          </label>
-          <label className="control control--checkbox">
-            React Native
-            <input type="checkbox" />
-            <div className="control__indicator"></div>
-          </label>
+          {stacks.map((stack, idx) => (
+            <label key={stack} className="control control--checkbox">
+              {stack}
+              <input
+                type="checkbox"
+                checked={checkedStacks?.[idx]}
+                onChange={() => onChange(idx)}
+              />
+              <div className="control__indicator"></div>
+            </label>
+          ))}
         </div>
       </form>
     </>
