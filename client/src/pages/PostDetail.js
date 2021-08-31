@@ -2,13 +2,13 @@ import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 require('dotenv').config();
+
 import styled from 'styled-components';
 import MDEditor from '@uiw/react-md-editor';
 
 import Button from '../components/Button';
 import Tag from '../components/Tag';
 import { FlexBoxSpaceBetween } from './PostCreate';
-
 import { Main } from './styles';
 
 const stacksD = ['React', 'Vue.js', 'Angular', 'Node.js', 'Django'];
@@ -83,6 +83,9 @@ export default function App() {
   const [stacks, setStacks] = useState([1, 2, 5]);
   const [author, setAuthor] = useState(true);
   const [image, setImage] = useState(0);
+  const [token, setToken] = useState(
+    `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImlhdCI6MTYzMDM4NDcyNiwiZXhwIjoxNjMwNjQzOTI2fQ.P7ilb4q2KBoUwALQx3pGJbDJU6nuwvuVw3VTLOz2O1w`
+  );
 
   // useEffect(async () => {
   //   try {
@@ -120,12 +123,16 @@ export default function App() {
   const onClickDeleteBtn = useCallback(async () => {
     // 게시글 삭제 axios
     try {
-      await axios.delete(`${process.env.REACT_APP_API_URL}posts/${postId}`);
-
-      // postCreate 페이지로 props.history.push()
-      props.history.push({
-        pathname: '/',
+      await axios.delete(`${process.env.REACT_APP_API_URL}/posts/2`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
+      console.log('!성공이다이!');
+      // postCreate 페이지로 props.history.push()
+      // props.history.push({
+      //   pathname: '/',
+      // });
     } catch (err) {
       console.log(err);
     }
