@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { logout } from '../actions/user';
 import './dropdown.scss';
+import { stacksArray } from '../data';
 
 axios.defaults.withCredentials = true;
 
@@ -40,7 +41,7 @@ const LoginDropdown = ({ children, name }, props) => {
           {children}
         </Link>
         <ul className="dropdown-content">
-          <Link to={`/mypage`}>
+          <Link to={`/mypage`} stacks={stacksArray}>
             <li>마이페이지</li>
           </Link>
           <Link to={`/postcreate`}>

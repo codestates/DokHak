@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 require('dotenv').config();
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+
 import { GoTriangleDown } from 'react-icons/go';
 
 import Card from '../components/Card';
@@ -59,7 +59,9 @@ const Post = ({ match }) => {
 
   useEffect(async () => {
     try {
-      const postList = await axios.get(`${process.env.REACT_APP_API_URL}posts`);
+      const postList = await axios.get(
+        `${process.env.REACT_APP_API_URL}/posts`
+      );
       // const stacks = await axios.get(`https://dokhak.tk/stacks`);
       // const stacks = ['React', 'Vue.js', 'Angular', 'Node.js', 'Django'];
       setPosts(postList.data.data);
@@ -77,7 +79,7 @@ const Post = ({ match }) => {
       <Main className="card-page" style={{ marginTop: '46px' }}>
         <CardFlexBox>
           {posts.map((post, idx) => (
-            <Link key={post.name} to={`${match.path}/${idx + 1}`}>
+            <Link key={post.title} to={`${match.path}/${idx + 1}`}>
               <Card data={post} post />
             </Link>
           ))}
