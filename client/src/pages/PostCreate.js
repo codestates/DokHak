@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 require('dotenv').config();
+
 import styled from 'styled-components';
 import MDEditor from '@uiw/react-md-editor';
 
@@ -108,7 +109,7 @@ const PostCreate = (props) => {
         ))}
       </FlexBoxSpaceBetween>
 
-      <FlexBoxSpaceBetween>
+      <FlexBoxSpaceBetween style={{ marginTop: '40px' }}>
         <TitleInput
           placeholder="Title"
           value={title}
@@ -127,6 +128,7 @@ const PostCreate = (props) => {
         checkedStacks={checkedStacks}
         onChange={onChangeStackCheckbox}
       />
+      <div style={{ height: '30px' }}></div>
       <MDEditor value={content} onChange={setContent} height={400} />
     </Main>
   );

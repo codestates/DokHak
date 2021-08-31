@@ -35,7 +35,7 @@ const Figure = styled.figure`
 const ThumbnailImage = styled.img`
   width: 100%;
   height: 100%;
-  /* object-fit: cover; */
+  object-fit: cover;
 
   transform: scale(1);
   transition: 0.3s ease-in-out;

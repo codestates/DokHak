@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 require('dotenv').config();
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+
 import { GoTriangleDown } from 'react-icons/go';
 
 import Card from '../components/Card';
