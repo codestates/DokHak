@@ -24,16 +24,10 @@ import {
   ModalButton,
 } from './mypageStyle';
 
-
-
-import { images, stacks, stacksArray } from '../data';
-
-
 const MyPage = (props) => {
   const dispatch = useDispatch();
   //에러메세지
   const [errorMessage, setErrorMessage] = useState('');
-
 
   //모달
   const [modal, setModal] = useState(false);
@@ -67,7 +61,6 @@ const MyPage = (props) => {
   }, []);
 
   //체크박스
-
   const [checkedStacks, setCheckedStacks] = useState(
     Array(stacksArray.length).fill(false)
   );
@@ -87,7 +80,6 @@ const MyPage = (props) => {
     );
     setCheckedStacks(updatedCheckedStacks);
   };
-
 
   //회원 탈퇴
   const deleteHandler = () => {
@@ -109,7 +101,6 @@ const MyPage = (props) => {
   };
 
   const patchHandler = () => {
-
     //true false를 [1, 3, 5]로 바꾸기
     const stacks = checkedStacks
       .map((checkedStack, idx) => (checkedStack ? idx + 1 : null))
@@ -232,14 +223,11 @@ const MyPage = (props) => {
           기술스택:
         </SmallTitle>
 
-
         <Checkbox
           stacks={stacksArray}
           checkedStacks={checkedStacks}
           onChange={onChangeStackCheckbox}
         />
-
-
 
         <SmallTitle className="lab" htmlFor="introduction">
           나의 소개:

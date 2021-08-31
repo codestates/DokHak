@@ -42,10 +42,8 @@ const Login = (props) => {
           },
         })
         .then((res) => {
-
           console.log(`여기는 res`, res.headers, res);
           dispatch(login(res.data.data[0]));
-
         })
         .then(() => {
           props.history.push('/');
