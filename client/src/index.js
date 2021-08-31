@@ -20,7 +20,6 @@ ReactDOM.render(
         </Provider>
       </Router>
     </ThemeProvider>
-    z
   </React.StrictMode>,
   document.getElementById('root')
 );

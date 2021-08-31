@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
+require('dotenv').config();
 import styled from 'styled-components';
 import MDEditor from '@uiw/react-md-editor';
 
@@ -10,16 +11,7 @@ import { FlexBoxSpaceBetween } from './PostCreate';
 
 import { Main } from './styles';
 
-const stacks = [
-  'React',
-  'Vue.js',
-  'Angular',
-  'Node.js',
-  'Django',
-  'Spring',
-  'Flutter',
-  'React Native',
-];
+const stacksD = ['React', 'Vue.js', 'Angular', 'Node.js', 'Django'];
 
 const Title = styled.h1`
   width: 100%;
@@ -59,7 +51,7 @@ const TagWrapper = styled.div`
   column-gap: 1rem;
 `;
 
-const PostDetail = ({ postId }) => {
+const PostDetail = (props, { postId }) => {
   // const [image, setImage] = useState(0);
   const [title, setTitle] = useState('방가방가');
   const [content, setContent] = useState(`# Hello World
@@ -87,22 +79,53 @@ export default function App() {
 }
 \`\`\``);
   const [username, setUsername] = useState('김코딩');
-  const [stacks, setStacks] = useState([]);
-  const [author, setAuthor] = useState(false);
+  // const [stacks, setStacks] = useState([]);
+  const [stacks, setStacks] = useState([1, 2, 5]);
+  const [author, setAuthor] = useState(true);
+  const [image, setImage] = useState(0);
 
-  useEffect(async () => {
+  // useEffect(async () => {
+  //   try {
+  //     const post = await axios.get(
+  //       `${process.env.REACT_APP_API_URL}posts/${postId}`
+  //     );
+  //     // const stacks = await axios.get(`https://dokhak.tk/stacks`);
+
+  //     setTitle(post.title);
+  //     setContent(post.content);
+  //     setUsername(post.username);
+  //     setStacks(post.stacks.map((stack) => stackD[stack - 1]));
+  //     setAuthor(post.author);
+  //     setImage(post.image);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }, []);
+
+  const onClickUpdateBtn = useCallback(async () => {
+    // 게시글 수정 axios
+    console.log(`수정버튼`);
     try {
-      const post = await axios.get(
-        `http://ec2-3-34-123-164.ap-northeast-2.compute.amazonaws.com/posts/1`
-      );
-      // const stacks = await axios.get(`https://dokhak.tk/stacks`);
-      const stackList = ['React', 'Vue.js', 'Angular', 'Node.js', 'Django'];
+      // await axios.patch(`${process.env.REACT_APP_API_URL}posts/${postId}`);
 
-      const { title, content, username, stacks } = post;
-      setTitle(title);
-      setContent(content);
-      setUsername(username);
-      setStacks(stacks.map((stack) => stackList[stack - 1]));
+      // postCreate 페이지로 props.history.push()
+      props.history.push({
+        pathname: '/postcreate',
+        state: { prevData: { title, content, stacks, image } },
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
+  const onClickDeleteBtn = useCallback(async () => {
+    // 게시글 삭제 axios
+    try {
+      await axios.delete(`${process.env.REACT_APP_API_URL}posts/${postId}`);
+
+      // postCreate 페이지로 props.history.push()
+      props.history.push({
+        pathname: '/',
+      });
     } catch (err) {
       console.log(err);
     }
@@ -115,9 +138,9 @@ export default function App() {
         <Title>{title}</Title>
         {author && (
           <div style={{ display: 'flex' }}>
-            <Button>수정</Button>
+            <Button onClick={onClickUpdateBtn}>수정</Button>
             <span style={{ width: '20px' }}></span>
-            <Button>삭제</Button>
+            <Button onClick={onClickDeleteBtn}>삭제</Button>
           </div>
         )}
       </FlexBoxSpaceBetween>

@@ -52,6 +52,7 @@ function App() {
       <Router>
         <Container>
           <Navbar />
+          됐으면 좋겠다
           <Switch>
             <Route exact path="/" component={User} />
             <Route exact path="/user" component={User} />
