@@ -8,10 +8,10 @@ import MDEditor from '@uiw/react-md-editor';
 
 import Button from '../components/Button';
 import Tag from '../components/Tag';
+import Comment from '../components/Comment';
 import { FlexBoxSpaceBetween } from './PostCreate';
 import { Main } from './styles';
-
-const stacksD = ['React', 'Vue.js', 'Angular', 'Node.js', 'Django'];
+import { stacksArray } from '../data';
 
 const Title = styled.h1`
   width: 100%;
@@ -90,7 +90,16 @@ export default function App() {
   useEffect(async () => {
     try {
       const post = await axios.get(
-        `${process.env.REACT_APP_API_URL}/posts/${10}`,
+        `${process.env.REACT_APP_API_URL}posts/${4}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const comments = await axios.get(
+        `${process.env.REACT_APP_API_URL}comments/${4}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -99,12 +108,12 @@ export default function App() {
       );
       // const stacks = await axios.get(`https://dokhak.tk/stacks`);
 
-      setTitle(post.title);
-      setContent(post.content);
-      setUsername(post.username);
-      setStacks(post.stacks.map((stack) => stackD[stack - 1]));
-      setAuthor(post.author);
-      setImage(post.image);
+      setTitle(post.data.data.title);
+      setContent(post.data.data.content);
+      setUsername(post.data.data.username);
+      setStacks(post.data.data.stacks.map((stack) => stacksArray[stack - 1]));
+      setAuthor(post.data.data.author);
+      setImage(post.data.data.image);
     } catch (err) {
       console.log(err);
     }
@@ -128,12 +137,12 @@ export default function App() {
   const onClickDeleteBtn = useCallback(async () => {
     // 게시글 삭제 axios
     try {
-      await axios.delete(`${process.env.REACT_APP_API_URL}/posts/2`, {
+      await axios.delete(`${process.env.REACT_APP_API_URL}/posts/3`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log('!성공이다이!');
+      console.log('!지워짐!');
       // postCreate 페이지로 props.history.push()
       // props.history.push({
       //   pathname: '/',
@@ -166,6 +175,8 @@ export default function App() {
       </TagAuthorWrapper>
       <MDEditor.Markdown source={content} />
       {/* Comment Component */}
+
+      <Comment />
     </Main>
   );
 };
