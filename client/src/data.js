@@ -12,3 +12,14 @@ export const thumbnails = [
   '../images/thumbnail-3.jpg',
   '../images/thumbnail-4.jpg',
 ];
+
+export const stacksArray = [
+  'React',
+  'Vue.js',
+  'Angular',
+  'Node.js',
+  'Django',
+  'Spring',
+  'Flutter',
+  'React Native',
+];
