@@ -142,7 +142,7 @@ const MyPage = (props) => {
         })
         .then((res) => {
           console.log(res);
-          dispatch(login(res.data.data.usersWithStacks[0]));
+          dispatch(login(res.data.data[0]));
         })
         .then(() => {
           props.history.push('/');
