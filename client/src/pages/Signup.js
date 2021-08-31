@@ -1,109 +1,19 @@
 import React, { useState, useCallback } from 'react';
-import styled from 'styled-components';
 import axios from 'axios';
-import { signup } from '../actions/user';
-import { useDispatch } from 'react-redux';
+axios.defaults.withCredentials = true;
+require('dotenv').config();
 
-import { images } from '../data';
+import { useDispatch } from 'react-redux';
+import { signup } from '../actions/user';
+
 import { Main } from './styles';
 import { FlexBoxSpaceBetween } from './PostCreate';
 import Checkbox from '../components/Checkbox';
 import Button from '../components/Button';
-import Thumbnail from '../components/Thumbnail';
 import ProfileImage from '../components/ProfileImage';
+import { Form, Label, Input, SmallTitle, Textarea } from './signupStyle';
 
-axios.defaults.withCredentials = true;
-
-const Form = styled.form`
-  margin-top: 20px;
-  margin-bottom: 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-bottom: 20px;
-  & > h4 {
-    margin-bottom: 20px;
-    color: #37373e;
-    font-size: 28px;
-    font-weight: 600;
-  }
-`;
-
-const Label = styled.div`
-  position: relative;
-  margin-bottom: 10px;
-  label {
-    position: absolute;
-    top: calc(50% - 7px);
-    left: 0;
-    opacity: 0;
-    transition: all 0.2s ease-in;
-  }
-  input:not(:placeholder-shown) {
-    padding: 28px 0px 12px 0px;
-  }
-  input:not(:placeholder-shown) + label {
-    transform: translateY(-10px);
-    opacity: 0.9;
-  }
-`;
-
-const Input = styled.input`
-  font-size: 16px;
-  padding: 20px 0px;
-  width: 100%;
-  height: 56px;
-  border: none;
-  border-bottom: solid 1px rgba(0, 0, 0, 0.1);
-  min-width: 300px;
-  box-sizing: border-box;
-  transition: all 0.2s linear;
-  color: #37373e;
-  &:focus {
-    border-bottom: solid 1px #37373e;
-    outline: 0;
-  }
-`;
-
-const SmallTitle = styled.label`
-  display: inline-block;
-  font-size: 16px;
-  height: 56px;
-  padding-top: 25px;
-  margin-bottom: 10px;
-  &:nth-child(6) {
-    margin-top: 15px;
-  }
-  &:nth-child(8) {
-    margin-top: 10px;
-  }
-`;
-
-const Textarea = styled.textarea`
-  margin-bottom: 20px;
-  font-size: 16px;
-  outline: none;
-  border-radius: 5px;
-  border: 1px solid #dfdfdf;
-  resize: none;
-  background: #fff;
-  margin-bottom: 50px;
-`;
-
-const Check = styled.div`
-  justify-content: space-between;
-`;
-
-const stacksD = [
-  'React',
-  'Vue.js',
-  'Angular',
-  'Node.js',
-  'Django',
-  'Spring',
-  'Flutter',
-  'React Native',
-];
+import { images, stacksArray } from '../data';
 
 const Signup = ({ props }) => {
   //에러 메세지
@@ -111,7 +21,7 @@ const Signup = ({ props }) => {
 
   //스택 업데이트
   const [checkedStacks, setCheckedStacks] = useState(
-    Array(stacksD.length).fill(false)
+    Array(stacksArray.length).fill(false)
   );
   const onChangeStackCheckbox = (position) => {
     const updatedCheckedStacks = checkedStacks.map((item, index) =>
@@ -146,13 +56,17 @@ const Signup = ({ props }) => {
   const signupHandler = () => {
     const { email, password, name, phone, info } = signupInfo;
 
+    const stacks = checkedStacks
+      .map((checkedStack, idx) => (checkedStack ? idx + 1 : null))
+      .filter((x) => x);
+
     let body = {
       email: email,
       name: name,
       phone: phone,
       image: selectedThumbnail,
       info: info,
-      stacks: checkedStacks,
+      stacks: stacks,
     };
     console.log(`여기가 body`, body);
 
@@ -163,22 +77,19 @@ const Signup = ({ props }) => {
       phone !== '' &&
       selectedThumbnail !== '' &&
       info !== '' &&
-      checkedStacks !== [];
+      stacks !== [];
 
     if (!isOk) {
       setErrorMessage('입력칸들을 모두 입력하세요');
     } else {
       setErrorMessage('');
+
       axios
-        .post(
-          'http://ec2-3-34-123-164.ap-northeast-2.compute.amazonaws.com/users/signup',
-          body,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        )
+        .post(`${process.env.REACT_APP_API_URL}/users/signup`, body, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
         .then((res) => {
           console.log(res);
           dispatch(signup(res.data.data[0]));
@@ -261,7 +172,7 @@ const Signup = ({ props }) => {
         <SmallTitle className="lab" htmlFor="stacks">
           기술스택:
         </SmallTitle>
-        <Checkbox stacks={stacksD} onChange={onChangeStackCheckbox} />
+        <Checkbox stacks={stacksArray} onChange={onChangeStackCheckbox} />
 
         <SmallTitle className="lab" htmlFor="introduction">
           나의 소개:
