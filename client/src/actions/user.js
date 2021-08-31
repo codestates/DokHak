@@ -26,6 +26,7 @@ export const signup = (data) => {
       image: data.image,
       info: data.info,
       stacks: data.stack,
+      password: data.password,
     },
     isLogin: true,
   };
