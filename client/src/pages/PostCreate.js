@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 require('dotenv').config();
@@ -46,13 +46,35 @@ const TitleInput = styled.input`
   }
 `;
 
-const PostCreate = () => {
-  const [image, setImage] = useState(0);
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+const PostCreate = (props) => {
+  // useEffect로 allStack 받아오거나 그냥 클라이언트에서 변수로 가지고 한다.
+  const {
+    image: prevImage,
+    title: prevTitle,
+    content: prevContent,
+    stacks: prevStacks,
+  } = props.location.state.prevData;
+
+  console.log(prevImage, prevTitle, prevContent, prevStacks);
+
+  const [image, setImage] = useState(prevImage ?? 0);
+  const [title, setTitle] = useState(prevTitle ?? '');
+  const [content, setContent] = useState(prevContent ?? '');
   const [checkedStacks, setCheckedStacks] = useState(
     Array(stacksD.length).fill(false)
   );
+
+  useEffect(() => {
+    if (prevStacks) {
+      const tmp = [...checkedStacks];
+      prevStacks.forEach((idx) => {
+        tmp[idx - 1] = true;
+      });
+      setCheckedStacks(tmp);
+      console.log(tmp);
+      console.log(checkedStacks);
+    }
+  }, []);
 
   const onClickImage = (idx) => {
     setImage(idx);
@@ -79,23 +101,7 @@ const PostCreate = () => {
     console.log(data);
   };
 
-  useEffect(async () => {
-    console.log('useEffect');
-    try {
-      const post = await axios.get(`${process.env.REACT_APP_API_URL}posts`);
-      console.log(post);
-      // const stacks = await axios.get(`https://dokhak.tk/stacks`);
-      // const stacks = ['React', 'Vue.js', 'Angular', 'Node.js', 'Django'];
-
-      const { title, content, username, stackIds } = post;
-      setTitle(title);
-      setContent(content);
-      setUsername(username);
-      setStacks(stackIds.map((stackId) => stacks[stackId - 1]));
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
+  console.log(checkedStacks);
 
   return (
     <Main>
@@ -130,7 +136,11 @@ const PostCreate = () => {
         </Button>
       </FlexBoxSpaceBetween>
 
-      <Checkbox stacks={stacksD} onChange={onChangeStackCheckbox} />
+      <Checkbox
+        stacks={stacksD}
+        checkedStacks={checkedStacks}
+        onChange={onChangeStackCheckbox}
+      />
       <MDEditor value={content} onChange={setContent} height={400} />
     </Main>
   );
