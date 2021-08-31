@@ -32,6 +32,7 @@ const StyledButton = styled.button`
     justify-content: center;
     flex: 1 1 100%;
     margin-bottom: 20px;
+    height: 35px;
   }
 `;
 
