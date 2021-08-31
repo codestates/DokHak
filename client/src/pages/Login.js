@@ -36,13 +36,16 @@ const Login = (props) => {
       setErrorMessage('');
       axios
         .post(`${process.env.REACT_APP_API_URL}/users/login`, loginInfo, {
+          // withCredentials: true,
           headers: {
             'Content-Type': 'application/json',
           },
         })
         .then((res) => {
 
-          dispatch(login(res.data.data.usersWithStacks[0]));
+          console.log(`여기는 res`, res.headers, res);
+          dispatch(login(res.data.data[0]));
+
         })
         .then(() => {
           props.history.push('/');
