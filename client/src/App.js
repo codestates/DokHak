@@ -21,6 +21,8 @@ import MyPage from './pages/MyPage';
 import Navbar from './components/Navbar';
 
 import { login } from './actions/user';
+
+require('dotenv').config();
 // import { images } from './data';
 
 // const Container = styled.div`
@@ -45,7 +47,8 @@ function App() {
   //   dispatch(login());
   // setImgObj(...images.filter((img) => img.id === image));
   // };
-
+  console.log('환경변수수수수수수수수');
+  console.log(process.env.REACT_APP_API_URL);
   return (
     <>
       {/* <button onClick={() => handleLogin()}>LOGIN ACTION 발생!</button> */}
