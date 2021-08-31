@@ -68,22 +68,21 @@ module.exports = {
   },
   getPostsById: async (req, res) => {
     // try {
-    const getPostId = req.params.id; 
-    const postId = await Post.findOne({  // post.id를 찾는데
-      attributes: [ "id", "image", "title", "content", "username" ], 
-      where: {
-        id: getPostId
-      },
-      raw: true
-    })
-    
-    let author = { "author": false };
-    
-    console.log(post)
-    
-    try {
-      const authHeader = req.get('Authorization'); 
-      const token = authHeader.split(' ')[1];
+      const getPostId = req.params.id; 
+      const postId = await Post.findOne({  // post.id를 찾는데
+        attributes: [ "id", "image", "title", "content", "username" ], 
+        where: {
+          id: getPostId
+        },
+        raw: true
+      })
+      
+      let author = { "author": false };
+      
+      console.log(post)
+      
+      try {
+      const token = req.cookies['jwt'];
       
       jwt.verify(token, process.env.JWT_SECRETKEY, async (err, encoded) => {
         if (err) {
@@ -95,7 +94,7 @@ module.exports = {
         }
         req.userId = encoded.id;
       }); 
-      
+
       const postUserId = await Post.findOne({  // post.id를 찾는데
         attributes: [ "userId" ], 
         where: {
