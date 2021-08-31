@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 require('dotenv').config();
+
 import styled from 'styled-components';
 import { GoTriangleDown } from 'react-icons/go';
 
@@ -100,7 +101,9 @@ const User = () => {
 
   useEffect(async () => {
     try {
-      const userList = await axios.get(`${process.env.REACT_APP_API_URL}users`);
+      const userList = await axios.get(
+        `${process.env.REACT_APP_API_URL}/users`
+      );
       // const stacks = await axios.get(`https://dokhak.tk/stacks`);
       // const stacks = ['React', 'Vue.js', 'Angular', 'Node.js', 'Django'];
       setUsers(userList.data.data);
