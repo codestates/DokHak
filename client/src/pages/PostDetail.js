@@ -87,23 +87,28 @@ export default function App() {
     `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImlhdCI6MTYzMDM4NDcyNiwiZXhwIjoxNjMwNjQzOTI2fQ.P7ilb4q2KBoUwALQx3pGJbDJU6nuwvuVw3VTLOz2O1w`
   );
 
-  // useEffect(async () => {
-  //   try {
-  //     const post = await axios.get(
-  //       `${process.env.REACT_APP_API_URL}posts/${postId}`
-  //     );
-  //     // const stacks = await axios.get(`https://dokhak.tk/stacks`);
+  useEffect(async () => {
+    try {
+      const post = await axios.get(
+        `${process.env.REACT_APP_API_URL}/posts/${10}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      // const stacks = await axios.get(`https://dokhak.tk/stacks`);
 
-  //     setTitle(post.title);
-  //     setContent(post.content);
-  //     setUsername(post.username);
-  //     setStacks(post.stacks.map((stack) => stackD[stack - 1]));
-  //     setAuthor(post.author);
-  //     setImage(post.image);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }, []);
+      setTitle(post.title);
+      setContent(post.content);
+      setUsername(post.username);
+      setStacks(post.stacks.map((stack) => stackD[stack - 1]));
+      setAuthor(post.author);
+      setImage(post.image);
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
 
   const onClickUpdateBtn = useCallback(async () => {
     // 게시글 수정 axios
