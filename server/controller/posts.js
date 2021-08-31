@@ -68,47 +68,60 @@ module.exports = {
   },
   getPostsById: async (req, res) => {
     // try {
-      const token = req.cookies['jwt'];
-      const getPostId = req.params.id; 
-      const postId = await Post.findOne({  // post.id를 찾는데
-        attributes: [ "id", "image", "title", "content", "username" ], 
+    const getPostId = req.params.id; 
+    const postId = await Post.findOne({  // post.id를 찾는데
+      attributes: [ "id", "image", "title", "content", "username" ], 
+      where: {
+        id: getPostId
+      },
+      raw: true
+    })
+    
+    let author = { "author": false };
+    
+    console.log(post)
+    
+    try {
+      const authHeader = req.get('Authorization'); 
+      const token = authHeader.split(' ')[1];
+      
+      jwt.verify(token, process.env.JWT_SECRETKEY, async (err, encoded) => {
+        if (err) {
+          return res.status(401).json({ message: 'Unauthorized Request' });
+        }
+        const userInfo = await User.findOne({ where: { id: encoded.id } });
+        if (!userInfo) {
+          return res.status(401).json({ message: 'Unauthorized Request' });
+        }
+        req.userId = encoded.id;
+      }); 
+      
+      const postUserId = await Post.findOne({  // post.id를 찾는데
+        attributes: [ "userId" ], 
         where: {
           id: getPostId
         },
         raw: true
-      })
+      });
 
-      let author = { "author": false };
-      // console.log(postId.userId)
-      
-      console.log(post)
-      if (!token) {
+      if (postUserId.userId !== req.userId) {
+        // console.log(postUserId)
+        author["author"] = false;
         let post = Object.assign(postId, author)
         return res.status(200).json({ data: post, message: 'OK' });
       }
-      try {
-        jwt.verify(token, process.env.JWT_SECRETKEY, async (err, encoded) => {
-          if (err) {
-            return res.status(401).json({ message: 'Unauthorized Request' });
-          }
+      
 
-          const postUserId = await Post.findOne({  // post.id를 찾는데
-            attributes: [ "userId" ], 
-            where: {
-              id: getPostId
-            },
-            raw: true
-          });
+      const userInfo = await User.findOne({ where: { id: req.userId } });
+      // console.log (userInfo)
+      author["author"] = true
+      let post = Object.assign(postId, author)
 
-          const userInfo = await User.findOne({ where: { id: postUserId.userId } });
-          author["author"] = true
-          let post = Object.assign(postId, author)
-          return res.status(200).json({ data: post, message: 'OK' });
-        });
-      } catch (error) {
-        console.log(error);
-        return res.status(500).json({ message: "Server Error" });
-      }
+      return res.status(200).json({ data: post, message: 'OK' });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: "Server Error" });
+    }
   },
   getPostsByStackId: async (req, res) => {
     try {
