@@ -49,11 +49,11 @@ function App() {
   return (
     <>
       {/* <button onClick={() => handleLogin()}>LOGIN ACTION 발생!</button> */}
-      {/* <Router> */}
-      <Container>
-        {/* <Navbar /> */}
-        됐으면 좋겠다
-        {/* <Switch>
+      <Router>
+        <Container>
+          <Navbar />
+          됐으면 좋겠다
+          <Switch>
             <Route exact path="/" component={User} />
             <Route exact path="/user" component={User} />
             <Route exact path="/post" component={Post} />
@@ -62,9 +62,9 @@ function App() {
             <Route exact path="/mypage" component={MyPage} />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/login" component={Login} />
-          </Switch> */}
-      </Container>
-      {/* </Router> */}
+          </Switch>
+        </Container>
+      </Router>
     </>
   );
 }

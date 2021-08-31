@@ -120,7 +120,7 @@ export default function App() {
   const onClickDeleteBtn = useCallback(async () => {
     // 게시글 삭제 axios
     try {
-      await axios.delete(`${process.env.REACT_APP_API_URL}posts/${postId}`);
+      await axios.delete(`${process.env.REACT_APP_API_URL}/posts/${postId}`);
 
       // postCreate 페이지로 props.history.push()
       props.history.push({
