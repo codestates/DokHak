@@ -90,7 +90,7 @@ export default function App() {
   useEffect(async () => {
     try {
       const post = await axios.get(
-        `${process.env.REACT_APP_API_URL}posts/${4}`,
+        `${process.env.REACT_APP_API_URL}/posts/${4}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -99,7 +99,7 @@ export default function App() {
       );
 
       const comments = await axios.get(
-        `${process.env.REACT_APP_API_URL}comments/${4}`,
+        `${process.env.REACT_APP_API_URL}/comments/${4}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

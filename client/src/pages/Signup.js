@@ -85,7 +85,7 @@ const Signup = ({ props }) => {
       setErrorMessage('');
 
       axios
-        .post(`${process.env.REACT_APP_API_URL}users/signup`, body, {
+        .post(`${process.env.REACT_APP_API_URL}/users/signup`, body, {
           headers: {
             'Content-Type': 'application/json',
           },

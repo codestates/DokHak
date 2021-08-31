@@ -59,7 +59,9 @@ const Post = ({ match }) => {
 
   useEffect(async () => {
     try {
-      const postList = await axios.get(`${process.env.REACT_APP_API_URL}posts`);
+      const postList = await axios.get(
+        `${process.env.REACT_APP_API_URL}/posts`
+      );
       // const stacks = await axios.get(`https://dokhak.tk/stacks`);
       // const stacks = ['React', 'Vue.js', 'Angular', 'Node.js', 'Django'];
       setPosts(postList.data.data);

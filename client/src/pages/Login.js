@@ -35,7 +35,7 @@ const Login = (props) => {
     } else {
       setErrorMessage('');
       axios
-        .post(`${process.env.REACT_APP_API_URL}users/login`, loginInfo, {
+        .post(`${process.env.REACT_APP_API_URL}/users/login`, loginInfo, {
           headers: {
             'Content-Type': 'application/json',
           },
