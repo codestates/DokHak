@@ -37,12 +37,7 @@ module.exports = {
         }
         await db.sequelize.models.user_stack.bulkCreate(userStack); // bulkCreate 인자는 배열이돼야한다. 여러가지 옵션을 추가할수있지만 쓸만한건 안보임
         const token = generateAccessToken({ id: userInfo.dataValues.id });
-        return res
-          .status(201)
-          .cookie('jwt', token, {
-            httpOnly: true,
-          })
-          .json({ message: 'OK' });
+        sendAccessToken(res, token);
       } catch (error) {
         console.log(error);
         return res.status(500).json({ message: 'Server Error' });
