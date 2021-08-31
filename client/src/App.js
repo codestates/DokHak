@@ -49,7 +49,7 @@ function App() {
   return (
     <>
       {/* <button onClick={() => handleLogin()}>LOGIN ACTION 발생!</button> */}
-      <div>ㄴㅇㄹㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㄴㅇㄹㄴㅇㄹ</div>
+      <div>ㄴㅇㄹㄴㅇㄹㅁㅈㅣ그ㅁㅡ바ㄴㅏㄷ</div>
       <Router>
         <Container>
           <Navbar />
