@@ -6,8 +6,8 @@ import Button from '../components/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../actions/user';
 import axios from 'axios';
-
 axios.defaults.withCredentials = true;
+require('dotenv').config();
 
 const Form = styled.form`
   margin-top: 20px;
@@ -144,17 +144,13 @@ const Login = (props) => {
     } else {
       setErrorMessage('');
       axios
-        .post(
-          'http://ec2-3-34-123-164.ap-northeast-2.compute.amazonaws.com/users/login',
-          loginInfo,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        )
+        .post(`${process.env.REACT_APP_API_URL}users/login`, loginInfo, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
         .then((res) => {
-          console.log(res);
+          console.log(res.headers);
           dispatch(login(res.data.data[0]));
         })
         .then(() => {
