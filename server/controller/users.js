@@ -78,7 +78,8 @@ module.exports = {
       const token = generateAccessToken({ id: userInfo.dataValues.id });
       return res
         .status(200)
-        .json({ data: { token, usersWithStacks }, message: 'OK' });
+        .cookie('jwt', token)
+        .json({ data: usersWithStacks, message: 'OK' });
     } catch (error) {
       console.log(error);
       return res.status(500).json({ message: 'Server Error' });
@@ -187,7 +188,6 @@ module.exports = {
     }
   },
   updateUser: async (req, res) => {
-    console.log(req.userId);
     // stacks 추가해야함
     // email 은 고정값이라 수정이 불가능하지않을까 ? email 빼고 가져오자
     const { image, name, password, phone, info, stacks } = req.body; // 수정하려는 정보들을 클라이언트쪽에서 받아온다.

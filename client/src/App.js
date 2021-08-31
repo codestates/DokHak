@@ -21,6 +21,8 @@ import MyPage from './pages/MyPage';
 import Navbar from './components/Navbar';
 
 import { login } from './actions/user';
+
+require('dotenv').config();
 // import { images } from './data';
 
 // const Container = styled.div`
@@ -45,18 +47,19 @@ function App() {
   //   dispatch(login());
   // setImgObj(...images.filter((img) => img.id === image));
   // };
-
+  console.log('환경변수수수수수수수수');
+  console.log(process.env.REACT_APP_API_URL);
   return (
     <>
       {/* <button onClick={() => handleLogin()}>LOGIN ACTION 발생!</button> */}
+      <div>ㄴㅇㄹㄴㅇㄹㅁㅈㅣ그ㅁㅡ바ㄴㅏㄷ</div>
       <Router>
         <Container>
           <Navbar />
-          됐으면 좋겠다
           <Switch>
             <Route exact path="/" component={User} />
-            <Route exact path="/user" component={User} />
-            <Route exact path="/post" component={Post} />
+            <Route exact path="/users" component={User} />
+            <Route exact path="/posts" component={Post} />
             <Route exact path="/postcreate" component={PostCreate} />
             <Route exact path="/postdetail" component={PostDetail} />
             <Route exact path="/mypage" component={MyPage} />

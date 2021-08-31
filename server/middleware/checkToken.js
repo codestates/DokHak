@@ -3,11 +3,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const isAuth = (req, res, next) => {
-  const authHeader = req.get('Authorization');
-  if (!(authHeader && authHeader.startsWith('Bearer'))) {
-    return res.status(401).json({ message: 'Unauthorized Request' });
-  }
-  const token = authHeader.split(' ')[1];
+  const token = req.cookies['jwt'];
   if (!token) {
     return res.status(401).json({ message: 'Unauthorized Request' });
   }

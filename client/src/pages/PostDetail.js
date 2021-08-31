@@ -8,10 +8,10 @@ import MDEditor from '@uiw/react-md-editor';
 
 import Button from '../components/Button';
 import Tag from '../components/Tag';
+import Comment from '../components/Comment';
 import { FlexBoxSpaceBetween } from './PostCreate';
 import { Main } from './styles';
-
-const stacksD = ['React', 'Vue.js', 'Angular', 'Node.js', 'Django'];
+import { stacksArray } from '../data';
 
 const Title = styled.h1`
   width: 100%;
@@ -58,8 +58,6 @@ const PostDetail = (props, { postId }) => {
 
 **Hello world!!!**
 
-![](https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:705/https://www.filepicker.io/api/file/fGWjtyQtG4JE7UXgaPAN)
-
 \`\`\`javascript
 import React from "react";
 import ReactDOM from "react-dom";
@@ -87,23 +85,37 @@ export default function App() {
     `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImlhdCI6MTYzMDM4NDcyNiwiZXhwIjoxNjMwNjQzOTI2fQ.P7ilb4q2KBoUwALQx3pGJbDJU6nuwvuVw3VTLOz2O1w`
   );
 
-  // useEffect(async () => {
-  //   try {
-  //     const post = await axios.get(
-  //       `${process.env.REACT_APP_API_URL}posts/${postId}`
-  //     );
-  //     // const stacks = await axios.get(`https://dokhak.tk/stacks`);
+  useEffect(async () => {
+    try {
+      const post = await axios.get(
+        `${process.env.REACT_APP_API_URL}/posts/${4}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-  //     setTitle(post.title);
-  //     setContent(post.content);
-  //     setUsername(post.username);
-  //     setStacks(post.stacks.map((stack) => stackD[stack - 1]));
-  //     setAuthor(post.author);
-  //     setImage(post.image);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }, []);
+      const comments = await axios.get(
+        `${process.env.REACT_APP_API_URL}/comments/${4}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      // const stacks = await axios.get(`https://dokhak.tk/stacks`);
+
+      setTitle(post.data.data.title);
+      setContent(post.data.data.content);
+      setUsername(post.data.data.username);
+      setStacks(post.data.data.stacks.map((stack) => stacksArray[stack - 1]));
+      setAuthor(post.data.data.author);
+      setImage(post.data.data.image);
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
 
   const onClickUpdateBtn = useCallback(async () => {
     // 게시글 수정 axios
@@ -123,12 +135,12 @@ export default function App() {
   const onClickDeleteBtn = useCallback(async () => {
     // 게시글 삭제 axios
     try {
-      await axios.delete(`${process.env.REACT_APP_API_URL}/posts/2`, {
+      await axios.delete(`${process.env.REACT_APP_API_URL}/posts/3`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log('!성공이다이!');
+      console.log('!지워짐!');
       // postCreate 페이지로 props.history.push()
       // props.history.push({
       //   pathname: '/',
@@ -161,6 +173,8 @@ export default function App() {
       </TagAuthorWrapper>
       <MDEditor.Markdown source={content} />
       {/* Comment Component */}
+
+      <Comment />
     </Main>
   );
 };

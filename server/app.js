@@ -14,7 +14,7 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
-app.use(cookieParser());
+app.use(cookieParser({ sameSite: 'none', secure: true }));
 app.use(cors());
 app.use(morgan('tiny'));
 app.use(helmet());

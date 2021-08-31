@@ -13,7 +13,6 @@ import { Form, GithubLogin, Input, Label, SignupText } from './loginStyle';
 
 const Login = (props) => {
   const dispatch = useDispatch();
-
   const [errorMessage, setErrorMessage] = useState('');
 
   const [loginInfo, setLoginInfo] = useState({
@@ -42,7 +41,6 @@ const Login = (props) => {
           },
         })
         .then((res) => {
-          console.log(res.data.data);
           dispatch(login(res.data.data.usersWithStacks[0]));
         })
         .then(() => {
