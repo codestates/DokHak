@@ -1,10 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import axios from 'axios';
-axios.defaults.withCredentials = true;
 require('dotenv').config();
-
-import { useDispatch } from 'react-redux';
-import { signup } from '../actions/user';
 
 import { Main } from './styles';
 import { FlexBoxSpaceBetween } from './PostCreate';
@@ -16,8 +12,6 @@ import { Form, Label, Input, SmallTitle, Textarea } from './signupStyle';
 import { images, stacksArray } from '../data';
 
 const Signup = (props) => {
-  const dispatch = useDispatch();
-
   //에러 메세지
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -58,7 +52,7 @@ const Signup = (props) => {
   const signupHandler = () => {
     const { email, password, name, phone, info } = signupInfo;
 
-    const stacks = checkedStacks
+    const stack = checkedStacks
       .map((checkedStack, idx) => (checkedStack ? idx + 1 : null))
       .filter((x) => x);
 
@@ -68,7 +62,7 @@ const Signup = (props) => {
       phone: phone,
       image: selectedThumbnail,
       info: info,
-      stacks: stacks,
+      stacks: stack,
       password: password,
     };
     console.log(`여기가 body`, body);
@@ -80,7 +74,7 @@ const Signup = (props) => {
       phone !== '' &&
       selectedThumbnail !== '' &&
       info !== '' &&
-      stacks !== [];
+      stack !== [];
 
     if (!isOk) {
       setErrorMessage('입력칸들을 모두 입력하세요');
@@ -90,14 +84,21 @@ const Signup = (props) => {
       axios
         .post(`${process.env.REACT_APP_API_URL}/users/signup`, body, {
           headers: {
+            withCredentials: true,
             'Content-Type': 'application/json',
           },
         })
-        .then((res) => {
-          console.log(`여기는 res`, res.data);
-          props.history.push('/login');
-        })
-        .catch(() => setErrorMessage('회원가입에 실패하였습니다'));
+        .then(() => props.history.push('/login'))
+        .catch((err) => {
+          console.log(err.response.data.message);
+          if (err.response.data.message === 'Email exists') {
+            setErrorMessage('중복된 이메일 입니다');
+          } else if (err.response.data.message === 'Name exists') {
+            setErrorMessage('중복된 이름 입니다');
+          } else {
+            setErrorMessage('회원가입에 실패하였습니다');
+          }
+        });
     }
   };
 
