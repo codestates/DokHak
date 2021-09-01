@@ -92,6 +92,7 @@ module.exports = {
           sameSite: 'none',
           secure: true,
           domain: '.dokhak.tk'
+          httpOnly: true,
         })
         .json({ data: usersWithStacks, message: 'OK' });
     } catch (error) {
