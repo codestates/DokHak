@@ -82,7 +82,11 @@ module.exports = {
       console.log(getPostId)
       
       try {
-      const token = req.cookies['jwt'];
+        const token = req.cookies['jwt'];
+        if (!token) {
+          let post = Object.assign(postId, author)
+          return res.status(200).json({ data: post, message: 'OK' });
+        }
       
       jwt.verify(token, process.env.JWT_SECRETKEY, async (err, encoded) => {
         if (err) {
