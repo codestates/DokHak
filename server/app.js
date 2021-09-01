@@ -19,7 +19,7 @@ app.use(
   cors({
     origin: true,
     credentials: true,
-    methods: ["GET", "POST", "DELETE", "PATCH", "OPTIONS"],
+    methods: ['GET', 'POST', 'DELETE', 'PATCH', 'OPTIONS'],
   })
 );
 app.use(morgan('tiny'));
@@ -36,6 +36,6 @@ models.sequelize.sync({ force: false }).then(() => {
 
 app.get('/', (req, res) => {
   res.status(201).send('Hello World');
-  });
+});
 
-app.listen(80);
+app.listen(5000);
