@@ -12,8 +12,10 @@ module.exports = {
     const foundEmail = await User.findOne({ where: { email } });
     const foundName = await User.findOne({ where: { name } });
     if (foundEmail) {
+      console.log('Email exists');
       return res.status(409).json({ message: 'Email exists' });
     } else if (foundName) {
+      console.log('Name exists');
       return res.status(409).json({ message: 'Name exists' });
     }
     {
@@ -28,6 +30,7 @@ module.exports = {
           info,
         });
         const userStack = [];
+        console.log('여기');
         for (let i = 0; i < stacks.length; i++) {
           // 클라이언트쪽에서 stacks 를 받아오면 for문을 돌려서 새로운 배열에 푸쉬해준다
           userStack.push({
@@ -37,9 +40,7 @@ module.exports = {
         }
         await db.sequelize.models.user_stack.bulkCreate(userStack); // bulkCreate 인자는 배열이돼야한다. 여러가지 옵션을 추가할수있지만 쓸만한건 안보임
         const token = generateAccessToken({ id: userInfo.dataValues.id });
-        return res
-          .status(201)
-          .json({ message: 'OK' });
+        return res.status(201).json({ message: 'OK' });
       } catch (error) {
         console.log(error);
         return res.status(500).json({ message: 'Server Error' });
@@ -88,12 +89,12 @@ module.exports = {
       const token = generateAccessToken({ id: userInfo.dataValues.id });
       return res
         .status(200)
-        .cookie('jwt', token, {
-          sameSite: 'none',
-          secure: true,
-          domain: '.dokhak.tk',
-          httpOnly: true,
-        })
+        .cookie('jwt', accessToken, {
+        sameSite: 'none',
+        secure: true,
+        domain: '.dokhak.tk',
+        httpOnly: true,
+      })
         .json({ data: usersWithStacks, message: 'OK' });
     } catch (error) {
       console.log(error);
@@ -132,6 +133,19 @@ module.exports = {
       }
     } catch (error) {
       console.log(error);
+      return res.status(500).json({ message: 'Server Error' });
+    }
+  },
+  getUser: async (req, res) => {
+    try {
+      const users = await User.findOne({
+        where: { id: req.userId },
+        attributes: ['id', 'image', 'email', 'name', 'phone', 'info'],
+        raw: true,
+      });
+      return res.status(200).json({ data: users, message: 'OK' });
+    } catch (err) {
+      console.log(err);
       return res.status(500).json({ message: 'Server Error' });
     }
   },

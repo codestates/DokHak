@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
+axios.defaults.withCredentials = true;
 require('dotenv').config();
 
 import { logout } from '../actions/user';
@@ -42,7 +43,7 @@ const LoginDropdown = ({ children, name }, props) => {
           <Link to={`/mypage`} stacks={stacksArray}>
             <li>마이페이지</li>
           </Link>
-          <Link to={`/postcreate`}>
+          <Link to={`/post/add`}>
             <li>게시글 작성</li>
           </Link>
           <Link to={`/`}>

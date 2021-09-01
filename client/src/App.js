@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+axios.defaults.withCredentials = true;
+
 import {
   BrowserRouter as Router,
   Route,
@@ -47,12 +50,25 @@ function App() {
   //   dispatch(login());
   // setImgObj(...images.filter((img) => img.id === image));
   // };
-  console.log('환경변수수수수수수수수');
-  console.log(process.env.REACT_APP_API_URL);
+  // console.log('환경변수수수수수수수수');
+  // console.log(process.env.REACT_APP_API_URL);
+  const dispatch = useDispatch();
+  useEffect(async () => {
+    let userInfo = await axios
+      .get(`${process.env.REACT_APP_API_URL}/users/token`)
+      .catch((err) => {
+        console.log('아직은 로그인 전이다.');
+      });
+    if (userInfo) {
+      console.log(userInfo);
+      dispatch(login(userInfo.data.data));
+    }
+    // window.addEventListener('scroll', handleScroll);
+  }, []);
   return (
     <>
       {/* <button onClick={() => handleLogin()}>LOGIN ACTION 발생!</button> */}
-      <div>ㄴㅇㄹㄴㅇㄹㅁㅈㅣ그ㅁㅡ바ㄴㅏㄷ</div>
+      {/* <div>ㄴㅇㄹㄴㅇㄹㅁㅈㅣ그ㅁㅡ바ㄴㅏㄷ</div> */}
       <Router>
         <Container>
           <Navbar />
@@ -60,8 +76,8 @@ function App() {
             <Route exact path="/" component={User} />
             <Route exact path="/users" component={User} />
             <Route exact path="/posts" component={Post} />
-            <Route exact path="/postcreate" component={PostCreate} />
-            <Route exact path="/postdetail" component={PostDetail} />
+            <Route exact path="/post/add" component={PostCreate} />
+            <Route exact path="/posts/:id" component={PostDetail} />
             <Route exact path="/mypage" component={MyPage} />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/login" component={Login} />

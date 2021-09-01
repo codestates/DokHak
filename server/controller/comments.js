@@ -8,34 +8,40 @@ module.exports = {
       const { content } = req.body;
       // console.log(content)
 
-      const post = await Post.findOne({  // post.id를 구해
+      const post = await Post.findOne({
+        // post.id를 구해
         where: {
-          id: req.params.id
+          id: req.params.id,
         },
-        raw: true
+        raw: true,
       });
       // console.log(post)
 
+      console.log('여긴 통과');
+
       const user = await User.findOne({
-        attributes: [ "name" ],
+        attributes: ['name'],
         where: {
-          id: req.userId
+          id: req.userId,
         },
         raw: true,
-      })
+      });
+
+      console.log(user);
       // console.log(user.name)
 
-      const comment = await Comment.create({  // post.id와 user.id를 비교해 맞으면 comment를 만든다.
+      const comment = await Comment.create({
+        // post.id와 user.id를 비교해 맞으면 comment를 만든다.
         content: content,
         username: user.name,
         userId: req.userId,
         postId: post.id,
       });
 
-      return res.status(200).send({ data: comment, message: "ok" });
+      return res.status(200).send({ data: comment, message: 'ok' });
     } catch (error) {
-      console.log(error)
-      return res.status(500).send({ message: "Server Error" });
+      console.log(error);
+      return res.status(500).send({ message: 'Server Error' });
     }
   },
   getCommentsByPostId: async (req, res) => {  
@@ -100,27 +106,30 @@ module.exports = {
       return res.status(500).json({ message: 'Server Error' });
     }
   },
-  updateComment: async (req, res) => {  
+  updateComment: async (req, res) => {
     try {
       const userId = req.userId;
       const { content } = req.body;
       const param = req.params.id;
 
       const comment = await Comment.findOne({
-        attributes: [ "content" ],
+        attributes: ['content'],
         where: {
-          userId
+          userId,
         },
-        raw: true
-      })
+        raw: true,
+      });
 
-      const updateContent = await Comment.update(  // Post 수정
-        { content }, { 
+      const updateContent = await Comment.update(
+        // Post 수정
+        { content },
+        {
           where: {
             id: param,
             userId: req.userId,
-          }
-      });
+          },
+        }
+      );
 
       return res.status(200).send({ message: "ok" });
     } catch (error) {
@@ -128,10 +137,10 @@ module.exports = {
     }
   },
   deleteComment: async (req, res) => {
-    try{  
+    try {
       const { id } = req.params;
 
-      await Comment.destroy({ 
+      await Comment.destroy({
         where: {
           id,
           userId: req.userId

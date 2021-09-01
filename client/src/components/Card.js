@@ -100,7 +100,7 @@ const Card = ({ data, post, onClick }) => {
         <CardImgArea />
         <CardImgHover image={data.image} post={post} />
         <CardInfo>
-          <CardAuthor>{data.name}</CardAuthor>
+          <CardAuthor>{post ? data.title : data.name}</CardAuthor>
           <CardContent>{post ? data.content : data.info}</CardContent>
         </CardInfo>
       </CardSection>
