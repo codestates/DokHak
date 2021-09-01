@@ -39,9 +39,6 @@ module.exports = {
         const token = generateAccessToken({ id: userInfo.dataValues.id });
         return res
           .status(201)
-          .cookie('jwt', token, {
-            httpOnly: true,
-          })
           .json({ message: 'OK' });
       } catch (error) {
         console.log(error);
