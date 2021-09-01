@@ -57,10 +57,21 @@ module.exports = {
       },
       raw: true
     })
-    // console.log(comment)
+
+    let result = [];
+    let author = {};
     
     try {
       const token = req.cookies['jwt'];
+      if (!token) {
+        for (let i = 0; i < getUserId.length; i++){
+          author['author'] = false;
+          let newObj = Object.assign(comment[i], author);
+          result.push(newObj)
+        }
+        return res.status(200).send({ data: result, message: "OK" });
+      }
+      
       jwt.verify(token, process.env.JWT_SECRETKEY, async (err, encoded) => {
         if (err) {
           return res.status(401).json({ message: 'Unauthorized Request' });
@@ -71,14 +82,9 @@ module.exports = {
         }
         req.userId = encoded.id;
         
-        
-        let result = [];
-        let author = {};
-        
         for (let i = 0; i < getUserId.length; i++){
           if (getUserId[i].userId !== req.userId) {
           author['author'] = false;
-          console.log()
           let newObj = Object.assign(comment[i], author);
           result.push(newObj)
         } else {
@@ -87,7 +93,7 @@ module.exports = {
           result.push(newObj)
         }
       }
-      res.status(200).send({ data: result, message: "OK" });
+      return res.status(200).send({ data: result, message: "OK" });
     });
     } catch (error) {
       console.log(error);
@@ -116,9 +122,9 @@ module.exports = {
           }
       });
 
-      res.status(200).send({ message: "ok" });
+      return res.status(200).send({ message: "ok" });
     } catch (error) {
-      res.status(500).send({ message: "Server Error" });
+      return res.status(500).send({ message: "Server Error" });
     }
   },
   deleteComment: async (req, res) => {
@@ -132,9 +138,9 @@ module.exports = {
         }
       })
       
-      res.status(200).send({ message: "ok" });
+      return res.status(200).send({ message: "ok" });
     } catch (error) {
-      res.status(500).send({ message: "Server Error" });
+      return res.status(500).send({ message: "Server Error" });
     }
   },
 };
