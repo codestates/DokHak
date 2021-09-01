@@ -229,7 +229,7 @@ module.exports = {
       { where: { id: req.userId } }
     );
     const updateUser = await User.findOne({
-      attributes: ['image', 'name', 'phone', 'info'],
+      attributes: ['email', 'image', 'name', 'phone', 'info'],
       where: { id: req.userId },
       raw: true,
     }); // 업데이트 된 유저정보를 가져와서 response 해준다
