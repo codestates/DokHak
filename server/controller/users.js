@@ -90,7 +90,8 @@ module.exports = {
         .status(200)
         .cookie('jwt', token, {
           sameSite: 'none',
-          secure: true
+          secure: true,
+          domain: 'dokhak.tk'
         })
         .json({ data: usersWithStacks, message: 'OK' });
     } catch (error) {
