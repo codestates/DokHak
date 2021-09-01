@@ -89,11 +89,12 @@ module.exports = {
       const token = generateAccessToken({ id: userInfo.dataValues.id });
       return res
         .status(200)
-        .cookie('jwt', token, {
-          sameSite: 'none',
-          secure: true,
-          httpOnly: true,
-        })
+        .cookie('jwt', accessToken, {
+        sameSite: 'none',
+        secure: true,
+        domain: '.dokhak.tk',
+        httpOnly: true,
+      })
         .json({ data: usersWithStacks, message: 'OK' });
     } catch (error) {
       console.log(error);
@@ -103,7 +104,7 @@ module.exports = {
   logout: async (req, res) => {
     try {
       res.clearCookie('jwt');
-      return res.status(200).json({ message: 'OK' });
+      return res.status(200).json({ message: 'OK' }).redirect('/users'); 
     } catch (error) {
       console.log(error);
       return res.status(500).json({ message: 'Server Error' });

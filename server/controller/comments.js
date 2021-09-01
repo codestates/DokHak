@@ -44,69 +44,63 @@ module.exports = {
       return res.status(500).send({ message: 'Server Error' });
     }
   },
-  getCommentsByPostId: async (req, res) => {
-    const param = req.params;
+  getCommentsByPostId: async (req, res) => {  
+    const param = req.params
     // console.log(param.id)
-
+    
     const comment = await Comment.findAll({
-      attributes: ['content', 'username'],
+      attributes: [ "username", "content" ],
       where: {
-        postId: param.id,
+        postId: param.id
       },
-      raw: true,
-    });
-
+      raw: true
+    })
+    
     const getUserId = await Comment.findAll({
-      attributes: ['userId'],
+      attributes: [ "userId" ],
       where: {
         postId: param.id,
       },
-      raw: true,
-    });
-    // console.log(comment)
+      raw: true
+    })
 
+    let result = [];
+    let author = {};
+    
     try {
-      if (!req.cookies['jwt']) {
-        let result = [];
-        let author = {};
-
-        for (let i = 0; i < getUserId.length; i++) {
+      const token = req.cookies['jwt'];
+      if (!token) {
+        for (let i = 0; i < getUserId.length; i++){
           author['author'] = false;
           let newObj = Object.assign(comment[i], author);
-          result.push(newObj);
+          result.push(newObj)
         }
-        res.status(200).send({ data: result, message: 'OK' });
-      } else {
-        const token = req.cookies['jwt'];
-        jwt.verify(token, 'jwt', async (err, encoded) => {
-          if (err) {
-            return res.status(401).json({ message: 'Unauthorized Request' });
-          }
-          const userInfo = await User.findOne({ where: { id: encoded.id } });
-          if (!userInfo) {
-            return res.status(401).json({ message: 'Unauthorized Request' });
-          }
-          req.userId = encoded.id;
-
-          let result = [];
-          let author = {};
-
-          for (let i = 0; i < getUserId.length; i++) {
-            if (getUserId[i].userId !== req.userId) {
-              author['author'] = false;
-              console.log();
-              let newObj = Object.assign(comment[i], author);
-              result.push(newObj);
-            } else {
-              author['author'] = true;
-              let newObj = Object.assign(comment[i], author);
-              result.push(newObj);
-            }
-          }
-
-          res.status(200).send({ data: result, message: 'OK' });
-        });
+        return res.status(200).send({ data: result, message: "OK" });
       }
+      
+      jwt.verify(token, process.env.JWT_SECRETKEY, async (err, encoded) => {
+        if (err) {
+          return res.status(401).json({ message: 'Unauthorized Request' });
+        }
+        const userInfo = await User.findOne({ where: { id: encoded.id } });
+        if (!userInfo) {
+          return res.status(401).json({ message: 'Unauthorized Request' });
+        }
+        req.userId = encoded.id;
+        
+        for (let i = 0; i < getUserId.length; i++){
+          if (getUserId[i].userId !== req.userId) {
+          author['author'] = false;
+          let newObj = Object.assign(comment[i], author);
+          result.push(newObj)
+        } else {
+          author['author'] = true;
+          let newObj = Object.assign(comment[i], author);
+          result.push(newObj)
+        }
+      }
+      return res.status(200).send({ data: result, message: "OK" });
+    });
     } catch (error) {
       console.log(error);
       return res.status(500).json({ message: 'Server Error' });
@@ -137,9 +131,9 @@ module.exports = {
         }
       );
 
-      res.status(200).send({ message: 'ok' });
+      return res.status(200).send({ message: "ok" });
     } catch (error) {
-      res.status(500).send({ message: 'Server Error' });
+      return res.status(500).send({ message: "Server Error" });
     }
   },
   deleteComment: async (req, res) => {
@@ -149,13 +143,13 @@ module.exports = {
       await Comment.destroy({
         where: {
           id,
-          userId: req.userId,
-        },
-      });
-
-      res.status(200).send({ message: 'ok' });
+          userId: req.userId
+        }
+      })
+      
+      return res.status(200).send({ message: "ok" });
     } catch (error) {
-      res.status(500).send({ message: 'Server Error' });
+      return res.status(500).send({ message: "Server Error" });
     }
   },
 };
