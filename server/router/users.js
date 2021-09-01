@@ -32,6 +32,7 @@ router.post('/login', usersController.login);
 router.post('/github', usersController.githubLogin);
 router.post('/logout', isAuth, usersController.logout);
 router.get('/', usersController.getAllUsers);
+router.get('/token', isAuth, usersController.getUser);
 router.get('/:id', usersController.getUserById);
 router.get('/stacks/:id', usersController.getUserByStackId);
 router.patch('/', isAuth, usersController.updateUser);
