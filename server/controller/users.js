@@ -220,11 +220,6 @@ module.exports = {
     // email 은 고정값이라 수정이 불가능하지않을까 ? email 빼고 가져오자
     const { image, name, password, phone, info, stacks } = req.body; // 수정하려는 정보들을 클라이언트쪽에서 받아온다.
     const hashed = await bcrypt.hash(password, 10); // 패스워드를 바꿀경우 해싱해서 DB에 저장
-    const foundName = await User.findOne({ where: { name } }); // 수정도 마찬가지로 이름 중복 체크
-    if (foundName) {
-      // updateUser 에 409 를 추가해줘야할거같다.
-      return res.status(409).json({ message: 'Name exists' });
-    }
     await User.update(
       // 먼저 업데이트를 진행을 해준 후,
       {
@@ -238,7 +233,7 @@ module.exports = {
       { where: { id: req.userId } }
     );
     const updateUser = await User.findOne({
-      attributes: ['image', 'name', 'phone', 'info'],
+      attributes: ['email', 'image', 'name', 'phone', 'info'],
       where: { id: req.userId },
       raw: true,
     }); // 업데이트 된 유저정보를 가져와서 response 해준다
