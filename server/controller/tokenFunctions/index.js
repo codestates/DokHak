@@ -17,7 +17,7 @@ module.exports = {
       .cookie('jwt', accessToken, {
         sameSite: 'none',
         secure: true,
-        domain: '.dokhak.tk'
+        domain: '.dokhak.tk',
       })
       .json({ data: { accessToken }, message: 'OK' });
   },
