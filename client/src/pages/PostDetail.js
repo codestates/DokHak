@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 require('dotenv').config();
@@ -51,7 +51,7 @@ const TagWrapper = styled.div`
   column-gap: 1rem;
 `;
 
-const PostDetail = (props, { postId }) => {
+const PostDetail = (props) => {
   // const [image, setImage] = useState(0);
   const [title, setTitle] = useState('방가방가');
   const [content, setContent] = useState(`# Hello World
@@ -76,36 +76,28 @@ export default function App() {
   );
 }
 \`\`\``);
+  const [postId, setPostId] = useState(0);
   const [username, setUsername] = useState('김코딩');
   // const [stacks, setStacks] = useState([]);
   const [stacks, setStacks] = useState([1, 2, 5]);
-  const [author, setAuthor] = useState(true);
+  const [author, setAuthor] = useState(false);
   const [image, setImage] = useState(0);
-  const [token, setToken] = useState(
-    `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImlhdCI6MTYzMDM4NDcyNiwiZXhwIjoxNjMwNjQzOTI2fQ.P7ilb4q2KBoUwALQx3pGJbDJU6nuwvuVw3VTLOz2O1w`
-  );
+  // const [token, setToken] = useState(
+  //   `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImlhdCI6MTYzMDM4NDcyNiwiZXhwIjoxNjMwNjQzOTI2fQ.P7ilb4q2KBoUwALQx3pGJbDJU6nuwvuVw3VTLOz2O1w`
+  // );
 
-  useEffect(async () => {
+  useEffect(async () => {}, []);
+
+  useMemo(async () => {
+    // componentWillMount events
     try {
       const post = await axios.get(
-        `${process.env.REACT_APP_API_URL}/posts/${4}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        `${process.env.REACT_APP_API_URL}/posts/${props.match.params.id}`
       );
 
-      const comments = await axios.get(
-        `${process.env.REACT_APP_API_URL}/comments/${4}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      // const stacks = await axios.get(`https://dokhak.tk/stacks`);
+      console.log('posttttt', post.data.data);
 
+      setPostId(post.data.data.id);
       setTitle(post.data.data.title);
       setContent(post.data.data.content);
       setUsername(post.data.data.username);
@@ -116,6 +108,12 @@ export default function App() {
       console.log(err);
     }
   }, []);
+  //  useEffect(() => {
+  //    // componentDidMount events
+  //    return () => {
+  //      // componentWillUnmount events
+  //    };
+  //  }, []);
 
   const onClickUpdateBtn = useCallback(async () => {
     // 게시글 수정 axios
@@ -124,27 +122,29 @@ export default function App() {
       // await axios.patch(`${process.env.REACT_APP_API_URL}posts/${postId}`);
 
       // postCreate 페이지로 props.history.push()
+      const tmpStacks = [];
+      stacks.forEach((stack) => tmpStacks.push(stacksArray.indexOf(stack) + 1));
+
       props.history.push({
-        pathname: '/postcreate',
-        state: { prevData: { title, content, stacks, image } },
+        pathname: '/post/add',
+        state: {
+          prevData: { postId, title, content, stacks: tmpStacks, image },
+        },
       });
     } catch (err) {
       console.log(err);
     }
-  }, []);
+  });
   const onClickDeleteBtn = useCallback(async () => {
     // 게시글 삭제 axios
     try {
-      await axios.delete(`${process.env.REACT_APP_API_URL}/posts/3`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await axios.delete(
+        `${process.env.REACT_APP_API_URL}/posts/${props.match.params.id}`
+      );
       console.log('!지워짐!');
-      // postCreate 페이지로 props.history.push()
-      // props.history.push({
-      //   pathname: '/',
-      // });
+      props.history.push({
+        pathname: '/posts',
+      });
     } catch (err) {
       console.log(err);
     }
@@ -172,9 +172,7 @@ export default function App() {
         <h3>{username}</h3>
       </TagAuthorWrapper>
       <MDEditor.Markdown source={content} />
-      {/* Comment Component */}
-
-      <Comment />
+      <Comment postId={props.match.params.id} />
     </Main>
   );
 };

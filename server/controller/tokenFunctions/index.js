@@ -5,8 +5,8 @@ module.exports = {
   generateAccessToken: (data) => {
     // TODO: Access token으로 sign합니다.
     // HINT: 토큰을 리턴하세요. (공식 문서의 Synchronous한 방법을 사용합니다)
-    const token = sign(data, process.env.JWT_SECRETKEY, {
-      expiresIn: process.env.EXPIRES_DAY,
+    const token = sign(data, 'jwt', {
+      expiresIn: '2d',
     });
     return token;
   },
@@ -16,7 +16,7 @@ module.exports = {
       .status(200)
       .cookie('jwt', accessToken, {
         sameSite: 'none',
-        secure: true
+        secure: true,
       })
       .json({ data: { accessToken }, message: 'OK' });
   },

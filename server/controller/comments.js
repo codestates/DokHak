@@ -8,133 +8,154 @@ module.exports = {
       const { content } = req.body;
       // console.log(content)
 
-      const post = await Post.findOne({  // post.id를 구해
+      const post = await Post.findOne({
+        // post.id를 구해
         where: {
-          id: req.params.id
+          id: req.params.id,
         },
-        raw: true
+        raw: true,
       });
       // console.log(post)
 
+      console.log('여긴 통과');
+
       const user = await User.findOne({
-        attributes: [ "name" ],
+        attributes: ['name'],
         where: {
-          id: req.userId
+          id: req.userId,
         },
         raw: true,
-      })
+      });
+
+      console.log(user);
       // console.log(user.name)
 
-      const comment = await Comment.create({  // post.id와 user.id를 비교해 맞으면 comment를 만든다.
+      const comment = await Comment.create({
+        // post.id와 user.id를 비교해 맞으면 comment를 만든다.
         content: content,
         username: user.name,
         userId: req.userId,
         postId: post.id,
       });
 
-      return res.status(200).send({ data: comment, message: "ok" });
+      return res.status(200).send({ data: comment, message: 'ok' });
     } catch (error) {
-      console.log(error)
-      return res.status(500).send({ message: "Server Error" });
+      console.log(error);
+      return res.status(500).send({ message: 'Server Error' });
     }
   },
-  getCommentsByPostId: async (req, res) => {  
-    const param = req.params
+  getCommentsByPostId: async (req, res) => {
+    const param = req.params;
     // console.log(param.id)
-    
+
     const comment = await Comment.findAll({
-      attributes: [ "username", "content" ],
-      where: {
-        postId: param.id
-      },
-      raw: true
-    })
-    
-    const getUserId = await Comment.findAll({
-      attributes: [ "userId" ],
+      attributes: ['content', 'username'],
       where: {
         postId: param.id,
       },
-      raw: true
-    })
+      raw: true,
+    });
+
+    const getUserId = await Comment.findAll({
+      attributes: ['userId'],
+      where: {
+        postId: param.id,
+      },
+      raw: true,
+    });
     // console.log(comment)
-    
+
     try {
-      const token = req.cookies['jwt'];
-      jwt.verify(token, process.env.JWT_SECRETKEY, async (err, encoded) => {
-        if (err) {
-          return res.status(401).json({ message: 'Unauthorized Request' });
-        }
-        const userInfo = await User.findOne({ where: { id: encoded.id } });
-        if (!userInfo) {
-          return res.status(401).json({ message: 'Unauthorized Request' });
-        }
-        req.userId = encoded.id;
-        
-        
+      if (!req.cookies['jwt']) {
         let result = [];
         let author = {};
-        
-        for (let i = 0; i < getUserId.length; i++){
-          if (getUserId[i].userId !== req.userId) {
+
+        for (let i = 0; i < getUserId.length; i++) {
           author['author'] = false;
-          console.log()
           let newObj = Object.assign(comment[i], author);
-          result.push(newObj)
-        } else {
-          author['author'] = true;
-          let newObj = Object.assign(comment[i], author);
-          result.push(newObj)
+          result.push(newObj);
         }
+        res.status(200).send({ data: result, message: 'OK' });
+      } else {
+        const token = req.cookies['jwt'];
+        jwt.verify(token, 'jwt', async (err, encoded) => {
+          if (err) {
+            return res.status(401).json({ message: 'Unauthorized Request' });
+          }
+          const userInfo = await User.findOne({ where: { id: encoded.id } });
+          if (!userInfo) {
+            return res.status(401).json({ message: 'Unauthorized Request' });
+          }
+          req.userId = encoded.id;
+
+          let result = [];
+          let author = {};
+
+          for (let i = 0; i < getUserId.length; i++) {
+            if (getUserId[i].userId !== req.userId) {
+              author['author'] = false;
+              console.log();
+              let newObj = Object.assign(comment[i], author);
+              result.push(newObj);
+            } else {
+              author['author'] = true;
+              let newObj = Object.assign(comment[i], author);
+              result.push(newObj);
+            }
+          }
+
+          res.status(200).send({ data: result, message: 'OK' });
+        });
       }
-      res.status(200).send({ data: result, message: "OK" });
-    });
     } catch (error) {
       console.log(error);
       return res.status(500).json({ message: 'Server Error' });
     }
   },
-  updateComment: async (req, res) => {  
+  updateComment: async (req, res) => {
     try {
       const userId = req.userId;
       const { content } = req.body;
       const param = req.params.id;
 
       const comment = await Comment.findOne({
-        attributes: [ "content" ],
+        attributes: ['content'],
         where: {
-          userId
+          userId,
         },
-        raw: true
-      })
+        raw: true,
+      });
 
-      const updateContent = await Comment.update(  // Post 수정
-        { content }, { 
+      const updateContent = await Comment.update(
+        // Post 수정
+        { content },
+        {
           where: {
             id: param,
             userId: req.userId,
-          }
-      });
+          },
+        }
+      );
 
-      res.status(200).send({ message: "ok" });
+      res.status(200).send({ message: 'ok' });
     } catch (error) {
-      res.status(500).send({ message: "Server Error" });
+      res.status(500).send({ message: 'Server Error' });
     }
   },
   deleteComment: async (req, res) => {
-    try{  
+    try {
       const { id } = req.params;
 
-      await Comment.destroy({ 
+      await Comment.destroy({
         where: {
           id,
-          userId: req.userId
-        }
-      })
-      
-      res.status(200).send({ message: "ok" });
+          userId: req.userId,
+        },
+      });
+
+      res.status(200).send({ message: 'ok' });
     } catch (error) {
-      res.status(500).send({ message: "Server Error" });
+      res.status(500).send({ message: 'Server Error' });
     }
   },
 };

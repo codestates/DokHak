@@ -79,7 +79,7 @@ const Post = ({ match }) => {
       <Main className="card-page" style={{ marginTop: '46px' }}>
         <CardFlexBox>
           {posts.map((post, idx) => (
-            <Link key={post.title} to={`${match.path}/${idx + 1}`}>
+            <Link key={post.title} to={`${match.path}/${post.id}`}>
               <Card data={post} post />
             </Link>
           ))}
