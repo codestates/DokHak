@@ -242,9 +242,12 @@ module.exports = {
       where: { id: req.userId },
       raw: true,
     }); // 업데이트 된 유저정보를 가져와서 response 해준다
+    let stack = {};
+    stack['stacks'] = stacks;
+    const userWithStackId = Object.assign(updateUser, stack);
     try {
       if (updateUser) {
-        return res.status(200).json({ data: updateUser, message: 'OK' });
+        return res.status(200).json({ data: userWithStackId, message: 'OK' });
       }
     } catch (error) {
       console.log(error);
