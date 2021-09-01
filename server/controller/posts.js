@@ -31,7 +31,7 @@ module.exports = {
         }])
       })
         
-      return res.status(200).json({ message: "OK" });
+      return res.status(200).json({ data: { postId: post.id}, message: "OK" });
     } catch (error) {
       console.log(error);
       return res.status(500).json({ message: "Server Error" });

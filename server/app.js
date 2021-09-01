@@ -20,6 +20,7 @@ app.use(
     origin: true,
     credentials: true,
     methods: ["GET", "POST", "DELETE", "PATCH", "OPTIONS"],
+    Headers: { 'content-type': 'application/json' }
   })
 );
 app.use(morgan('tiny'));
