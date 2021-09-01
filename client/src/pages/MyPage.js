@@ -1,10 +1,10 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 require('dotenv').config();
 
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../actions/user';
+import { edituser } from '../actions/user';
 import { images, stacksArray } from '../data';
 import { Main } from './styles';
 import { FlexBoxSpaceBetween } from './PostCreate';
@@ -38,7 +38,15 @@ const MyPage = (props) => {
   //지금 현재 로그인된 유저 데이터 리덕스 스토어에서 가져오기
   const user = useSelector((state) => state.user);
   console.log(`리덕스 스토어에 저장된 유저`, user);
+
+  //** 데이터가 null이면 에러남
+  if (user.data === null) return window.location.replace('/');
+
   const { email, image, info, name, phone, stacks } = user.data;
+  console.log(`stacks 출력`, stacks);
+
+  //** 데이터가 null이면 에러남
+  if (email === null || !stacks) return window.location.replace('/');
 
   //인풋 인포
   const [signupInfo, setSignupInfo] = useState({
@@ -65,8 +73,7 @@ const MyPage = (props) => {
     Array(stacksArray.length).fill(false)
   );
   //[1, 3, 5]
-  useEffect(() => {
-    console.log(`stacks출력`, stacks);
+  useMemo(() => {
     const tmp = [...checkedStacks];
     stacks.forEach((idx) => {
       tmp[idx - 1] = true;
@@ -86,69 +93,59 @@ const MyPage = (props) => {
     //토큰을 보내줘서 회원 탈퇴를 해야한다.
     axios
       .delete(`${process.env.REACT_APP_API_URL}/users`, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { withCredentials: true, 'Content-Type': 'application/json' },
       })
       .then((res) => {
         console.log(res);
-        dispatch(logout());
+        window.location.replace('/');
       })
       .then(() => {
-        props.history.push('/');
+        dispatch(logout());
       })
-      .catch(() => setErrorMessage('처리도중 문제가 발생하였습니다'));
+      .catch((err) => console.log(err));
   };
 
   const patchHandler = () => {
     //true false를 [1, 3, 5]로 바꾸기
-    const stacks = checkedStacks
+    const stack = checkedStacks
       .map((checkedStack, idx) => (checkedStack ? idx + 1 : null))
       .filter((x) => x);
-    console.log(stacks);
+    console.log(`여기는 stackkkk`, stack);
 
     //확인 버튼을 누르면 수정한 것이라고 간주되서 axios patch를 날린다.
     //날려서 돌아오는 respond로 리덕스 스토어를 업데이트 한다.
     let body = {
-      email: email,
-      name: name,
-      phone: phone,
+      name: signupInfo.name,
+      phone: signupInfo.phone,
       image: selectedThumbnail,
-      info: info,
-      stacks: stacks,
-      password: password,
+      info: signupInfo.info,
+      stacks: stack,
+      password: signupInfo.password,
     };
     console.log(`여기가 body`, body);
 
-    const isOk =
-      email !== '' &&
-      name !== '' &&
-      password !== '' &&
-      phone !== '' &&
-      selectedThumbnail !== '' &&
-      info !== '' &&
-      stacks !== [];
+    setErrorMessage('');
 
-    if (!isOk) {
-      setErrorMessage('입력칸들을 모두 입력하세요');
-    } else {
-      setErrorMessage('');
-
-      axios
-        .patch(`${process.env.REACT_APP_API_URL}/users`, body, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-        .then((res) => {
-          console.log(res);
-          dispatch(login(res.data.data[0]));
-        })
-        .then(() => {
-          props.history.push('/');
-        })
-        .catch(() => setErrorMessage('회원수정에 실패하였습니다'));
-    }
+    axios
+      .patch(`${process.env.REACT_APP_API_URL}/users`, body, {
+        headers: { withCredentials: true, 'Content-Type': 'application/json' },
+      })
+      .then((res) => {
+        console.log(res.data.data);
+        dispatch(edituser(res.data.data));
+        props.history.push('/');
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log(err.response.data.message);
+        if (err.response.data.message === 'Email exists') {
+          setErrorMessage('중복된 이메일 입니다');
+        } else if (err.response.data.message === 'Name exists') {
+          setErrorMessage('중복된 이름 입니다');
+        } else {
+          setErrorMessage('회원수정에 실패하였습니다');
+        }
+      });
   };
 
   return (
@@ -189,7 +186,7 @@ const MyPage = (props) => {
             type="text"
             name="name"
             id="name"
-            value={name}
+            value={signupInfo.name || ''}
             onChange={inputHandler}
           ></Input>
           <label htmlFor="name">Name:</label>
@@ -201,7 +198,7 @@ const MyPage = (props) => {
             type="tel"
             name="phone"
             id="phone"
-            value={phone}
+            value={signupInfo.phone || ''}
             onChange={inputHandler}
           ></Input>
           <label htmlFor="mobile">Mobile:</label>
@@ -213,7 +210,7 @@ const MyPage = (props) => {
             type="password"
             name="password"
             id="password"
-            value={signupInfo.password}
+            value={signupInfo.password || ''}
             onChange={inputHandler}
           ></Input>
           <label htmlFor="password">Password:</label>
@@ -238,7 +235,7 @@ const MyPage = (props) => {
           id="info"
           cols="48"
           rows="10"
-          value={info}
+          value={signupInfo.info || ''}
           onChange={inputHandler}
         ></Textarea>
 

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-axios.defaults.withCredentials = true;
 require('dotenv').config();
 
 import { useDispatch } from 'react-redux';
@@ -36,8 +35,8 @@ const Login = (props) => {
       setErrorMessage('');
       axios
         .post(`${process.env.REACT_APP_API_URL}/users/login`, loginInfo, {
-          // withCredentials: true,
           headers: {
+            withCredentials: true,
             'Content-Type': 'application/json',
           },
         })

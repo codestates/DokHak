@@ -24,8 +24,11 @@ const LoginDropdown = ({ children, name }, props) => {
       .then(() => {
         dispatch(logout());
       })
-      .then(() => props.history.push('/'))
-      .catch(() => console.log('처리도중 문제가 발생하였습니다'));
+      .then(() => window.location.replace('/'))
+      .catch((err) => {
+        console.log(err);
+        console.log('처리도중 문제가 발생하였습니다');
+      });
   };
 
   // reset login status
