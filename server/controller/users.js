@@ -91,7 +91,7 @@ module.exports = {
         .cookie('jwt', token, {
           sameSite: 'none',
           secure: true,
-          domain: 'dokhak.tk'
+          domain: '.dokhak.tk'
         })
         .json({ data: usersWithStacks, message: 'OK' });
     } catch (error) {
