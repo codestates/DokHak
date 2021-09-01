@@ -20,6 +20,7 @@ app.use(
     origin: true,
     credentials: true,
     methods: ['GET', 'POST', 'DELETE', 'PATCH', 'OPTIONS'],
+    Headers: { 'content-type': 'application/json' },
   })
 );
 app.use(morgan('tiny'));
@@ -31,6 +32,11 @@ app.use('/comments', commentsRouter);
 app.use('/stacks', stacksRouter);
 
 models.sequelize.sync({ force: false }).then(() => {
-  app.listen(process.env.HOST_PORT);
   console.log('success');
 });
+
+app.get('/', (req, res) => {
+  res.status(201).send('Hello World');
+});
+
+app.listen(5000);

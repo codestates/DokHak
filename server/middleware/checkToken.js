@@ -9,7 +9,7 @@ const isAuth = (req, res, next) => {
     return res.status(401).json({ message: 'Unauthorized Request' });
   }
   try {
-    jwt.verify(token, process.env.JWT_SECRETKEY, async (err, encoded) => {
+    jwt.verify(token, 'jwt', async (err, encoded) => {
       if (err) {
         return res.status(401).json({ message: 'Unauthorized Request' });
       }
