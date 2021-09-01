@@ -9,12 +9,6 @@ const user = (state = userInitialState, action) => {
         isLogin: true,
         data: action.payload,
       };
-    case EDIT_USER:
-      return {
-        ...state,
-        isLogin: true,
-        data: action.payload,
-      };
     case LOG_OUT:
       return {
         ...state,

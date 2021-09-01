@@ -4,7 +4,7 @@ axios.defaults.withCredentials = true;
 require('dotenv').config();
 
 import { useDispatch, useSelector } from 'react-redux';
-import { edituser } from '../actions/user';
+import { login, logout } from '../actions/user';
 import { images, stacksArray } from '../data';
 import { Main } from './styles';
 import { FlexBoxSpaceBetween } from './PostCreate';
@@ -75,11 +75,12 @@ const MyPage = (props) => {
   //[1, 3, 5]
   useMemo(() => {
     const tmp = [...checkedStacks];
-    stacks.forEach((idx) => {
+    checkedStacks.forEach((idx) => {
       tmp[idx - 1] = true;
     });
     setCheckedStacks(tmp);
   }, []);
+  console.log(`checkedStacks는 여기`, checkedStacks);
 
   const onChangeStackCheckbox = (position) => {
     const updatedCheckedStacks = checkedStacks.map((item, index) =>
@@ -105,13 +106,13 @@ const MyPage = (props) => {
       .catch((err) => console.log(err));
   };
 
-  const patchHandler = () => {
-    //true false를 [1, 3, 5]로 바꾸기
-    const stack = checkedStacks
-      .map((checkedStack, idx) => (checkedStack ? idx + 1 : null))
-      .filter((x) => x);
-    console.log(`여기는 stackkkk`, stack);
+  //true false를 [1, 3, 5]로 바꾸기
+  const stack = checkedStacks
+    .map((checkedStack, idx) => (checkedStack ? idx + 1 : null))
+    .filter((x) => x);
+  console.log(`여기는 stackkkk`, stack);
 
+  const patchHandler = () => {
     //확인 버튼을 누르면 수정한 것이라고 간주되서 axios patch를 날린다.
     //날려서 돌아오는 respond로 리덕스 스토어를 업데이트 한다.
     let body = {
@@ -132,19 +133,12 @@ const MyPage = (props) => {
       })
       .then((res) => {
         console.log(res.data.data);
-        dispatch(edituser(res.data.data));
+        dispatch(login(res.data.data));
         props.history.push('/');
       })
       .catch((err) => {
         console.log(err);
-        console.log(err.response.data.message);
-        if (err.response.data.message === 'Email exists') {
-          setErrorMessage('중복된 이메일 입니다');
-        } else if (err.response.data.message === 'Name exists') {
-          setErrorMessage('중복된 이름 입니다');
-        } else {
-          setErrorMessage('회원수정에 실패하였습니다');
-        }
+        setErrorMessage('회원수정에 실패하였습니다');
       });
   };
 
@@ -176,6 +170,8 @@ const MyPage = (props) => {
             id="email"
             value={email}
             onChange={inputHandler}
+            disabled
+            style={{ backgroundColor: '#f2f2f2', borderRadius: '5px' }}
           ></Input>
           <label htmlFor="email">Email:</label>
         </Label>
@@ -188,6 +184,8 @@ const MyPage = (props) => {
             id="name"
             value={signupInfo.name || ''}
             onChange={inputHandler}
+            disabled
+            style={{ backgroundColor: '#f2f2f2', borderRadius: '5px' }}
           ></Input>
           <label htmlFor="name">Name:</label>
         </Label>
