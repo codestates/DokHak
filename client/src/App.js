@@ -68,7 +68,6 @@ function App() {
   return (
     <>
       {/* <button onClick={() => handleLogin()}>LOGIN ACTION 발생!</button> */}
-      {/* <div>ㄴㅇㄹㄴㅇㄹㅁㅈㅣ그ㅁㅡ바ㄴㅏㄷ</div> */}
       <Router>
         <Container>
           <Navbar />
