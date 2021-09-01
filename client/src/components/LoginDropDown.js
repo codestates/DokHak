@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
+axios.defaults.withCredentials = true;
 require('dotenv').config();
 
 import { logout } from '../actions/user';
