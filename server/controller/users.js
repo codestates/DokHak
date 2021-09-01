@@ -49,6 +49,19 @@ module.exports = {
       }
     }
   },
+  getUser: async (req, res) => {
+    try {
+      const users = await User.findOne({
+        where: { id: req.userId },
+        attributes: ['id', 'image', 'email', 'name', 'phone', 'info'],
+        raw: true,
+      });
+      return res.status(200).json({ data: users, message: 'OK' });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: 'Server Error' });
+    }
+  },
   login: async (req, res) => {
     // 유저정보 보내주기 수정필요
     const { email, password } = req.body;
