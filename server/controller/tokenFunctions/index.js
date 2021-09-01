@@ -18,6 +18,7 @@ module.exports = {
         sameSite: 'none',
         secure: true,
         domain: '.dokhak.tk',
+        httpOnly: true,
       })
       .json({ data: { accessToken }, message: 'OK' });
   },

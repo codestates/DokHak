@@ -15,7 +15,7 @@ import { Form, Label, Input, SmallTitle, Textarea } from './signupStyle';
 
 import { images, stacksArray } from '../data';
 
-const Signup = ({ props }) => {
+const Signup = (props) => {
   const dispatch = useDispatch();
 
   //에러 메세지
@@ -94,10 +94,7 @@ const Signup = ({ props }) => {
           },
         })
         .then((res) => {
-          console.log(res);
-          dispatch(signup(res.data.data.usersWithStacks[0]));
-        })
-        .then(() => {
+          console.log(`여기는 res`, res.data);
           props.history.push('/login');
         })
         .catch(() => setErrorMessage('회원가입에 실패하였습니다'));
@@ -163,7 +160,7 @@ const Signup = ({ props }) => {
         <Label>
           <Input
             placeholder="Password"
-            type="password"
+            type="text"
             name="password"
             id="password"
             value={signupInfo.password}
