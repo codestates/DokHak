@@ -75,7 +75,9 @@ function App() {
           <Switch>
             <Route exact path="/" component={User} />
             <Route exact path="/users" component={User} />
+            <Route exact path="/users/stacks/:id" component={User} />
             <Route exact path="/posts" component={Post} />
+            <Route exact path="/posts/stacks/:id" component={Post} />
             <Route exact path="/post/add" component={PostCreate} />
             <Route exact path="/posts/:id" component={PostDetail} />
             <Route exact path="/mypage" component={MyPage} />

@@ -74,62 +74,81 @@ module.exports = {
   },
   getPostsById: async (req, res) => {
     // try {
-      const getPostId = req.params.id; 
-      const postId = await Post.findOne({  // post.id를 찾는데
-        attributes: [ "id", "image", "title", "content", "username" ], 
-        where: {
-          id: getPostId
-        },
-        raw: true
-      })
-      
-      let author = { "author": false };
-      
-      console.log(getPostId)
-      
-      try {
-        const token = req.cookies['jwt'];
-        if (!token) {
-          let post = Object.assign(postId, author)
-          return res.status(200).json({ data: post, message: 'OK' });
-        }
-      
-      jwt.verify(token, process.env.JWT_SECRETKEY, async (err, encoded) => {
-        if (err) {
-          return res.status(401).json({ message: 'Unauthorized Request' });
-        }
-        const userInfo = await User.findOne({ where: { id: encoded.id } });
-        if (!userInfo) {
-          return res.status(401).json({ message: 'Unauthorized Request' });
-        }
-        req.userId = encoded.id;
-      
+    const getPostId = req.params.id;
+    const postId = await Post.findOne({
+      // post.id를 찾는데
+      attributes: ['id', 'image', 'title', 'content', 'username'],
+      where: {
+        id: getPostId,
+      },
+      raw: true,
+    });
 
-        const postUserId = await Post.findOne({  // post.id를 찾는데
-          attributes: [ "userId" ], 
-          where: {
-            id: getPostId
-          },
-          raw: true
+    let author = { author: false };
+
+    console.log(postId);
+
+    let stacks = await db.sequelize.models.post_stack.findAll({
+      attributes: ['StackId'],
+      where: { PostId: getPostId },
+      raw: true,
+    });
+
+    stacks = stacks.map((stack) => stack.StackId); // [1, 3, 5]
+
+    postId['stacks'] = stacks;
+    console.log('바뀐후');
+    console.log(postId);
+
+    try {
+      if (!req.cookies['jwt']) {
+        let post = Object.assign(postId, author);
+        return res.status(200).json({ data: post, message: 'OK' });
+      } else {
+        const token = req.cookies['jwt'];
+        jwt.verify(token, 'jwt', async (err, encoded) => {
+          if (err) {
+            return res.status(401).json({ message: 'Unauthorized Request' });
+          }
+          const userInfo = await User.findOne({ where: { id: encoded.id } });
+          if (!userInfo) {
+            return res.status(401).json({ message: 'Unauthorized Request' });
+          }
+          req.userId = encoded.id;
         });
 
+        const postUserId = await Post.findOne({
+          // post.id를 찾는데
+          attributes: ['userId'],
+          where: {
+            id: getPostId,
+          },
+          raw: true,
+        });
+
+        console.log('여긴포스트작성한놈', postUserId.userId);
+        console.log('난지금들어온작성자', req.userId);
+
         if (postUserId.userId !== req.userId) {
-          console.log(postUserId)
-          author["author"] = false;
-          let post = Object.assign(postId, author)
+          // console.log(postUserId)
+          author['author'] = false;
+          let post = Object.assign(postId, author);
           return res.status(200).json({ data: post, message: 'OK' });
         }
-        
-        author["author"] = true
-        let post = Object.assign(postId, author)
+
+        // const userInfo = await User.findOne({ where: { id: req.userId } });
+        // console.log (userInfo)
+        author['author'] = true;
+        let post = Object.assign(postId, author);
 
         return res.status(200).json({ data: post, message: 'OK' });
-    }); 
+      }
     } catch (error) {
       console.log(error);
-      return res.status(500).json({ message: "Server Error" });
+      return res.status(500).json({ message: 'Server Error' });
     }
   },
+
   getPostsByStackId: async (req, res) => {
     try {
       const param = req.params.id;
