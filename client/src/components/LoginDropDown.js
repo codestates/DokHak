@@ -42,7 +42,7 @@ const LoginDropdown = ({ children, name }, props) => {
           <Link to={`/mypage`} stacks={stacksArray}>
             <li>마이페이지</li>
           </Link>
-          <Link to={`/postcreate`}>
+          <Link to={`/post/add`}>
             <li>게시글 작성</li>
           </Link>
           <Link to={`/`}>

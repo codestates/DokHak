@@ -116,10 +116,10 @@ function Navbar() {
       </Hamburger>
       {/* 만약 링크들이 하나라도 클릭이되면 모달이 닫혀야한다.  */}
       <Menu isOpen={isOpen}>
-        <MenuLink to="/user" onClick={toggle}>
+        <MenuLink to="/users" onClick={toggle}>
           유저
         </MenuLink>
-        <MenuLink to="/post" onClick={toggle}>
+        <MenuLink to="/posts" onClick={toggle}>
           포스트
         </MenuLink>
         {user.isLogin ? (
