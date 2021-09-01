@@ -10,7 +10,6 @@ h2 {
 }
 
 .main {
-  max-height: 1100px;
   overflow: hidden;
 }
 
@@ -30,6 +29,7 @@ h2 {
 
 textarea {
   resize: none;
+  width: 100%;
   padding: 0;
 }
 

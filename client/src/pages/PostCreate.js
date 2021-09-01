@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 require('dotenv').config();
@@ -42,6 +42,9 @@ const PostCreate = (props) => {
   //! 작성 버튼을 눌렀을 때는 없다. ?.로 있을 때만 처리하게 하고 ??는 그 앞에 거가 nullish일 때
   // A && B => A가 참일 때 B값을 가져라
   // A(null, undefined) ?? B => A가 nullish 값이면 B를 가져라
+  if (props.location.state?.prevData) {
+    console.log(props.location.state.prevData);
+  }
 
   const [image, setImage] = useState(props.location.state?.prevData.image ?? 0);
   const [title, setTitle] = useState(
@@ -54,7 +57,7 @@ const PostCreate = (props) => {
     Array(stacksArray.length).fill(false)
   );
 
-  useEffect(() => {
+  useMemo(() => {
     if (props.location.state) {
       const tmp = [...checkedStacks];
       props.location.state.prevData.stacks.forEach((idx) => {
@@ -78,17 +81,46 @@ const PostCreate = (props) => {
     );
     setCheckedStacks(updatedCheckedStacks);
   };
-  const onClickBtn = (data) => {
+  const onClickBtn = async () => {
     // API 쏘세요!
     // POST | Add a post (cookie / stacks, image, title, content)
-    const stacks = data.checkedStacks
+    const stacks = checkedStacks
       .map((checkedStack, idx) => (checkedStack ? idx + 1 : null))
       .filter((x) => x);
-    data.stacks = stacks;
-    delete data.checkedStacks;
-  };
 
-  console.log(checkedStacks);
+    try {
+      // ! 여기
+      // ! 수정이면 새로 만들면 안 되고, 미리 있던 거 업뎃
+      if (props.location.state?.prevData.postId) {
+        await axios.patch(
+          `${process.env.REACT_APP_API_URL}/posts/${props.location.state.prevData.postId}`,
+          {
+            image,
+            title,
+            content,
+            stackId: stacks,
+          }
+        );
+
+        window.location.replace(
+          `/posts/${props.location.state.prevData.postId}`
+        );
+      } else {
+        const postData = await axios.post(
+          `${process.env.REACT_APP_API_URL}/posts`,
+          {
+            image,
+            title,
+            content,
+            stackId: stacks,
+          }
+        );
+        window.location.replace(`/posts/${postData.data.data.postId}`);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <Main>
@@ -116,11 +148,7 @@ const PostCreate = (props) => {
           onChange={(e) => onChangeTitle(e)}
         />
 
-        <Button
-          onClick={() => onClickBtn({ checkedStacks, image, title, content })}
-        >
-          확인
-        </Button>
+        <Button onClick={() => onClickBtn()}>확인</Button>
       </FlexBoxSpaceBetween>
 
       <Checkbox
