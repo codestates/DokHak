@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: 'https://dokhak-server.tk/',
+    origin: true,
     credentials: true,
     methods: ["GET", "POST", "DELETE", "PATCH", "OPTIONS"],
     Headers: { 'content-type': 'application/json' }
