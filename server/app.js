@@ -17,9 +17,10 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: ['http://localhost:3000/', 'https://dokhak.tk/'],
+    origin: true,
     credentials: true,
     methods: ["GET", "POST", "DELETE", "PATCH", "OPTIONS"],
+    Headers: { 'content-type': 'application/json' }
   })
 );
 app.use(morgan('tiny'));
