@@ -4,15 +4,18 @@ import styled from 'styled-components';
 import ConsoleHelper from '../ConsoleHelper.js';
 
 const StyledButton = styled.button`
-  ${({ big }) => (big ? 'width: 100%;' : 'width: 100px;')}
-  height: 35px;
+  ${({ big }) =>
+    big
+      ? 'width: 100%; height: 50px; letter-spacing: 0;'
+      : 'width: 100px; height: 35px; letter-spacing: 2.5px;'}
+
   background-color: #37373e;
   border-radius: 5px;
   transition: all 0.3s ease 0s, width 0s;
   outline: none;
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
   border: none;
-  letter-spacing: 2.5px;
+
   font-size: 1rem;
   color: #fff;
   margin: 10px 0;
