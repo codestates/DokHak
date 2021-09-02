@@ -39,11 +39,6 @@ const TitleInput = styled.input`
 `;
 
 const PostCreate = (props) => {
-  // useEffect로 allStack 받아오거나 그냥 클라이언트에서 변수로 가지고 한다.
-  //! 수정 버튼 눌러서 push로 온 거라면 props.location.state가 있다.
-  //! 작성 버튼을 눌렀을 때는 없다. ?.로 있을 때만 처리하게 하고 ??는 그 앞에 거가 nullish일 때
-  // A && B => A가 참일 때 B값을 가져라
-  // A(null, undefined) ?? B => A가 nullish 값이면 B를 가져라
   if (props.location.state?.prevData) {
     ConsoleHelper(props.location.state.prevData);
   }
@@ -84,15 +79,13 @@ const PostCreate = (props) => {
     setCheckedStacks(updatedCheckedStacks);
   };
   const onClickBtn = async () => {
-    // API 쏘세요!
-    // POST | Add a post (cookie / stacks, image, title, content)
+    if (title === '' || content === '') return;
+
     const stacks = checkedStacks
       .map((checkedStack, idx) => (checkedStack ? idx + 1 : null))
       .filter((x) => x);
 
     try {
-      // ! 여기
-      // ! 수정이면 새로 만들면 안 되고, 미리 있던 거 업뎃
       if (props.location.state?.prevData.postId) {
         await axios.patch(
           `${process.env.REACT_APP_API_URL}/posts/${props.location.state.prevData.postId}`,
@@ -124,10 +117,6 @@ const PostCreate = (props) => {
 
   return (
     <Main>
-      {/* map으로 Thumbnail */}
-      {/* Checkbox Component */}
-      {/* SmallButton Component */}
-      {/* Editor Component */}
       <h3>Thumbnail</h3>
       <FlexBoxSpaceBetween style={{ columnGap: '1rem' }}>
         {thumbnails.map((src, idx) => (
