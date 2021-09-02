@@ -13,6 +13,7 @@ const StyledButton = styled.button`
   letter-spacing: 2.5px;
   font-size: 1rem;
   color: #fff;
+  margin: 10px 0;
 
   &:hover {
     background-color: #ffc700;
@@ -31,8 +32,8 @@ const StyledButton = styled.button`
   @media (max-width: 768px) {
     justify-content: center;
     flex: 1 1 100%;
-    margin-bottom: 20px;
     height: 35px;
+    line-height: 33px;
   }
 `;
 
