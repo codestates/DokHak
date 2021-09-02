@@ -61,7 +61,7 @@ function App() {
       });
     if (userInfo) {
       console.log(userInfo);
-      dispatch(login(userInfo.data.data));
+      dispatch(login(userInfo.data.data[0]));
     }
     // window.addEventListener('scroll', handleScroll);
   }, []);
