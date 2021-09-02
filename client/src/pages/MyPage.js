@@ -1,4 +1,10 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, {
+  useState,
+  useCallback,
+  useMemo,
+  useEffect,
+  useRef,
+} from 'react';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 require('dotenv').config();
@@ -43,7 +49,7 @@ const MyPage = (props) => {
   if (user.data === null) return window.location.replace('/');
 
   const { email, image, info, name, phone, stacks } = user.data;
-  console.log(`stacks 출력`, stacks);
+  console.log(`stacks 출력`, stacks); //[2, 3, 4]
 
   //** 데이터가 null이면 에러남
   if (email === null || !stacks) return window.location.replace('/');
@@ -62,6 +68,12 @@ const MyPage = (props) => {
     console.log(`여기는 signupInfo`, signupInfo);
   };
 
+  //textarea focus
+  const textareaRef = useRef(null);
+  useEffect(() => {
+    textareaRef.current.focus();
+  }, []);
+
   //썸네일
   const [selectedThumbnail, setSelectedThumbnail] = useState(image);
   const onClickThumbnail = useCallback((idx) => {
@@ -75,7 +87,7 @@ const MyPage = (props) => {
   //[1, 3, 5]
   useMemo(() => {
     const tmp = [...checkedStacks];
-    checkedStacks.forEach((idx) => {
+    stacks.forEach((idx) => {
       tmp[idx - 1] = true;
     });
     setCheckedStacks(tmp);
@@ -235,6 +247,7 @@ const MyPage = (props) => {
           rows="10"
           value={signupInfo.info || ''}
           onChange={inputHandler}
+          ref={textareaRef}
         ></Textarea>
 
         <div role="alert" style={{ color: 'orangered', textAlign: 'center' }}>
