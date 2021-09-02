@@ -54,7 +54,18 @@ module.exports = {
         attributes: ['id', 'image', 'email', 'name', 'phone', 'info'],
         raw: true,
       });
-      return res.status(200).json({ data: users, message: 'OK' });
+      const usersWithStacks = [];
+      const stackId = {};
+      let stacks = await db.sequelize.models.user_stack.findAll({
+        attributes: ['StackId'],
+        where: { UserId: users.id },
+        raw: true,
+      });
+      stacks = stacks.map((stack) => stack.StackId);
+      stackId['stacks'] = stacks;
+      usersWithStacks.push(Object.assign(users, stackId));
+
+      return res.status(200).json({ data: usersWithStacks, message: 'OK' });
     } catch (err) {
       console.log(err);
       return res.status(500).json({ message: 'Server Error' });
