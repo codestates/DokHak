@@ -102,9 +102,7 @@ const PostCreate = (props) => {
           }
         );
 
-        window.location.replace(
-          `/posts/${props.location.state.prevData.postId}`
-        );
+        props.history.push(`/posts/${props.location.state.prevData.postId}`);
       } else {
         const postData = await axios.post(
           `${process.env.REACT_APP_API_URL}/posts`,
@@ -115,7 +113,7 @@ const PostCreate = (props) => {
             stackId: stacks,
           }
         );
-        window.location.replace(`/posts/${postData.data.data.postId}`);
+        props.history.push(`/posts/${postData.data.data.postId}`);
       }
     } catch (err) {
       console.log(err);
