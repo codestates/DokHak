@@ -19,12 +19,12 @@ const Dropdown = ({ children, name }) => {
   return (
     <>
       <div className="dropdown">
-        <Link className="dropbtn" style={{ paddingLeft: '0' }}>
+        <div className="dropbtn" style={{ paddingLeft: '0' }}>
           {children}
-        </Link>
+        </div>
         <ul className="dropdown-content">
           {stacks.map((li, idx) => (
-            <Link key={li} to={`/${name}/${idx}`}>
+            <Link key={li} to={`/${name}/stacks/${idx + 1}`}>
               <li>{li}</li>
             </Link>
           ))}

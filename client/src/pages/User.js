@@ -94,23 +94,33 @@ const Overlay = styled.div`
   position: fixed;
 `;
 
-const User = () => {
+const User = (props) => {
   const [users, setUsers] = useState([]);
   const [modal, setModal] = useState(false);
   const [currentUserIdx, setCurrentUserIdx] = useState(-1);
 
   useEffect(async () => {
+    console.log('여기일ㄴㅇ라니알니알ㄴ이');
+    console.log(props.match.params);
     try {
-      const userList = await axios.get(
-        `${process.env.REACT_APP_API_URL}/users`
-      );
-      // const stacks = await axios.get(`https://dokhak.tk/stacks`);
-      // const stacks = ['React', 'Vue.js', 'Angular', 'Node.js', 'Django'];
-      setUsers(userList.data.data);
+      if (props.match.params?.id) {
+        const userList = await axios.get(
+          `${process.env.REACT_APP_API_URL}/users/stacks/${props.match.params.id}`
+        );
+        setUsers(userList.data.data);
+        console.log(userList.data.data);
+      } else {
+        const userList = await axios.get(
+          `${process.env.REACT_APP_API_URL}/users`
+        );
+        // const stacks = await axios.get(`https://dokhak.tk/stacks`);
+        // const stacks = ['React', 'Vue.js', 'Angular', 'Node.js', 'Django'];
+        setUsers(userList.data.data);
+      }
     } catch (err) {
       console.log(err);
     }
-  }, []);
+  }, [props.match.params]);
 
   const toggleModal = useCallback(() => {
     setModal((modal) => !modal);
@@ -126,7 +136,7 @@ const User = () => {
 
   return (
     <>
-      <Dropdown name="post">
+      <Dropdown name="users">
         <span>기술스택</span>
         <GoTriangleDown />
       </Dropdown>
