@@ -146,12 +146,12 @@ module.exports = {
       const stackId = {};
       let stacks = await db.sequelize.models.user_stack.findAll({
         attributes: ['StackId'],
-        where: { UserId: userById.id },
+        where: { UserId: users.id },
         raw: true,
       });
       stacks = stacks.map((stack) => stack.StackId);
       stackId['stacks'] = stacks;
-      usersWithStacks.push(Object.assign(userById, stackId));
+      usersWithStacks.push(Object.assign(users, stackId));
 
       return res.status(200).json({ data: usersWithStacks, message: 'OK' });
     } catch (err) {
