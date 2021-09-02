@@ -28,7 +28,6 @@ const Title = styled.h1`
 `;
 
 const TagAuthorWrapper = styled.div`
-  /* width: inherit; */
   display: flex;
   text-align: center;
   outline: none;
@@ -63,7 +62,6 @@ const PostDetail = (props) => {
   const [image, setImage] = useState(0);
 
   useMemo(async () => {
-    // componentWillMount events
     try {
       const post = await axios.get(
         `${process.env.REACT_APP_API_URL}/posts/${props.match.params.id}`
@@ -80,20 +78,10 @@ const PostDetail = (props) => {
       ConsoleHelper();
     }
   }, []);
-  //  useEffect(() => {
-  //    // componentDidMount events
-  //    return () => {
-  //      // componentWillUnmount events
-  //    };
-  //  }, []);
 
   const onClickUpdateBtn = useCallback(async () => {
-    // 게시글 수정 axios
     ConsoleHelper(`수정버튼`);
     try {
-      // await axios.patch(`${process.env.REACT_APP_API_URL}posts/${postId}`);
-
-      // postCreate 페이지로 props.history.push()
       const tmpStacks = [];
       stacks.forEach((stack) => tmpStacks.push(stacksArray.indexOf(stack) + 1));
 
@@ -108,7 +96,6 @@ const PostDetail = (props) => {
     }
   });
   const onClickDeleteBtn = useCallback(async () => {
-    // 게시글 삭제 axios
     try {
       await axios.delete(
         `${process.env.REACT_APP_API_URL}/posts/${props.match.params.id}`
@@ -124,14 +111,6 @@ const PostDetail = (props) => {
 
   return (
     <Main>
-      {/* 게시글 본문 */}
-      {/* {author && (
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Button onClick={onClickUpdateBtn}>수정</Button>
-          <span style={{ width: '20px' }}></span>
-          <Button onClick={onClickDeleteBtn}>삭제</Button>
-        </div>
-      )} */}
       <FlexBoxSpaceBetween>
         <Title>{title}</Title>
         {author && (

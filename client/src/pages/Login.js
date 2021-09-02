@@ -98,7 +98,6 @@ const Login = (props) => {
         >
           {errorMessage}
         </div>
-        {/* <div style={{ marginTop: '80px' }}></div> */}
 
         <Button type="button" big onClick={loginHandler} login={true}>
           Login

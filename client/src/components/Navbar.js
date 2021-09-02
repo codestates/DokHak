@@ -15,10 +15,6 @@ const Nav = styled.div`
   align-items: center;
   flex-wrap: wrap;
 
-  /* & > * {
-    margin-bottom: 20px;
-  } */
-
   &:after {
     content: '';
     border-bottom: 1px solid ${color.black};

@@ -31,11 +31,6 @@ const LoginDropdown = ({ children, name }, props) => {
       });
   };
 
-  // reset login status
-  // useEffect(() => {
-  //   dispatch(logout());
-  // }, []);
-
   return (
     <>
       <div className="dropdown logindropdown">
