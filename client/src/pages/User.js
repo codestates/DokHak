@@ -11,6 +11,8 @@ import Dropdown from '../components/Dropdown.js';
 import UserModal from '../components/UserModal.js';
 import { Main, CardFlexBox } from './styles.js';
 
+import ConsoleHelper from '../ConsoleHelper.js';
+
 // 임시 유저 데이터
 const usersD = [
   {
@@ -100,15 +102,15 @@ const User = (props) => {
   const [currentUserIdx, setCurrentUserIdx] = useState(-1);
 
   useEffect(async () => {
-    console.log('여기일ㄴㅇ라니알니알ㄴ이');
-    console.log(props.match.params);
+    ConsoleHelper('여기일ㄴㅇ라니알니알ㄴ이');
+    ConsoleHelper(props.match.params);
     try {
       if (props.match.params?.id) {
         const userList = await axios.get(
           `${process.env.REACT_APP_API_URL}/users/stacks/${props.match.params.id}`
         );
         setUsers(userList.data.data);
-        console.log(userList.data.data);
+        ConsoleHelper(userList.data.data);
       } else {
         const userList = await axios.get(
           `${process.env.REACT_APP_API_URL}/users`
@@ -118,7 +120,7 @@ const User = (props) => {
         setUsers(userList.data.data);
       }
     } catch (err) {
-      console.log(err);
+      ConsoleHelper(err);
     }
   }, [props.match.params]);
 

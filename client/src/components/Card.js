@@ -3,6 +3,8 @@ import styled from 'styled-components';
 
 import { images, thumbnails } from '../data';
 
+import ConsoleHelper from '../ConsoleHelper.js';
+
 const CardContainer = styled.section`
   max-width: 320px;
 

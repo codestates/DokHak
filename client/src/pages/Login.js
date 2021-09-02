@@ -10,6 +10,8 @@ import { Main } from './styles';
 import Button from '../components/Button';
 import { Form, GithubLogin, Input, Label, SignupText } from './loginStyle';
 
+import ConsoleHelper from '../ConsoleHelper.js';
+
 const Login = (props) => {
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState('');
@@ -23,7 +25,7 @@ const Login = (props) => {
     const { name, value } = event.target;
     setLoginInfo({ ...loginInfo, [name]: value });
   };
-  console.log(loginInfo);
+  ConsoleHelper(loginInfo);
 
   const loginHandler = () => {
     const { email, password } = loginInfo;
@@ -41,7 +43,7 @@ const Login = (props) => {
           },
         })
         .then((res) => {
-          console.log(`여기는 res`, res.headers, res);
+          ConsoleHelper(`여기는 res`, res.headers, res);
           dispatch(login(res.data.data[0]));
         })
         .then(() => {
@@ -49,7 +51,7 @@ const Login = (props) => {
         })
         .catch(() => setErrorMessage('회원정보가 일치하지 않습니다'));
     }
-    console.log('axiossss');
+    ConsoleHelper('axiossss');
   };
 
   return (

@@ -8,13 +8,7 @@ import Button from './Button';
 import './comment.scss';
 import { useSelector } from 'react-redux';
 
-// const comments = [
-//   { username: '김코딩', content: '안년아아아아아아아아아' },
-//   { username: '김코딩', content: '안년아아아아아아아아아222' },
-//   { username: '박코딩', content: '안년아아아아ㅇㄴㅇㄹ2' },
-//   { username: '최코딩', content: '안년아아ㄴㅇㄹ아아아아아아아222' },
-//   { username: '이코딩', content: '안년아아아아아ㄴㅇㄹ아아아아222' },
-// ];
+import ConsoleHelper from '../ConsoleHelper.js';
 
 const Comment = ({ postId }) => {
   const user = useSelector((state) => state.user);
@@ -39,7 +33,7 @@ const Comment = ({ postId }) => {
       setComments(commentsServer.data.data);
       setContent('');
     } catch (err) {
-      console.log(err);
+      ConsoleHelper(err);
     }
   };
 
@@ -49,8 +43,8 @@ const Comment = ({ postId }) => {
     );
 
     setComments(commentsServer.data.data);
-    console.log(commentsServer.data.data);
-    console.log(comments);
+    ConsoleHelper(commentsServer.data.data);
+    ConsoleHelper(comments);
   }, []);
 
   return (

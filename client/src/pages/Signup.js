@@ -11,6 +11,8 @@ import { Form, Label, Input, SmallTitle, Textarea } from './signupStyle';
 
 import { images, stacksArray } from '../data';
 
+import ConsoleHelper from '../ConsoleHelper.js';
+
 const Signup = (props) => {
   //에러 메세지
   const [errorMessage, setErrorMessage] = useState('');
@@ -24,14 +26,14 @@ const Signup = (props) => {
       index === position ? !item : item
     );
     setCheckedStacks(updatedCheckedStacks);
-    console.log(`여기는 스택 선택`, checkedStacks);
+    ConsoleHelper(`여기는 스택 선택`, checkedStacks);
   };
 
   //썸네일
   const [selectedThumbnail, setSelectedThumbnail] = useState(0);
   const onClickThumbnail = useCallback((idx) => {
     setSelectedThumbnail(idx);
-    console.log(`여기는 썸네일 선택`, selectedThumbnail);
+    ConsoleHelper(`여기는 썸네일 선택`, selectedThumbnail);
   }, []);
 
   //인풋 인포
@@ -45,7 +47,7 @@ const Signup = (props) => {
   const inputHandler = (event) => {
     const { name, value } = event.target;
     setSignupInfo({ ...signupInfo, [name]: value });
-    console.log(`여기는 signupInfo`, signupInfo);
+    ConsoleHelper(`여기는 signupInfo`, signupInfo);
   };
 
   //회원가입 버튼 핸들러
@@ -65,7 +67,7 @@ const Signup = (props) => {
       stacks: stack,
       password: password,
     };
-    console.log(`여기가 body`, body);
+    ConsoleHelper(`여기가 body`, body);
 
     const isOk =
       email !== '' &&
@@ -90,7 +92,7 @@ const Signup = (props) => {
         })
         .then(() => props.history.push('/login'))
         .catch((err) => {
-          console.log(err.response.data.message);
+          ConsoleHelper(err.response.data.message);
           if (err.response.data.message === 'Email exists') {
             setErrorMessage('중복된 이메일 입니다');
           } else if (err.response.data.message === 'Name exists') {

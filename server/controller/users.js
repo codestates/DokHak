@@ -54,7 +54,18 @@ module.exports = {
         attributes: ['id', 'image', 'email', 'name', 'phone', 'info'],
         raw: true,
       });
-      return res.status(200).json({ data: users, message: 'OK' });
+      const usersWithStacks = [];
+      const stackId = {};
+      let stacks = await db.sequelize.models.user_stack.findAll({
+        attributes: ['StackId'],
+        where: { UserId: users.id },
+        raw: true,
+      });
+      stacks = stacks.map((stack) => stack.StackId);
+      stackId['stacks'] = stacks;
+      usersWithStacks.push(Object.assign(users, stackId));
+
+      return res.status(200).json({ data: usersWithStacks, message: 'OK' });
     } catch (err) {
       console.log(err);
       return res.status(500).json({ message: 'Server Error' });
@@ -146,12 +157,12 @@ module.exports = {
       const stackId = {};
       let stacks = await db.sequelize.models.user_stack.findAll({
         attributes: ['StackId'],
-        where: { UserId: userById.id },
+        where: { UserId: users.id },
         raw: true,
       });
       stacks = stacks.map((stack) => stack.StackId);
       stackId['stacks'] = stacks;
-      usersWithStacks.push(Object.assign(userById, stackId));
+      usersWithStacks.push(Object.assign(users, stackId));
 
       return res.status(200).json({ data: usersWithStacks, message: 'OK' });
     } catch (err) {
@@ -231,7 +242,7 @@ module.exports = {
     // email 은 고정값이라 수정이 불가능하지않을까 ? email 빼고 가져오자
     const { image, name, password, phone, info, stacks } = req.body; // 수정하려는 정보들을 클라이언트쪽에서 받아온다.
     const hashed = await bcrypt.hash(password, 10); // 패스워드를 바꿀경우 해싱해서 DB에 저장
-    await User.update(
+    const userUpdate = await User.update(
       // 먼저 업데이트를 진행을 해준 후,
       {
         image,
@@ -243,6 +254,20 @@ module.exports = {
       },
       { where: { id: req.userId } }
     );
+    if (userUpdate) {
+      await db.sequelize.models.user_stack.destroy({
+        where: { UserId: req.userId },
+      });
+      const userStack = [];
+      for (let i = 0; i < stacks.length; i++) {
+        // 클라이언트쪽에서 stacks 를 받아오면 for문을 돌려서 새로운 배열에 푸쉬해준다
+        userStack.push({
+          UserId: req.userId, // user_stack 의 userId
+          StackId: stacks[i], // user_stack 의 StackId
+        });
+      }
+      await db.sequelize.models.user_stack.bulkCreate(userStack);
+    }
     const updateUser = await User.findOne({
       attributes: ['email', 'image', 'name', 'phone', 'info'],
       where: { id: req.userId },
@@ -251,6 +276,7 @@ module.exports = {
     let stack = {};
     stack['stacks'] = stacks;
     const userWithStackId = Object.assign(updateUser, stack);
+
     try {
       if (updateUser) {
         return res.status(200).json({ data: userWithStackId, message: 'OK' });

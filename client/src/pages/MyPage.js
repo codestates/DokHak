@@ -30,6 +30,8 @@ import {
   ModalButton,
 } from './mypageStyle';
 
+import ConsoleHelper from '../ConsoleHelper.js';
+
 const MyPage = (props) => {
   const dispatch = useDispatch();
   //에러메세지
@@ -43,13 +45,13 @@ const MyPage = (props) => {
 
   //지금 현재 로그인된 유저 데이터 리덕스 스토어에서 가져오기
   const user = useSelector((state) => state.user);
-  console.log(`리덕스 스토어에 저장된 유저`, user);
+  ConsoleHelper(`리덕스 스토어에 저장된 유저`, user);
 
   //** 데이터가 null이면 에러남
   if (user.data === null) return window.location.replace('/');
 
   const { email, image, info, name, phone, stacks } = user.data;
-  console.log(`stacks 출력`, stacks); //[2, 3, 4]
+  ConsoleHelper(`stacks 출력`, stacks); //[2, 3, 4]
 
   //** 데이터가 null이면 에러남
   if (email === null || !stacks) return window.location.replace('/');
@@ -65,7 +67,7 @@ const MyPage = (props) => {
   const inputHandler = (event) => {
     const { name, value } = event.target;
     setSignupInfo({ ...signupInfo, [name]: value });
-    console.log(`여기는 signupInfo`, signupInfo);
+    ConsoleHelper(`여기는 signupInfo`, signupInfo);
   };
 
   //textarea focus
@@ -92,7 +94,7 @@ const MyPage = (props) => {
     });
     setCheckedStacks(tmp);
   }, []);
-  console.log(`checkedStacks는 여기`, checkedStacks);
+  ConsoleHelper(`checkedStacks는 여기`, checkedStacks);
 
   const onChangeStackCheckbox = (position) => {
     const updatedCheckedStacks = checkedStacks.map((item, index) =>
@@ -109,20 +111,20 @@ const MyPage = (props) => {
         headers: { withCredentials: true, 'Content-Type': 'application/json' },
       })
       .then((res) => {
-        console.log(res);
+        ConsoleHelper(res);
         window.location.replace('/');
       })
       .then(() => {
         dispatch(logout());
       })
-      .catch((err) => console.log(err));
+      .catch((err) => ConsoleHelper(err));
   };
 
   //true false를 [1, 3, 5]로 바꾸기
   const stack = checkedStacks
     .map((checkedStack, idx) => (checkedStack ? idx + 1 : null))
     .filter((x) => x);
-  console.log(`여기는 stackkkk`, stack);
+  ConsoleHelper(`여기는 stackkkk`, stack);
 
   const patchHandler = () => {
     //확인 버튼을 누르면 수정한 것이라고 간주되서 axios patch를 날린다.
@@ -135,7 +137,7 @@ const MyPage = (props) => {
       stacks: stack,
       password: signupInfo.password,
     };
-    console.log(`여기가 body`, body);
+    ConsoleHelper(`여기가 body`, body);
 
     setErrorMessage('');
 
@@ -144,12 +146,12 @@ const MyPage = (props) => {
         headers: { withCredentials: true, 'Content-Type': 'application/json' },
       })
       .then((res) => {
-        console.log(res.data.data);
+        ConsoleHelper(res.data.data);
         dispatch(login(res.data.data));
         props.history.push('/');
       })
       .catch((err) => {
-        console.log(err);
+        ConsoleHelper(err);
         setErrorMessage('회원수정에 실패하였습니다');
       });
   };
