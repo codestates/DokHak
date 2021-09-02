@@ -1,9 +1,9 @@
 export const images = [
-  '../images/cat.jpeg',
-  '../images/dog.jpeg',
-  '../images/koala.jpeg',
-  '../images/rabbit.jpeg',
-  '../images/redpanda.jpeg',
+  '../images/profile-1.jpg',
+  '../images/profile-2.jpeg',
+  '../images/profile-3.jpeg',
+  '../images/profile-4.jpg',
+  '../images/profile-5.jpg',
 ];
 
 export const thumbnails = [

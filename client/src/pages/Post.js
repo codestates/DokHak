@@ -54,32 +54,47 @@ const postsD = [
   },
 ];
 
-const Post = ({ match }) => {
+const Post = (props) => {
   const [posts, setPosts] = useState([]);
 
   useEffect(async () => {
     try {
-      const postList = await axios.get(
-        `${process.env.REACT_APP_API_URL}/posts`
-      );
-      // const stacks = await axios.get(`https://dokhak.tk/stacks`);
-      // const stacks = ['React', 'Vue.js', 'Angular', 'Node.js', 'Django'];
-      setPosts(postList.data.data);
+      if (props.match.params?.id) {
+        if (!props.match.url.includes('stacks')) {
+          const postList = await axios.get(
+            `${process.env.REACT_APP_API_URL}/posts/${props.match.params.id}`
+          );
+          setPosts(postList.data.data);
+          console.log(postList.data.data);
+        } else {
+          const postList = await axios.get(
+            `${process.env.REACT_APP_API_URL}/posts/stacks/${props.match.params.id}`
+          );
+          console.log(props.match.params.id);
+          setPosts(postList.data.data);
+          console.log(postList.data.data);
+        }
+      } else {
+        const postList = await axios.get(
+          `${process.env.REACT_APP_API_URL}/posts`
+        );
+        setPosts(postList.data.data);
+      }
     } catch (err) {
       console.log(err);
     }
-  }, []);
+  }, [props.match.params]);
 
   return (
     <>
-      <Dropdown name="post">
+      <Dropdown name="posts">
         <span>기술스택</span>
         <GoTriangleDown />
       </Dropdown>
       <Main className="card-page" style={{ marginTop: '46px' }}>
         <CardFlexBox>
           {posts.map((post, idx) => (
-            <Link key={post.title} to={`${match.path}/${post.id}`}>
+            <Link key={`${post.title}${idx}`} to={`/posts/${post.id}`}>
               <Card data={post} post />
             </Link>
           ))}

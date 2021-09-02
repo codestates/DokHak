@@ -52,41 +52,13 @@ const TagWrapper = styled.div`
 `;
 
 const PostDetail = (props) => {
-  // const [image, setImage] = useState(0);
-  const [title, setTitle] = useState('방가방가');
-  const [content, setContent] = useState(`# Hello World
-
-**Hello world!!!**
-
-\`\`\`javascript
-import React from "react";
-import ReactDOM from "react-dom";
-import MEDitor from '@uiw/react-md-editor';
-
-export default function App() {
-  const [value, setValue] = React.useState("**Hello world!!!**");
-  return (
-    <div className="container">
-      <MEDitor
-        value={value}
-        onChange={setValue}
-      />
-      <MDEditor.Markdown source={value} />
-    </div>
-  );
-}
-\`\`\``);
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState(``);
   const [postId, setPostId] = useState(0);
-  const [username, setUsername] = useState('김코딩');
-  // const [stacks, setStacks] = useState([]);
-  const [stacks, setStacks] = useState([1, 2, 5]);
+  const [username, setUsername] = useState('');
+  const [stacks, setStacks] = useState([]);
   const [author, setAuthor] = useState(false);
   const [image, setImage] = useState(0);
-  // const [token, setToken] = useState(
-  //   `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImlhdCI6MTYzMDM4NDcyNiwiZXhwIjoxNjMwNjQzOTI2fQ.P7ilb4q2KBoUwALQx3pGJbDJU6nuwvuVw3VTLOz2O1w`
-  // );
-
-  useEffect(async () => {}, []);
 
   useMemo(async () => {
     // componentWillMount events
@@ -94,9 +66,6 @@ export default function App() {
       const post = await axios.get(
         `${process.env.REACT_APP_API_URL}/posts/${props.match.params.id}`
       );
-
-      console.log('posttttt', post.data.data);
-
       setPostId(post.data.data.id);
       setTitle(post.data.data.title);
       setContent(post.data.data.content);
@@ -106,6 +75,7 @@ export default function App() {
       setImage(post.data.data.image);
     } catch (err) {
       console.log(err);
+      console.log();
     }
   }, []);
   //  useEffect(() => {
@@ -153,6 +123,13 @@ export default function App() {
   return (
     <Main>
       {/* 게시글 본문 */}
+      {/* {author && (
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Button onClick={onClickUpdateBtn}>수정</Button>
+          <span style={{ width: '20px' }}></span>
+          <Button onClick={onClickDeleteBtn}>삭제</Button>
+        </div>
+      )} */}
       <FlexBoxSpaceBetween>
         <Title>{title}</Title>
         {author && (
