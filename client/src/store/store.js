@@ -7,9 +7,15 @@ const loggerMiddleware = createLogger();
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
   ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
   : compose;
+
+let Middleware = [];
+if (process.env.NODE_ENV === 'development') {
+  Middleware = [loggerMiddleware];
+}
+
 const store = createStore(
   reducer,
-  composeEnhancers(applyMiddleware(loggerMiddleware))
+  composeEnhancers(applyMiddleware(...Middleware))
 );
 
 export default store;
