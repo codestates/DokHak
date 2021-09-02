@@ -21,6 +21,8 @@ const Comment = ({ postId }) => {
   };
 
   const onClickBtn = async () => {
+    if (content === '') return;
+
     try {
       await axios.post(`${process.env.REACT_APP_API_URL}/comments/${postId}`, {
         content,
