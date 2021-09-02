@@ -10,6 +10,8 @@ import Card from '../components/Card';
 import Dropdown from '../components/Dropdown.js';
 import { Main, CardFlexBox } from './styles.js';
 
+import ConsoleHelper from '../ConsoleHelper.js';
+
 // 임시 포스트 데이터
 const postsD = [
   {
@@ -65,14 +67,14 @@ const Post = (props) => {
             `${process.env.REACT_APP_API_URL}/posts/${props.match.params.id}`
           );
           setPosts(postList.data.data);
-          console.log(postList.data.data);
+          ConsoleHelper(postList.data.data);
         } else {
           const postList = await axios.get(
             `${process.env.REACT_APP_API_URL}/posts/stacks/${props.match.params.id}`
           );
-          console.log(props.match.params.id);
+          ConsoleHelper(props.match.params.id);
           setPosts(postList.data.data);
-          console.log(postList.data.data);
+          ConsoleHelper(postList.data.data);
         }
       } else {
         const postList = await axios.get(
@@ -81,7 +83,7 @@ const Post = (props) => {
         setPosts(postList.data.data);
       }
     } catch (err) {
-      console.log(err);
+      ConsoleHelper(err);
     }
   }, [props.match.params]);
 

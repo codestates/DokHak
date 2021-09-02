@@ -8,7 +8,7 @@ import {
   Switch,
   withRouter,
 } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import './App.css';
@@ -25,12 +25,7 @@ import Navbar from './components/Navbar';
 
 import { login } from './actions/user';
 
-require('dotenv').config();
-// import { images } from './data';
-
-// const Container = styled.div`
-//   ${({ theme }) => theme.align.positionCenter}
-// `;
+import ConsoleHelper from './ConsoleHelper.js';
 
 const Container = styled.div`
   display: flex;
@@ -42,32 +37,20 @@ const Container = styled.div`
 `;
 
 function App() {
-  // const images = useSelector((state) => state.images);
-  // const user = useSelector((state) => state.user);
-  // const dispatch = useDispatch();
-
-  // const handleLogin = () => {
-  //   dispatch(login());
-  // setImgObj(...images.filter((img) => img.id === image));
-  // };
-  // console.log('환경변수수수수수수수수');
-  // console.log(process.env.REACT_APP_API_URL);
   const dispatch = useDispatch();
   useEffect(async () => {
     let userInfo = await axios
       .get(`${process.env.REACT_APP_API_URL}/users/token`)
       .catch((err) => {
-        console.log('아직은 로그인 전이다.');
+        ConsoleHelper('아직은 로그인 전이다.');
       });
     if (userInfo) {
-      console.log(userInfo);
+      ConsoleHelper(userInfo);
       dispatch(login(userInfo.data.data[0]));
     }
-    // window.addEventListener('scroll', handleScroll);
   }, []);
   return (
     <>
-      {/* <button onClick={() => handleLogin()}>LOGIN ACTION 발생!</button> */}
       <Router>
         <Container>
           <Navbar />

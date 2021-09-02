@@ -12,6 +12,8 @@ import Thumbnail from '../components/Thumbnail';
 import Checkbox from '../components/Checkbox';
 import Button from '../components/Button';
 
+import ConsoleHelper from '../ConsoleHelper.js';
+
 export const FlexBoxSpaceBetween = styled.div`
   display: flex;
   justify-content: space-between;
@@ -43,7 +45,7 @@ const PostCreate = (props) => {
   // A && B => A가 참일 때 B값을 가져라
   // A(null, undefined) ?? B => A가 nullish 값이면 B를 가져라
   if (props.location.state?.prevData) {
-    console.log(props.location.state.prevData);
+    ConsoleHelper(props.location.state.prevData);
   }
 
   const [image, setImage] = useState(props.location.state?.prevData.image ?? 0);
@@ -116,7 +118,7 @@ const PostCreate = (props) => {
         props.history.push(`/posts/${postData.data.data.postId}`);
       }
     } catch (err) {
-      console.log(err);
+      ConsoleHelper(err);
     }
   };
 

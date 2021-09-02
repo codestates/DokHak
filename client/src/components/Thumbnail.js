@@ -1,6 +1,8 @@
 import React, { memo } from 'react';
 import styled from 'styled-components';
 
+import ConsoleHelper from '../ConsoleHelper.js';
+
 const FigureWrapper = styled.div`
   margin-bottom: 10px;
   flex: 1;

@@ -2,6 +2,8 @@ import React, { memo } from 'react';
 import styled from 'styled-components';
 import { images } from '../data';
 
+import ConsoleHelper from '../ConsoleHelper.js';
+
 const FigureWrapper = styled.div`
   display: flex;
   width: 40px;

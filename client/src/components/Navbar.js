@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import LoginImage from './LoginImage';
 import LoginDropdown from './LoginDropDown';
 
+import ConsoleHelper from '../ConsoleHelper.js';
+
 const Nav = styled.div`
   width: 100%;
   display: flex;

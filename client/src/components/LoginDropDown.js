@@ -9,7 +9,7 @@ import { logout } from '../actions/user';
 import './dropdown.scss';
 import { stacksArray } from '../data';
 
-axios.defaults.withCredentials = true;
+import ConsoleHelper from '../ConsoleHelper.js';
 
 const LoginDropdown = ({ children, name }, props) => {
   const dispatch = useDispatch();
@@ -26,8 +26,8 @@ const LoginDropdown = ({ children, name }, props) => {
       })
       .then(() => window.location.replace('/'))
       .catch((err) => {
-        console.log(err);
-        console.log('처리도중 문제가 발생하였습니다');
+        ConsoleHelper(err);
+        ConsoleHelper('처리도중 문제가 발생하였습니다');
       });
   };
 

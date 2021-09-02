@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import ConsoleHelper from '../ConsoleHelper.js';
+
 const StyledTag = styled.label`
   padding: 5px 20px;
   border-radius: 10px;

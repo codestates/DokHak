@@ -4,6 +4,8 @@ import Tag from './Tag';
 import './usermodal.scss';
 import { images } from '../data';
 
+import ConsoleHelper from '../ConsoleHelper.js';
+
 const stacks = [
   'React',
   'Vue.js',
@@ -24,7 +26,7 @@ const TagWrapper = styled.div`
 `;
 
 const UserModal = ({ user }) => {
-  console.log('durldfsdfsdfsdf', user);
+  ConsoleHelper('durldfsdfsdfsdf', user);
   return (
     <div className="card-wrapper">
       <div className="card">

@@ -13,6 +13,8 @@ import { FlexBoxSpaceBetween } from './PostCreate';
 import { Main } from './styles';
 import { stacksArray } from '../data';
 
+import ConsoleHelper from '../ConsoleHelper.js';
+
 const Title = styled.h1`
   width: 100%;
   border: none;
@@ -74,8 +76,8 @@ const PostDetail = (props) => {
       setAuthor(post.data.data.author);
       setImage(post.data.data.image);
     } catch (err) {
-      console.log(err);
-      console.log();
+      ConsoleHelper(err);
+      ConsoleHelper();
     }
   }, []);
   //  useEffect(() => {
@@ -87,7 +89,7 @@ const PostDetail = (props) => {
 
   const onClickUpdateBtn = useCallback(async () => {
     // 게시글 수정 axios
-    console.log(`수정버튼`);
+    ConsoleHelper(`수정버튼`);
     try {
       // await axios.patch(`${process.env.REACT_APP_API_URL}posts/${postId}`);
 
@@ -102,7 +104,7 @@ const PostDetail = (props) => {
         },
       });
     } catch (err) {
-      console.log(err);
+      ConsoleHelper(err);
     }
   });
   const onClickDeleteBtn = useCallback(async () => {
@@ -111,12 +113,12 @@ const PostDetail = (props) => {
       await axios.delete(
         `${process.env.REACT_APP_API_URL}/posts/${props.match.params.id}`
       );
-      console.log('!지워짐!');
+      ConsoleHelper('!지워짐!');
       props.history.push({
         pathname: '/posts',
       });
     } catch (err) {
-      console.log(err);
+      ConsoleHelper(err);
     }
   }, []);
 

@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import ConsoleHelper from '../ConsoleHelper.js';
+
 const StyledButton = styled.button`
   ${({ big }) => (big ? 'width: 100%;' : 'width: 100px;')}
   height: 35px;

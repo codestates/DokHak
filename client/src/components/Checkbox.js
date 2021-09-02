@@ -1,4 +1,6 @@
-import React, { useCallback, useEffect } from 'react';
+import React from 'react';
+
+import ConsoleHelper from '../ConsoleHelper';
 
 import './checkbox.scss';
 
