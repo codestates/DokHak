@@ -17,20 +17,6 @@ export const login = (data) => {
   };
 };
 
-export const edituser = (data) => {
-  return {
-    type: EDIT_USER,
-    payload: {
-      name: data.name,
-      phone: data.phone,
-      image: data.image,
-      info: data.info,
-      stacks: data.stacks,
-    },
-    isLogin: true,
-  };
-};
-
 export const logout = () => {
   return {
     type: LOG_OUT,

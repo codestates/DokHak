@@ -1,10 +1,16 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, {
+  useState,
+  useCallback,
+  useMemo,
+  useEffect,
+  useRef,
+} from 'react';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 require('dotenv').config();
 
 import { useDispatch, useSelector } from 'react-redux';
-import { edituser } from '../actions/user';
+import { login, logout } from '../actions/user';
 import { images, stacksArray } from '../data';
 import { Main } from './styles';
 import { FlexBoxSpaceBetween } from './PostCreate';
@@ -43,7 +49,7 @@ const MyPage = (props) => {
   if (user.data === null) return window.location.replace('/');
 
   const { email, image, info, name, phone, stacks } = user.data;
-  console.log(`stacks 출력`, stacks);
+  console.log(`stacks 출력`, stacks); //[2, 3, 4]
 
   //** 데이터가 null이면 에러남
   if (email === null || !stacks) return window.location.replace('/');
@@ -61,6 +67,12 @@ const MyPage = (props) => {
     setSignupInfo({ ...signupInfo, [name]: value });
     console.log(`여기는 signupInfo`, signupInfo);
   };
+
+  //textarea focus
+  const textareaRef = useRef(null);
+  useEffect(() => {
+    textareaRef.current.focus();
+  }, []);
 
   //썸네일
   const [selectedThumbnail, setSelectedThumbnail] = useState(image);
@@ -80,6 +92,7 @@ const MyPage = (props) => {
     });
     setCheckedStacks(tmp);
   }, []);
+  console.log(`checkedStacks는 여기`, checkedStacks);
 
   const onChangeStackCheckbox = (position) => {
     const updatedCheckedStacks = checkedStacks.map((item, index) =>
@@ -105,13 +118,13 @@ const MyPage = (props) => {
       .catch((err) => console.log(err));
   };
 
-  const patchHandler = () => {
-    //true false를 [1, 3, 5]로 바꾸기
-    const stack = checkedStacks
-      .map((checkedStack, idx) => (checkedStack ? idx + 1 : null))
-      .filter((x) => x);
-    console.log(`여기는 stackkkk`, stack);
+  //true false를 [1, 3, 5]로 바꾸기
+  const stack = checkedStacks
+    .map((checkedStack, idx) => (checkedStack ? idx + 1 : null))
+    .filter((x) => x);
+  console.log(`여기는 stackkkk`, stack);
 
+  const patchHandler = () => {
     //확인 버튼을 누르면 수정한 것이라고 간주되서 axios patch를 날린다.
     //날려서 돌아오는 respond로 리덕스 스토어를 업데이트 한다.
     let body = {
@@ -132,19 +145,12 @@ const MyPage = (props) => {
       })
       .then((res) => {
         console.log(res.data.data);
-        dispatch(edituser(res.data.data));
+        dispatch(login(res.data.data));
         props.history.push('/');
       })
       .catch((err) => {
         console.log(err);
-        console.log(err.response.data.message);
-        if (err.response.data.message === 'Email exists') {
-          setErrorMessage('중복된 이메일 입니다');
-        } else if (err.response.data.message === 'Name exists') {
-          setErrorMessage('중복된 이름 입니다');
-        } else {
-          setErrorMessage('회원수정에 실패하였습니다');
-        }
+        setErrorMessage('회원수정에 실패하였습니다');
       });
   };
 
@@ -176,6 +182,8 @@ const MyPage = (props) => {
             id="email"
             value={email}
             onChange={inputHandler}
+            disabled
+            style={{ backgroundColor: '#f2f2f2', borderRadius: '5px' }}
           ></Input>
           <label htmlFor="email">Email:</label>
         </Label>
@@ -188,6 +196,8 @@ const MyPage = (props) => {
             id="name"
             value={signupInfo.name || ''}
             onChange={inputHandler}
+            disabled
+            style={{ backgroundColor: '#f2f2f2', borderRadius: '5px' }}
           ></Input>
           <label htmlFor="name">Name:</label>
         </Label>
@@ -237,6 +247,7 @@ const MyPage = (props) => {
           rows="10"
           value={signupInfo.info || ''}
           onChange={inputHandler}
+          ref={textareaRef}
         ></Textarea>
 
         <div role="alert" style={{ color: 'orangered', textAlign: 'center' }}>

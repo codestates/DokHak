@@ -161,7 +161,7 @@ const Signup = (props) => {
         <Label>
           <Input
             placeholder="Password"
-            type="text"
+            type="password"
             name="password"
             id="password"
             value={signupInfo.password}

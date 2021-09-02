@@ -26,7 +26,7 @@ export const Label = styled.div`
     transition: all 0.2s ease-in;
   }
   input:not(:placeholder-shown) {
-    padding: 28px 0px 0px 0px;
+    padding: 28px 0px 5px 12px;
   }
   input:not(:placeholder-shown) + label {
     transform: translateY(-20px);
@@ -62,6 +62,7 @@ export const SignupText = styled.span`
   text-decoration: none;
   a {
     color: #01369c;
+    margin-left: 8px;
     &:hover {
       color: #ffc700;
     }
