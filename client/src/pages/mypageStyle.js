@@ -26,10 +26,10 @@ export const Label = styled.div`
     transition: all 0.2s ease-in;
   }
   input:not(:placeholder-shown) {
-    padding: 28px 0px 12px 0px;
+    padding: 28px 0px 5px 12px;
   }
   input:not(:placeholder-shown) + label {
-    transform: translateY(-10px);
+    transform: translateY(-20px);
     opacity: 0.9;
   }
 `;

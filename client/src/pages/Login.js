@@ -95,7 +95,11 @@ const Login = (props) => {
           Login
         </Button>
         {/* 깃허브 로그인은 온클릭 시 깃허브 OAuth로 API 요청보내서 Code 받아오고,우리 서버 API(/users/github)로 code를 보낸다 */}
-        <GithubLogin type="button" className="github">
+        <GithubLogin
+          type="button"
+          className="github"
+          style={{ height: '35px' }}
+        >
           Github Login
           <img
             alt="github"
