@@ -53,7 +53,7 @@ const Comment = ({ postId }) => {
     <>
       <div className="header">
         <div className="container">
-          <h2>댓글</h2>
+          <h2 className="comment-text">댓글</h2>
         </div>
       </div>
 
@@ -81,7 +81,6 @@ const Comment = ({ postId }) => {
           <ul className="comments">
             {comments.map((comment, idx) => (
               <li key={`comment${idx}`}>
-                {/* <div className="author">{`comment.username`}</div> */}
                 <div className="author">{comment.username}</div>
                 <div>{comment.content}</div>
               </li>
