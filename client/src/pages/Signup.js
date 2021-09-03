@@ -188,6 +188,7 @@ const Signup = (props) => {
           rows="10"
           value={signupInfo.info}
           onChange={inputHandler}
+          placeholder="본인이 하고 있는 공부와 프로젝트에 대해 소개해주세요!"
         ></Textarea>
         <div role="alert" style={{ color: 'orangered', textAlign: 'center' }}>
           {errorMessage}
