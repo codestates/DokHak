@@ -24,60 +24,13 @@
 
 <br /><br /><br /><br />
 
+## TEAM MEMBER
+| <a href="https://github.com/chloemk">김민성</a>  | <a href="https://github.com/seona-jung">정선아</a>   | <a href="https://github.com/do8972">박준호</a>  | <a href="https://github.com/goodbsm2421">백승문</a>  |
+| :----: |:----:| :----:| :---:|
+| Front-end | Front-end | Back-end |Back-end |
 
-## Back
-<details>
-  <summary><a href="https://github.com/do8972)">박준호</a></summary>
-
-- Sever 배포 관리
-- Post API
-  - 게시글 작성
-  - 게시글 조회
-  - 게시글 수정
-  - 게시글 삭제
-
-- Comment API
-  - 댓글 작성
-  - 댓글 조회
-</details>
-
-<details>
-    <summary><a href="https://github.com/goodbsm2421)">백승문</a></summary>
-
-- User API
-  - 회원 가입
-  - 로그인, 로그아웃
-  - 회원 정보 조회
-  - 회원 정보 수정
-  - 회원 탈퇴
-</details>
+<br />
 
 
 
-## Front
-<details>
-  <summary><a href="https://github.com/chloemk">김민성</a></summary>
-
-- User
-  - 회원 가입
-  - 로그인, 로그아웃
-  - 회원 정보 조회
-  - 회원 정보 수정
-  - 회원 탈퇴
-</details>
-
-<details>
-  <summary><a href="https://github.com/seona-jung">정선아</a></summary>
-
-- 팀장
-- Client 배포 관리
-- Post 
-  - 게시글 작성
-  - 게시글 조회
-  - 게시글 수정
-  - 게시글 삭제
-
-- Comment
-  - 댓글 작성
-  - 댓글 조회
-</details>
+#### :arrow_right: &nbsp; <a href="https://www.notion.so/DokHak-73245e593b49498a80ad8139f59bad67">MORE INFORMATION</a>
