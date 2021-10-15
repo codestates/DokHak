@@ -1,5 +1,3 @@
-# [DokHak](https://www.dokhak.tk)
-
 ![](https://media.discordapp.net/attachments/871554528389005335/882818390790660126/logo.png)
 
 독학하는 개발자 취준생 여러분,
