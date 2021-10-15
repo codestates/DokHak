@@ -30,5 +30,6 @@
 <br />
 
 
-
-#### :arrow_right: &nbsp; <a href="https://www.notion.so/DokHak-73245e593b49498a80ad8139f59bad67">MORE INFORMATION</a>
+## MORE INFORMATION
+#### :arrow_right: &nbsp; [Notion](https://www.notion.so/DokHak-73245e593b49498a80ad8139f59bad67)
+#### :arrow_right: &nbsp; [Wiki](https://github.com/codestates/DokHak/wiki)
